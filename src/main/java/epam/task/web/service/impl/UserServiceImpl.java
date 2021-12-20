@@ -1,14 +1,13 @@
 package epam.task.web.service.impl;
 
 import com.google.protobuf.ServiceException;
-import epam.task.web.dao.ColumnName;
 import epam.task.web.dao.UserDao;
 import epam.task.web.entity.User;
 import epam.task.web.exception.DaoException;
 import epam.task.web.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import validator.UserValidator;
+import epam.task.web.validator.UserValidator;
 
 import java.util.ArrayList;
 import java.util.List;
