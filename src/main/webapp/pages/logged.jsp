@@ -5,11 +5,11 @@
 </head>
 <body>
 
-<p>Email: <%= request.getParameter("email") %></p>
-<p>Password: <%= request.getParameter("password") %></p>
-<p>Name: <%= request.getParameter("name") %></p>
+<p>Email:  request.getParameter("email")</p>
+<p>Password:  request.getParameter("password")</p>
+<p>Name: request.getParameter("name")</p>
 
-<form action="index.jsp" method="get">
+<form action="main.jsp" method="get">
     <input type="submit" value="Logout" /></form>
 
 

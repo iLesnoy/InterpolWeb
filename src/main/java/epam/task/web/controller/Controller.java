@@ -13,9 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 @WebServlet(name = "Controller", urlPatterns = {"/controller"})
 public class Controller extends HttpServlet {
-    private static final Logger logger = LogManager.getLogger(Controller.class);
-    private final String email = "admin@admin.com";
-    private final String password = "password";
+    private static final Logger logger = LogManager.getLogger();
 
     public void init() {
 
@@ -36,7 +34,7 @@ public class Controller extends HttpServlet {
 
 
         /*response.sendRedirect("pages/main.jsp");*/
-        request.getRequestDispatcher("pages/main.jsp").forward(request, response);
+        request.getRequestDispatcher("pages/logged.jsp").forward(request, response);
         /*response.sendError(500);*/
     }
 
