@@ -34,12 +34,7 @@ public class Controller extends HttpServlet {
         User user = new User(email,password,name,surname);
         request.setAttribute("user", user);
 
-        UserDaoImpl userDao = new UserDaoImpl();
-        try {
-            userDao.addUser(user);
-        } catch (DaoException e) {
-            e.printStackTrace();
-        }
+
         /*response.sendRedirect("pages/main.jsp");*/
         request.getRequestDispatcher("pages/main.jsp").forward(request, response);
         /*response.sendError(500);*/
