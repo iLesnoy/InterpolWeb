@@ -74,10 +74,10 @@
                 <a href="newsfeed.jsp" class="button">NewsFeed</a>
             </li>
             <li>
-                <a href="" class="button">MissingPeople</a>
+                <a href="missingpeople.jsp" class="button">MissingPeople</a>
             </li>
             <li>
-                <a href="" class="button">WantedCriminals</a>
+                <a href="wantedcriminals.jsp" class="button">WantedCriminals</a>
             </li>
             <li>
                 <a href="" class="button">Кнопка1</a>

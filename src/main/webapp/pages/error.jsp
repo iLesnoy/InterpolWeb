@@ -4,13 +4,14 @@
     <title>Error</title>
 </head>
 <body>
+<h1>ERROR</h1>
+<h2>Something goes wrong.</h2>
 request from ${pageContext.errorDate.requestURI} failed
 
-
-<hr />
-status = ${pageContext.errorDate.statusCode}
-<hr />
-servlet name: ${pageContext.errorData.servletName}
+<hr/> Status code: ${pageContext.errorData.statusCode}
+<hr /> Servlet name: ${pageContext.errorData.servletName}
+<hr />status = ${pageContext.errorDate.statusCode}
+<hr />servlet name: ${pageContext.errorData.servletName}
 <hr />
 message from exception: ${error_message }
 

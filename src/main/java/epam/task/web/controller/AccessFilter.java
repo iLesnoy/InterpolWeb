@@ -17,7 +17,7 @@ import java.util.Set;
         DispatcherType.FORWARD }, urlPatterns = "*.jsp")
 public class AccessFilter implements Filter {
     private static final Set<String> ALLOWED_GUEST_PATH = new HashSet<>(
-            Arrays.asList("/index.jsp", "/jsp/newsfeed.jsp", "/jsp/error500.jsp"));
+            Arrays.asList("/index.jsp", "/jsp/newsfeed.jsp", "/jsp/error.jsp","/jsp/missingpeople.jsp","jsp/newsfeed"));
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
