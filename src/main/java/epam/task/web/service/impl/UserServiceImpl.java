@@ -18,10 +18,10 @@ public class UserServiceImpl implements UserService {
     private static final Logger logger = LogManager.getLogger();
     private final UserDao userDao;
 
-
     public UserServiceImpl(UserDao userDao) {
         this.userDao = userDao;
     }
+
 
 
     @Override
@@ -109,6 +109,25 @@ public class UserServiceImpl implements UserService {
             optionalUser = Optional.empty();
         }
         return optionalUser;
+    }
+
+    @Override
+    public Optional<User> findUserByEmailAndPassword(String email, long password) throws ServiceException {
+        logger.debug( "findUserByEmailAndPassword");
+        Optional<User>optionalEmailAndPassword;
+        if(UserValidator.isValidEmail(email) && UserValidator.isValidPassword(String.valueOf(password))){
+            try{
+                optionalEmailAndPassword = userDao.findUserByEmailAndPassword(email, password);
+
+            } catch (DaoException e) {
+                logger.error( "dao exception in method findUserByEmailAndPassword" + e);
+                throw new ServiceException(e);
+            }
+
+        } else {
+            optionalEmailAndPassword = Optional.empty();
+        }
+        return Optional.empty();
     }
 
     @Override

@@ -1,16 +1,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Loggined</title>
+    <title>Logged</title>
 </head>
 <body>
 
-<p>Email:  request.getParameter("email")</p>
-<p>Password:  request.getParameter("password")</p>
-<p>Name: request.getParameter("name")</p>
+<h1>Logged</h1>
+<h2>Email: <%= request.getParameter("email") %></h2>
 
-<form action="main.jsp" method="get">
-    <input type="submit" value="Logout" /></form>
+<form action="pages/main.jsp" method="">
+<input type="submit" value="Logout" /></form>
 
 
 

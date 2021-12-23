@@ -59,4 +59,45 @@ public class BankCards {
     public void setPaymentAmount(BigDecimal paymentAmount) {
         this.paymentAmount = paymentAmount;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BankCards bankCard = (BankCards) o;
+        if (cardNumber != bankCard.cardNumber)
+            return false;
+        if (cvvNumber != bankCard.cvvNumber)
+            return false;
+        if (userId != bankCard.userId)
+            return false;
+        if (replenishmentDate != null ? !replenishmentDate.equals(bankCard.replenishmentDate) : bankCard.replenishmentDate != null) {
+            return false;
+        }
+        return paymentAmount != null ? paymentAmount.equals(bankCard.paymentAmount) : bankCard.paymentAmount == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 1;
+        result = result * 31 + Long.hashCode(cardNumber);
+        result = result * 31 + cvvNumber;
+        result = result * 31 + replenishmentDate.hashCode();
+        result = result * 31 + Long.hashCode(cvvNumber);
+        result = result * 31 + paymentAmount.hashCode();
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("BankCards{");
+        sb.append("cardNumber=").append(cardNumber);
+        sb.append(", cvvNumber=").append(cvvNumber);
+        sb.append(", replenishmentDate='").append(replenishmentDate);
+        sb.append("', userId=").append(cvvNumber);
+        sb.append(", paymentAmount=").append(paymentAmount).append("}");
+        return sb.toString();
+    }
 }

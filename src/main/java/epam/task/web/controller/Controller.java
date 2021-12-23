@@ -2,9 +2,12 @@ package epam.task.web.controller;
 
 import java.io.*;
 
-import epam.task.web.dao.impl.UserDaoImpl;
-import epam.task.web.entity.User;
-import epam.task.web.exception.DaoException;
+import epam.task.web.command.Command;
+import epam.task.web.command.CommandProvider;
+import epam.task.web.command.RequestParameter;
+import epam.task.web.connection.ConnectionPool;
+import epam.task.web.command.PagePath;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -19,26 +22,39 @@ public class Controller extends HttpServlet {
 
     }
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        response.setContentType("text/html");
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        String name = request.getParameter("name");
-        String surname = request.getParameter("surname");
-
-
-
-
-        User user = new User(email,password,name,surname);
-        request.setAttribute("user", user);
-
-
-        /*response.sendRedirect("pages/main.jsp");*/
-        request.getRequestDispatcher("pages/logged.jsp").forward(request, response);
-        /*response.sendError(500);*/
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        processRequest(request, response);
     }
 
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        /*String commandFromPage = request.getParameter(RequestParameter.COMMAND);*/
+        Command command = CommandProvider.defineCommand(request);
+        Router router = command.execute(request);
+
+        switch (router.getType()) {
+            case FORWARD:
+                logger.debug("forward");
+                RequestDispatcher dispatcher = request.getRequestDispatcher(router.getPagePath());
+                dispatcher.forward(request, response);
+                break;
+            case REDIRECT:
+                logger.debug("redirect");
+                response.sendRedirect(router.getPagePath());
+                break;
+            default:
+                logger.error("Incorrect router type:" + router.getType());
+                response.sendRedirect(PagePath.MAIN);
+        }
+
+    }
 
     public void destroy() {
+        ConnectionPool.getInstance().destroyPool();
     }
 }

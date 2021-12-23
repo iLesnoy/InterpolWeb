@@ -15,6 +15,6 @@ request from ${pageContext.errorDate.requestURI} failed
 <hr />
 message from exception: ${error_message }
 
-<a href="index.jsp">ToIndex</a>
+<a href="pages/main.jsp">ToIndex</a>
 </body>
 </html>

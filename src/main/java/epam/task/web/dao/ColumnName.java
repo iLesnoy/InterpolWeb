@@ -19,7 +19,6 @@ public final class ColumnName {
     public static final String LEAD_TIME= "lead_time";
     public static final String APPLICATION_STATUS= "status";
     public static final String SEARCH_APPLICATION_ID = "search_application_id";
-    public static final String USER = "user";
 
     /*USER_ID("user_id"),
     USER_EMAIL("email"),

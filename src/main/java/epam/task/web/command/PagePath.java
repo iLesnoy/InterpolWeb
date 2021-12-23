@@ -1,4 +1,4 @@
-package epam.task.web.utils;
+package epam.task.web.command;
 
 public class PagePath {
 
@@ -6,8 +6,14 @@ public class PagePath {
     public static final String MAIN = "/jsp/main.jsp";
     public static final String ADMIN = "/jsp/admin.jsp";
     public static final String USER = "/jsp/user.jsp";
+    public static final String ERROR = "/pages/error.jsp";
+    public static final String SIGN_IN = "/jsp/signin.jsp";
+    public static final String SIGN_UP = "/jsp/signup.jsp";
 
     public static final String TO_MAIN_PAGE="/controller?command=to_main";
     public static final String TO_ADMIN_PAGE="/controller?command=to_admin";
     public static final String TO_USER_PAGE="/controller?command=to_user";
+
+    private PagePath(){
+    }
 }

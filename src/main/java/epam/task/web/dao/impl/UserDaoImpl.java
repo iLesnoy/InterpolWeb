@@ -26,7 +26,7 @@ public class UserDaoImpl implements UserDao {
     private static final String SQL_FIND_USERS_BY_NAME_AND_SURNAME = "SELECT user_id,email,password,user_status,user_role FROM users WHERE name=? AND surname=?";
     private static final String SQL_FIND_USERS_BY_STATUS = "SELECT user_id,email,password,name,surname,user_role FROM users WHERE user_status=?";
     private static final String SQL_FIND_USERS_BY_ROLE = "SELECT user_id,email,password,name,surname,user_status FROM users WHERE user_role=?";
-
+    private static final String SQL_FIND_USERS_BY_EMAIL_AND_PASSWORD="SELECT user_id,name,surname,user_status,user_role FROM users WHERE email=? AND password=?";
     private static final String SQL_FIND_USER_ID_BY_EMAIL = "SELECT user_id FROM users WHERE email=?";
     private static final String SQL_FIND_USER_PASSWORD_BY_EMAIL = "SELECT password FROM users WHERE email=?";
 
@@ -35,6 +35,29 @@ public class UserDaoImpl implements UserDao {
     private static final String SQL_CHANGE_USER_ROLE_NY_ID = "UPDATE users SET user_role=? WHERE user_id=?";
     private static final String SQL_CHANGE_USER_STATUS = "UPDATE users SET user_status=? WHERE user_id=?";
     private final ConnectionPool connectionPool = ConnectionPool.getInstance();
+
+
+    @Override
+    public Optional<User> findUserByEmailAndPassword(String email, long password) throws DaoException {
+        Optional<User>optionalUser;
+
+        try(Connection connection = connectionPool.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SQL_FIND_USERS_BY_EMAIL_AND_PASSWORD)){
+                statement.setString(1, email);
+                statement.setLong(2,password);
+                ResultSet resultSet = statement.executeQuery();
+                if (resultSet.next()) {
+                    User user = createUser(resultSet);
+                    optionalUser = Optional.of(user);
+                    logger.info( "user=" + user);
+                } else {
+                    optionalUser = Optional.empty();
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Dao exception in method findUserByEmailAndPassword");
+        }
+        return optionalUser;
+    }
 
     @Override
     public List<User> findUsersByNameAndSurname(String userName,String userSurname) throws DaoException {
@@ -48,7 +71,7 @@ public class UserDaoImpl implements UserDao {
                 users.add(createUser(resultSet));
             }
         } catch (SQLException e) {
-            throw new DaoException("Dao epam.task.web.exception", e);
+            throw new DaoException("Dao exception in method findUsersByNameAndSurname", e);
         }
         return users;
     }
