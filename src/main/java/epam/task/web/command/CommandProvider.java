@@ -25,7 +25,7 @@ public class CommandProvider {
         String command = request.getParameter(COMMAND);
 
 
-        // command - пусто || Не работает с этого момента
+        // command - пусто || Не приходит команда (JSP?)
         if (command == null || command.isEmpty()) {
             logger.info( "command is empty");
             return CommandType.DEFAULT.getCommand();
