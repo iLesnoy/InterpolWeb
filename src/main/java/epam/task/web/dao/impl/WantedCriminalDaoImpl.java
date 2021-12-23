@@ -1,9 +1,9 @@
 package epam.task.web.dao.impl;
 
 import epam.task.web.connection.ConnectionPool;
-import epam.task.web.dao.WantedCriminalsDao;
-import epam.task.web.entity.WantedCriminals;
-import epam.task.web.entity.WantedCriminals.CrimType;
+import epam.task.web.dao.WantedCriminalDao;
+import epam.task.web.entity.WantedCriminal;
+import epam.task.web.entity.WantedCriminal.CrimType;
 import epam.task.web.exception.DaoException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,7 +13,7 @@ import java.util.Optional;
 
 import static epam.task.web.dao.ColumnName.CRIMINAL_FIRST_NAME;
 
-public class WantedCriminalsDaoImpl implements WantedCriminalsDao {
+public class WantedCriminalDaoImpl implements WantedCriminalDao {
 
     private static final Logger logger = LogManager.getLogger();
     private static final String SQL_TAKE_CRIMINAL_BY_ID = "SELECT first_name,last_name,crim_city,crim_adress,crim_DOB,reward,crime_type FROM wanted_criminals WHERE guilty_id=?";
@@ -26,7 +26,7 @@ public class WantedCriminalsDaoImpl implements WantedCriminalsDao {
 
 
     @Override
-    public boolean addWantedCriminal(WantedCriminals criminal,CrimType type) throws DaoException {
+    public boolean addWantedCriminal(WantedCriminal criminal, CrimType type) throws DaoException {
         boolean articleAdded = false;
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_ADD_CRIMINAL)) {

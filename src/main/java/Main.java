@@ -25,8 +25,8 @@ public class Main {
         newsFeedDao.takeArticleById(5);
         newsFeedDao.deleteArticlesByUserId(2);*/  /*newsFeedDAO*/
 
-        /*WantedCriminalsDaoImpl wantedCriminalsDao = new WantedCriminalsDaoImpl();
-        WantedCriminals criminals = new WantedCriminals("Hasbula","Mohamed","Tatarstan","Groza 32/2",new Date( 2001,21,8 ), new BigDecimal(900));
+        /*WantedCriminalDaoImpl wantedCriminalsDao = new WantedCriminalDaoImpl();
+        WantedCriminal criminals = new WantedCriminal("Hasbula","Mohamed","Tatarstan","Groza 32/2",new Date( 2001,21,8 ), new BigDecimal(900));
         wantedCriminalsDao.takeWantedCriminalById(2);*/
 
        /* MissingPeopleDaoImpl peopleDao = new MissingPeopleDaoImpl();

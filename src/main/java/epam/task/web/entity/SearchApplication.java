@@ -58,4 +58,6 @@ public class SearchApplication {
     public void setStatus(ApplicationStatus status) {
         this.status = status;
     }
+
+
 }
