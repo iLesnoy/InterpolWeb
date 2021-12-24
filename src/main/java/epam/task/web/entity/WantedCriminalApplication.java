@@ -1,11 +1,11 @@
 package epam.task.web.entity;
 
-public class WantedCriminalsApplication{
+public class WantedCriminalApplication {
 
     private long searchApplicationId;
     private long guiltyId;
 
-    public WantedCriminalsApplication(long searchApplicationId, long guiltyId) {
+    public WantedCriminalApplication(long searchApplicationId, long guiltyId) {
         this.searchApplicationId = searchApplicationId;
         this.guiltyId = guiltyId;
     }
@@ -30,7 +30,7 @@ public class WantedCriminalsApplication{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        WantedCriminalsApplication that = (WantedCriminalsApplication) o;
+        WantedCriminalApplication that = (WantedCriminalApplication) o;
         return searchApplicationId == that.searchApplicationId && guiltyId == that.guiltyId;
     }
 
@@ -46,7 +46,7 @@ public class WantedCriminalsApplication{
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("WantedCriminalsApplication{");
+        sb.append("WantedCriminalApplication{");
         sb.append("searchApplicationId=").append(searchApplicationId);
         sb.append(", guiltyId=").append(guiltyId);
         return sb.toString();

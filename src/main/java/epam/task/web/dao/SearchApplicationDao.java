@@ -10,6 +10,6 @@ public interface SearchApplicationDao {
     boolean addSearchApplication(SearchApplication application) throws DaoException;
     boolean updateSearchApplicationStatus(SearchApplication status,long applicationId) throws DaoException;
 
-    Optional<String> deleteSearchApplicationByUserId(long userId) throws DaoException;
+    Optional<SearchApplication> deleteSearchApplicationByUserId(long userId) throws DaoException;
     Optional<SearchApplication> takeSearchApplicationById(long applicationId) throws DaoException;
 }

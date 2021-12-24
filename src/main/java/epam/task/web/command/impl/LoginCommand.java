@@ -35,10 +35,10 @@ public class LoginCommand implements Command {
 
             if(optionalUser.isPresent()){
                 user = optionalUser.get();
-                router.setPagePath(PagePath.TO_MAIN_PAGE);
+                router.setPagePath(PagePath.SIGN_IN);
                 session.setAttribute(ParameterAndAttribute.USER,user);
             }else {
-                router.setPagePath(PagePath.SIGN_IN);
+                router.setPagePath(PagePath.TO_MAIN_PAGE);
                 request.setAttribute(ParameterAndAttribute.MESSAGE,Message.INCORRECT_EMAIL_OR_LOGIN);
             }
 

@@ -67,18 +67,17 @@ public class SearchApplicationDaoImpl implements SearchApplicationDao {
     }
 
     @Override
-    public Optional<String> deleteSearchApplicationByUserId(long userId) throws DaoException {
-        Optional<String> deletedSearchApplication;
-        String application;
+    public Optional<SearchApplication> deleteSearchApplicationByUserId(long userId) throws DaoException {
+        Optional<SearchApplication> deletedSearchApplication;
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_DELETE_SEARCH_APPLICATION_BY_ID)) {
             logger.debug( "in try block");
             statement.setLong(1, userId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                application = resultSet.getString(SEARCH_APPLICATION_ID);
-                deletedSearchApplication = Optional.of(application);
-                logger.info( "deleted application id =" + application);
+                SearchApplication deletedApplication = createApplication(resultSet);
+                deletedSearchApplication = Optional.of(deletedApplication);
+                logger.info( "deleted application id =" + deletedApplication);
             } else {
                 deletedSearchApplication = Optional.empty();
             }
@@ -92,16 +91,15 @@ public class SearchApplicationDaoImpl implements SearchApplicationDao {
     @Override
     public Optional<SearchApplication> takeSearchApplicationById(long applicationId) throws DaoException {
         Optional<SearchApplication> searchApplication;
-        String password;
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_TAKE_SEARCH_APPLICATION_BY_ID)) {
             logger.debug( "in try block");
             statement.setLong(1, applicationId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                SearchApplication applic = createApplication(resultSet);
-                searchApplication = Optional.of(applic);
-                logger.info( "application =" + applic);
+                SearchApplication application = createApplication(resultSet);
+                searchApplication = Optional.of(application);
+                logger.info( "application =" + application);
             } else {
                 searchApplication = Optional.empty();
             }

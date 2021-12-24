@@ -6,8 +6,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Locale;
 
-import static epam.task.web.command.RequestParameter.COMMAND;
-import static epam.task.web.command.RequestParameter.EMAIL_PARAMETER;
+import static epam.task.web.command.RequestParameter.*;
 
 public class CommandProvider {
     private static final Logger logger = LogManager.getLogger();
@@ -25,7 +24,6 @@ public class CommandProvider {
         String command = request.getParameter(COMMAND);
 
 
-        // command - пусто || Не приходит команда (JSP?)
         if (command == null || command.isEmpty()) {
             logger.info( "command is empty");
             return CommandType.DEFAULT.getCommand();

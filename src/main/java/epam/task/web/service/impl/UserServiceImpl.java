@@ -127,7 +127,7 @@ public class UserServiceImpl implements UserService {
         } else {
             optionalEmailAndPassword = Optional.empty();
         }
-        return Optional.empty();
+        return optionalEmailAndPassword;
     }
 
     @Override

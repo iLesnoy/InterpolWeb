@@ -1,9 +1,10 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<!DOCTYPE html>
+
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Interpol</title>
+    <title>Title</title>
 </head>
+<body>
 <body>
 <style>
     label{
@@ -100,19 +101,19 @@
     </div>
     <div style="margin: 0 20px;">
         <h2>Регистрация</h2>
-        <form action="${pageContext.request.contextPath}/controller" method="post">
-            <input type="hidden" name="command" value="log_in">
+        <form action="${pageContext.request.contextPath}/controller" method="get">
+            <input type="hidden" name="command" value="default">
             <table style="margin: 0 auto;">
                 <tr>
                     <td>
                         <label for="email">Email</label>
-                        <input type="email" id="email" name="email"/>
+                        <input type="email" id="email" name="email" value=""/>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <label for="password">Password</label>
-                        <input type="password" id="password" name="password"/>
+                        <input type="password" id="password" name="password" value=""/>
                     </td>
                 </tr>
                 <tr>
@@ -129,7 +130,7 @@
                 </tr>
                 <tr>
                     <div>
-                        <input type="submit" class="button center" value="Sign"/>
+                        <input type="logOut" class="button center" value="LogOut"/>
                     </div>
                     <td>
                         <a href="pages/signing.jsp" class="button">register</a>
@@ -140,5 +141,6 @@
     </div>
 </div>
 </body>
-</html>
 
+</body>
+</html>

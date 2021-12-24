@@ -17,9 +17,13 @@ public class NewsFeed {
         this.userId = userId;
     }
 
+    public NewsFeed() {
+    }
+
     public NewsFeed(String newsArticle) {
         this.newsArticle = newsArticle;
     }
+
 
     public long getArticleId() {
         return articleId;
