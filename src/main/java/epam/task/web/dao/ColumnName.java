@@ -12,21 +12,19 @@ public final class ColumnName {
     public static final String NEWS_ARTICLE= "news_article";
     public static final String ARTICLE_ID= "article_id";
     public static final String CRIMINAL_FIRST_NAME= "first_name";
+    public static final String GUILTY_ID= "guilty_id";
     public static final String FIRST_NAME= "first_name";
     public static final String LAST_NAME= "last_name";
+    public static final String CRIM_CITY= "crim_city";
+    public static final String ADRESS= "crim_adress";
+    public static final String CRIM_DOB= "crim_DOB";
+    public static final String REWARD= "reward";
+    public static final String CRIM_TYPE= "crime_type";
     public static final String DISAPPEARANCE_DATE= "disappearance_date";
     public static final String MISSING_PEOPLE_ID= "missing_people_id";
     public static final String LEAD_TIME= "lead_time";
     public static final String APPLICATION_STATUS= "status";
     public static final String SEARCH_APPLICATION_ID = "search_application_id";
-
-    /*USER_ID("user_id"),
-    USER_EMAIL("email"),
-    USER_PASSWORD("password"),
-    USER_NAME( "name"),
-    USER_SURNAME ("surname"),
-    USER_STATUS_ID("user_status_id"),
-    USER_ROLE_ID("user_role_id");*/
 
 
     ColumnName() {

@@ -1,5 +1,6 @@
 package epam.task.web.command;
 
+import epam.task.web.command.impl.AddNewsCommand;
 import epam.task.web.command.impl.DefaultCommand;
 import epam.task.web.command.impl.FindNewsCommand;
 import epam.task.web.command.impl.LoginCommand;
@@ -8,8 +9,8 @@ import epam.task.web.command.impl.LoginCommand;
 public enum CommandType {
     LOG_IN(new LoginCommand()),
     DEFAULT(new DefaultCommand()),
-    NEWS_FEED(new FindNewsCommand());
-    /*TO_MAIN(new ToMainCommand());*/
+    NEWS_FEED(new FindNewsCommand()),
+    ADD_ARTICLE(new AddNewsCommand());
 
     Command command;
 
@@ -20,4 +21,5 @@ public enum CommandType {
     public Command getCommand() {
         return command;
     }
+    
 }

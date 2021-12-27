@@ -94,12 +94,20 @@
                 <a href="pages/wantedcriminals.jsp" class="button">WantedCriminals</a>
             </li>
             <li>
+                <a href="pages/account.jsp" class="button">Account</a>
+            </li>
+            <li>
+            </li>
+            <li>
+                <a href="pages/loggin.jsp" class="button">Login</a>
+            </li>
+            <li>
                 <a href="" class="button">Кнопка1</a>
             </li>
         </ul>
     </div>
     <div style="margin: 0 20px;">
-        <h2>Регистрация</h2>
+        <h2>Авторизация</h2>
         <form action="${pageContext.request.contextPath}/controller" method="post">
             <input type="hidden" name="command" value="log_in">
             <table style="margin: 0 auto;">
@@ -112,19 +120,7 @@
                 <tr>
                     <td>
                         <label for="password">Password</label>
-                        <input type="password" id="password" name="password"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="name">Name</label>
-                        <input type="text" id="name" name="name"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="surname">Surname</label>
-                        <input type="text" id="surname" name="surname" />
+                        <input type="text" id="password" name="password"/>
                     </td>
                 </tr>
                 <tr>
@@ -132,7 +128,7 @@
                         <input type="submit" class="button center" value="Sign"/>
                     </div>
                     <td>
-                        <a href="pages/signing.jsp" class="button">register</a>
+                        <a href="pages/signing.jsp" class="button">Login</a>
                     </td>
                 </tr>
             </table>

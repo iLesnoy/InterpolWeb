@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface UserDao {
 
-    Optional<User>findUserByEmailAndPassword(String email,long password)throws DaoException;
+    Optional<User> findUserByEmailAndPassword(String email, String password)throws DaoException;
     List<User>findUsersByNameAndSurname(String userName,String userSurname) throws DaoException;
     List<User>findUsersByUserStatus(int userStatus)throws DaoException;
     List<User>findUsersByRole(Role userRole)throws DaoException;

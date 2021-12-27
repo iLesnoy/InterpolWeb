@@ -4,19 +4,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Locale;
-
 import static epam.task.web.command.RequestParameter.*;
 
 public class CommandProvider {
     private static final Logger logger = LogManager.getLogger();
-    private static final CommandProvider INSTANCE = new CommandProvider();
 
     private CommandProvider() {
-    }
-
-    public static CommandProvider getInstance() {
-        return INSTANCE;
     }
 
     public static Command defineCommand(HttpServletRequest request) {
@@ -30,6 +23,7 @@ public class CommandProvider {
         }
 
         try {
+            logger.info("in try CommandProvider");
             return CommandType.valueOf(command.toUpperCase()).getCommand();
 
         } catch (IllegalArgumentException exception) {

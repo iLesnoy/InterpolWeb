@@ -1,16 +1,17 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Lenovo
-  Date: 20.12.2021
-  Time: 21:21
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<head>
-    <title>UerPage</title>
+<title>USer Success Page</title>
 </head>
+<body>
+<a><b>Welcome User!!!!</b></a>
+<% String username = request.getParameter("username");  %>
+
+<td><a href="pages/main.jsp"><b>Logout</b></a></td></tr>
+</body>
+</html>
 <body>
 
 </body>
 </html>
+

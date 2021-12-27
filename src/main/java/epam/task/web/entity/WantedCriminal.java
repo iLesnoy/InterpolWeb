@@ -17,14 +17,8 @@ public class WantedCriminal {
         Murder,Burglary,Robbery
     }
 
-    public WantedCriminal(String firstName, String lastName, String crimCity,
-                          String crimAdress, Date crimDOB, BigDecimal reward) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.crimCity = crimCity;
-        this.crimAdress = crimAdress;
-        this.crimDOB = crimDOB;
-        this.reward = reward;
+    public WantedCriminal() {
+
     }
 
     public long getGuiltyId() {
@@ -134,12 +128,67 @@ public class WantedCriminal {
         sb.append("BankCards{");
         sb.append("guiltyId=").append(guiltyId);
         sb.append(", firstName=").append(firstName);
-        sb.append(", lastName='").append(lastName);
-        sb.append("', crimCity=").append(crimCity);
+        sb.append(", lastName=").append(lastName);
+        sb.append(", crimCity=").append(crimCity);
         sb.append(", crimAdress=").append(crimAdress);
         sb.append(", crimDOB=").append(crimDOB);
         sb.append(", reward=").append(reward);
         sb.append(", crimeType=").append(crimeType).append("}");
         return sb.toString();
     }
+
+    public static class WantedCriminalBuilder {
+
+        private final WantedCriminal wantedCriminal;
+
+        public WantedCriminalBuilder() {
+            wantedCriminal = new WantedCriminal();
+        }
+
+        public WantedCriminalBuilder setGuiltyId(Long id) {
+            wantedCriminal.setGuiltyId(id);
+            return this;
+        }
+
+        public WantedCriminalBuilder setFirstName(String firstName) {
+            wantedCriminal.setFirstName(firstName);
+            return this;
+        }
+
+        public WantedCriminalBuilder setLastName(String lastName) {
+            wantedCriminal.setLastName(lastName);
+            return this;
+        }
+
+        public WantedCriminalBuilder setCrimCity(String crimCity) {
+            wantedCriminal.setCrimCity(crimCity);
+            return this;
+        }
+
+        public WantedCriminalBuilder setCrimAdress(String crimAdress) {
+            wantedCriminal.setCrimAdress(crimAdress);
+            return this;
+        }
+
+        public WantedCriminalBuilder setDOB(Date date) {
+            wantedCriminal.setCrimDOB(date);
+            return this;
+        }
+
+        public WantedCriminalBuilder setReward(BigDecimal reward) {
+            wantedCriminal.setReward(reward);
+            return this;
+        }
+
+        public WantedCriminalBuilder setCrimType(CrimType type) {
+            wantedCriminal.setCrimeType(type);
+            return this;
+        }
+
+        public WantedCriminal build(){
+            return wantedCriminal;
+        }
+    }
+
+
 }

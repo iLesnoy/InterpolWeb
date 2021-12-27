@@ -11,29 +11,16 @@ public class User {
     private Role role;
     private Status status;
 
+
     public enum Role {
-        ADMIN,USER,AGENT
+        ADMIN, USER, AGENT
     }
 
     public enum Status {
-        ACTIVE,BLOCKED
+        ACTIVE, BLOCKED
     }
 
-    public User(long userId, String email, String password, String name, String surname, Role role, Status status) {
-        this.userId = userId;
-        this.email = email;
-        this.password = password;
-        this.name = name;
-        this.surname = surname;
-        this.role = role;
-        this.status = status;
-    }
-
-    public User(String email, String password, String name, String surname) {
-        this.email = email;
-        this.password = password;
-        this.name = name;
-        this.surname = surname;
+    public User() {
     }
 
     public long getUserId() {
@@ -141,18 +128,63 @@ public class User {
         return result;
     }
 
-        @Override
-        public String toString () {
-            StringBuilder builder = new StringBuilder();
-            builder.append("User{ ");
-            builder.append("userId=").append(userId);
-            builder.append(", email=").append(email);
-            builder.append(", password='").append(password);
-            builder.append(", name=").append(name);
-            builder.append(", surname=").append(surname);
-            builder.append(", userStatus=").append(status);
-            builder.append(", userRoleId=").append(role);
-            builder.append("}");
-            return builder.toString();
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("User{ ");
+        builder.append("userId=").append(userId);
+        builder.append(", email=").append(email);
+        builder.append(", password='").append(password);
+        builder.append(", name=").append(name);
+        builder.append(", surname=").append(surname);
+        builder.append(", userStatus=").append(status);
+        builder.append(", userRole=").append(role);
+        builder.append("}");
+        return builder.toString();
+    }
+
+    public static class UserBuilder {
+        private final User user;
+
+        public UserBuilder() {
+            user = new User();
         }
+
+        public UserBuilder setUserid(Long id) {
+            user.setUserId(id);
+            return this;
+        }
+
+        public UserBuilder setEmail(String email) {
+            user.setEmail(email);
+            return this;
+        }
+
+        public UserBuilder setPassword(String password) {
+            user.setPassword(password);
+            return this;
+        }
+        public UserBuilder setName(String name){
+            user.setName(name);
+            return this;
+        }
+        public UserBuilder setSurname(String surname){
+            user.setSurname(surname);
+            return this;
+        }
+        public UserBuilder setStatus(Status status){
+            user.setStatus(status);
+            return this;
+        }
+        public UserBuilder setRole(Role role){
+            user.setRole(role);
+            return this;
+        }
+
+
+        public User build(){
+            return user;
+        }
+
+    }
 }

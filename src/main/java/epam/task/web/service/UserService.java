@@ -3,6 +3,7 @@ package epam.task.web.service;
 import com.google.protobuf.ServiceException;
 import epam.task.web.entity.User;
 
+import java.sql.ResultSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,7 +16,7 @@ public interface UserService {
 
     Optional<User> findUserIdByEmail(String userEmail) throws ServiceException;
     Optional<User> findUserPasswordByEmail(String userEmail) throws ServiceException;
-    Optional<User> findUserByEmailAndPassword(String email,long password) throws ServiceException;
+    Optional<ResultSet> findUserByEmailAndPassword(String email, String password) throws ServiceException;
     boolean addUser(User user) throws ServiceException;
     boolean updateUserStatusById(long userId, User.Status status) throws ServiceException;
     boolean changeUserRole(long userId, User.Role role) throws ServiceException;

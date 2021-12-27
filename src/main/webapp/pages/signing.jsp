@@ -66,54 +66,22 @@
     }
 
 
-</style>
-
-<form action="${pageContext.request.contextPath}/controller" method="post">
-    <table style="margin: 0 auto;">
-        <tr>
-            <td>
-                <label for="article_id">ArticleId</label>
-                <input type="number" id="article_id" name="article_id"/>
-            </td>
-        </tr>
-        <div>
-            <input type="submit" class="button center" value="search"/>
-        </div>
-    </table>
-</form>
-
-<div class="main-section">
-    <div>
-        <ul class="nav">
-            <li>
-                <a href="pages/newsfeed.jsp" class="button">NewsFeed</a>
-            </li>
-            <li>
-                <a href="pages/missingpeople.jsp" class="button">MissingPeople</a>
-            </li>
-            <li>
-                <a href="pages/wantedcriminals.jsp" class="button">WantedCriminals</a>
-            </li>
-            <li>
-                <a href="" class="button">Кнопка1</a>
-            </li>
-        </ul>
-    </div>
+</style><input type="date" name="birthday">
     <div style="margin: 0 20px;">
         <h2>Регистрация</h2>
-        <form action="${pageContext.request.contextPath}/controller" method="get">
+        <form action="${pageContext.request.contextPath}/controller" method="post">
             <input type="hidden" name="command" value="default">
             <table style="margin: 0 auto;">
                 <tr>
                     <td>
                         <label for="email">Email</label>
-                        <input type="email" id="email" name="email" value=""/>
+                        <input type="email" id="email" name="email"/>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <label for="password">Password</label>
-                        <input type="password" id="password" name="password" value=""/>
+                        <input type="password" id="password" name="password"/>
                     </td>
                 </tr>
                 <tr>
