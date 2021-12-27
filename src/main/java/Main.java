@@ -27,7 +27,7 @@ public class Main {
         newsFeedDao.deleteArticlesByUserId(2);*/  /*newsFeedDAO*/
 
         WantedCriminalDaoImpl wantedCriminalsDao = new WantedCriminalDaoImpl();
-        WantedCriminal criminals = new WantedCriminal("Hasbula","Mohamed","Tatarstan","Groza 32/2", new Date(99, 21, 8), new BigDecimal(900));
+        WantedCriminal criminals = new WantedCriminal("Hasbula","Mohamed","Tatarstan","Groza 32/2", new Date(2001, 21, 8), new BigDecimal(900), WantedCriminal.CrimType.Murder);
         /*wantedCriminalsDao.takeWantedCriminalById(2);*/
 /*
         wantedCriminalsDao.addWantedCriminal(criminals, WantedCriminal.CrimType.Murder);

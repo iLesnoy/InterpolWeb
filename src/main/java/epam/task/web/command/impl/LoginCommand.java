@@ -5,6 +5,7 @@ import epam.task.web.command.Command;
 import epam.task.web.command.ParameterAndAttribute;
 import epam.task.web.controller.Router;
 import epam.task.web.dao.impl.UserDaoImpl;
+import epam.task.web.entity.User;
 import epam.task.web.service.UserService;
 import epam.task.web.service.impl.UserServiceImpl;
 import epam.task.web.command.PagePath;
@@ -13,7 +14,6 @@ import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.ResultSet;
 import java.util.Optional;
 
 public class LoginCommand implements Command {
@@ -27,19 +27,41 @@ public class LoginCommand implements Command {
         String email = request.getParameter(ParameterAndAttribute.USER_EMAIL);
         String password = request.getParameter(ParameterAndAttribute.USER_PASSWORD);
         Router router = new Router();
-        ResultSet user;
+        User user;
         HttpSession session = request.getSession();
         logger.debug( "email: " + email + " password: " + password);
-        Optional<ResultSet> optionalUser;
+        Optional<User> optionalUser;
         try{
             optionalUser = userService.findUserByEmailAndPassword(email,password);
 
             if(optionalUser.isPresent()){
-                user = optionalUser.get();
-                router.setPagePath(PagePath.ADMIN); //если уже зарегестрировался
-                session.setAttribute(ParameterAndAttribute.USER,user);
-            }else {
-                router.setPagePath(PagePath.TO_MAIN_PAGE);
+                switch (optionalUser.get().getRole()){
+                    case  USER:
+                        user = optionalUser.get();
+                        router.setPagePath(PagePath.TO_MAIN_PAGE);
+                        session.setAttribute(ParameterAndAttribute.USER,user);
+                        break;
+
+                    case ADMIN:
+                        user = optionalUser.get();
+                        router.setPagePath(PagePath.ADMIN);
+                        session.setAttribute(ParameterAndAttribute.ADMIN,user);
+                        logger.info("ADMIN");
+                        break;
+
+                    case AGENT:
+                        user = optionalUser.get();
+                        router.setPagePath(PagePath.TO_USER_PAGE);
+                        session.setAttribute(ParameterAndAttribute.USER,user);
+                        break;
+
+                    default:
+                        logger.info("САША");
+
+                }
+
+            } else {
+                router.setPagePath(PagePath.SIGN_IN);
                 request.setAttribute(ParameterAndAttribute.MESSAGE,Message.INCORRECT_EMAIL_OR_LOGIN);
             }
 

@@ -10,5 +10,6 @@ public class ParameterAndAttribute {
     public static final String USER_ID = "user_id";
 
     public static final String USER = "user";
+    public static final String ADMIN = "admin";
     public static final String MESSAGE = "message";
 }

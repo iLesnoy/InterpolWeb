@@ -9,7 +9,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import epam.task.web.validator.UserValidator;
 
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -113,9 +112,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<ResultSet> findUserByEmailAndPassword(String email, String password) throws ServiceException {
+    public Optional<User> findUserByEmailAndPassword(String email, String password) throws ServiceException {
         logger.debug( "findUserByEmailAndPassword");
-        Optional<ResultSet> optionalEmailAndPassword;
+        Optional<User> optionalEmailAndPassword;
         if(UserValidator.isValidEmail(email) && UserValidator.isValidPassword(String.valueOf(password))){
             try{
                 optionalEmailAndPassword = userDao.findUserByEmailAndPassword(email, password);

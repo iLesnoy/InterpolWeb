@@ -13,13 +13,24 @@ public class WantedCriminal {
     private BigDecimal reward;
     private CrimType crimeType;
 
+
+    public WantedCriminal() {
+    }
+
+    public WantedCriminal( String firstName, String lastName, String crimCity, String crimAdress, Date crimDOB, BigDecimal reward, CrimType crimeType) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.crimCity = crimCity;
+        this.crimAdress = crimAdress;
+        this.crimDOB = crimDOB;
+        this.reward = reward;
+        this.crimeType = crimeType;
+    }
+
     public enum CrimType {
         Murder,Burglary,Robbery
     }
 
-    public WantedCriminal() {
-
-    }
 
     public long getGuiltyId() {
         return guiltyId;

@@ -2,7 +2,6 @@ package epam.task.web.dao.impl;
 
 import epam.task.web.connection.ConnectionPool;
 import epam.task.web.dao.WantedCriminalDao;
-import epam.task.web.entity.User;
 import epam.task.web.entity.WantedCriminal;
 import epam.task.web.entity.WantedCriminal.CrimType;
 import epam.task.web.exception.DaoException;
@@ -11,7 +10,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
 import java.sql.*;
-import java.util.Locale;
 import java.util.Optional;
 
 import static epam.task.web.dao.ColumnName.*;
@@ -20,7 +18,7 @@ public class WantedCriminalDaoImpl implements WantedCriminalDao {
 
     private static final Logger logger = LogManager.getLogger();
     private static final String SQL_TAKE_CRIMINAL_BY_ID = "SELECT first_name,last_name,crim_city,crim_adress,crim_DOB,reward,crime_type FROM wanted_criminals WHERE guilty_id=?";
-    private static final String SQL_FIND_CRIMINAL_BY_NAME_AND_SURNAME = "SELECT guilty_id,crim_city,crim_adress,crim_DOB,reward,crime_type FROM wanted_criminals WHERE first_name=? AND last_name=?";
+    private static final String SQL_FIND_CRIMINAL_BY_FIRST_NAME_AND_LAST_SURNAME = "SELECT guilty_id,first_name,last_name,crim_city,crim_adress,crim_DOB,reward,crime_type FROM wanted_criminals WHERE first_name=? AND last_name=?";
     private static final String SQL_FIND_CRIMINAL_REWARD_BY_ID = "SELECT reward FROM wanted_criminals WHERE guilty_id=?";
     private static final String SQL_DELETE_CRIMINAL_BY_ID = "DELETE FROM wanted_criminals WHERE guilty_id =?";
 
@@ -81,7 +79,7 @@ public class WantedCriminalDaoImpl implements WantedCriminalDao {
     public Optional<WantedCriminal> findCriminalByNameAndSurname(String name,String surname) throws DaoException {
         Optional<WantedCriminal> optionalCriminal;
         try (Connection connection = connectionPool.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_FIND_CRIMINAL_BY_NAME_AND_SURNAME)) {
+             PreparedStatement statement = connection.prepareStatement(SQL_FIND_CRIMINAL_BY_FIRST_NAME_AND_LAST_SURNAME)) {
             logger.debug( "in try block");
 
             statement.setString(1, name);
