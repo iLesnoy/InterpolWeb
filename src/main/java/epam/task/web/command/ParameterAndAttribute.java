@@ -12,4 +12,11 @@ public class ParameterAndAttribute {
     public static final String USER = "user";
     public static final String ADMIN = "admin";
     public static final String MESSAGE = "message";
+
+    public static final String EXCEPTION = "EXCEPTION";
+    public static final String ERROR_MESSAGE = "error_message";
+
+
+
+
 }

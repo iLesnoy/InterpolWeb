@@ -56,7 +56,8 @@ public class LoginCommand implements Command {
                         break;
 
                     default:
-                        logger.info("САША");
+                        logger.error("Incorrect user type:" + optionalUser.isPresent());
+                        /*throw */
 
                 }
 
@@ -67,8 +68,8 @@ public class LoginCommand implements Command {
 
         } catch (ServiceException e) {
             logger.error("UserServiceException in method execute" + e);
-            /*request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
-            request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e);*/
+            request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
+            request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e);
             router.setPagePath(PagePath.ERROR);
         }
 

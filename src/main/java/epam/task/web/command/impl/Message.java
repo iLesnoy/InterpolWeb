@@ -7,4 +7,6 @@ public class Message {
     public static final String MESSAGE_FOR_USER ="";
     public static final String EXCEPTION ="";
     public static final String ERROR_MESSAGE ="";
+    public static final Object USER_NOT_ADDED = "";
+    public static final Object USER_ALREDY_EXIST = "";
 }
