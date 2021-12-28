@@ -27,7 +27,7 @@ public class CommandProvider {
             return CommandType.valueOf(command.toUpperCase()).getCommand();
 
         } catch (IllegalArgumentException exception) {
-            logger.error( "command is empty");
+            logger.error( "command unknown command");
             return CommandType.DEFAULT.getCommand();
         }
     }
