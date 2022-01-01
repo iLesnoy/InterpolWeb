@@ -10,7 +10,7 @@ import epam.petrorvskiy.webtask.validator.UserValidator;
 import epam.petrorvskiy.webtask.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import util.Encoder;
+import epam.petrorvskiy.webtask.util.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -156,7 +156,7 @@ public class UserServiceImpl implements UserService {
         if (UserValidator.isValidPassword(userDate.get(ColumnName.USER_PASSWORD))
                 /*&& UserValidator.isValidName(userDate.get(ParameterAndAttribute.USER_NAME))*/
                 && UserValidator.isValidEmail(userDate.get(ParameterAndAttribute.USER_EMAIL))) {
-            String encodedPassword = Encoder.encodePassword(userDate.get(ColumnName.USER_PASSWORD));
+            String encodedPassword = PasswordEncoder.encodePassword(userDate.get(ColumnName.USER_PASSWORD));
 
             User user = new User.UserBuilder()
                     .setEmail(userDate.get(ParameterAndAttribute.USER_EMAIL))
@@ -166,7 +166,7 @@ public class UserServiceImpl implements UserService {
                     .setStatus(User.Status.ACTIVE)
                     .setRole(User.Role.USER)
                     .build();
-            String uniqToken = Encoder.encodePassword(userDate.get(ColumnName.USER_EMAIL));
+            String uniqToken = PasswordEncoder.encodePassword(userDate.get(ColumnName.USER_EMAIL));
             /*String url = userDate.get(ParameterAndAttribute.URL) + COMMAND_CONFIRM + TOKEN + uniqToken + EMAIL
                     + user.get(ParameterAndAttribute.USER_EMAIL);
             String message = Message.WELCOM + url;*/
