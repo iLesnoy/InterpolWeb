@@ -14,10 +14,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 @WebFilter(filterName = "AccessFilter", dispatcherTypes = { DispatcherType.REQUEST,
-        DispatcherType.FORWARD }/*, urlPatterns = "*.jsp"*/)
+        DispatcherType.FORWARD }, urlPatterns = "*.jsp")
 public class AccessFilter implements Filter {
     private static final Set<String> ALLOWED_GUEST_PATH = new HashSet<>(
-            Arrays.asList("/index.jsp", "/jsp/newsfeed.jsp", "/jsp/error404.jsp","/jsp/missingpeople.jsp","jsp/newsfeed"));
+            Arrays.asList("/pages/main.jsp", "/pages/newsfeed.jsp", "pages/error404.jsp","pages/error500.jsp","/pages/signing.jsp"));
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -35,7 +35,7 @@ public class AccessFilter implements Filter {
         if (loggedIn || allowedPath) {
             chain.doFilter(request, response);
         } else {
-            resp.sendRedirect(req.getContextPath() + PagePath.TO_MAIN_PAGE);
+            resp.sendRedirect(req.getContextPath() + PagePath.TO_SIGN_IN_PAGE);
         }
     }
 }

@@ -11,7 +11,10 @@ public enum CommandType {
     NEWS_FEED(new FindNewsCommand()),
     ADD_ARTICLE(new AddNewsCommand()),
     FIND_BY_NAME_AND_SURNAME(new FindUsersByNameAndSurname()),
-    FIND_USERS_BY_NAME(new FindUsersByName());
+    FIND_USERS_BY_NAME(new FindUsersByName()),
+    TO_MAIN(new ToMainCommand()),
+    TO_ACCOUNT(new ToAccountCommand()),
+    TO_SIGN_IN(new ToSignInCommand());
 
     Command command;
 

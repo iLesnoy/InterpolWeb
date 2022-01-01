@@ -44,7 +44,7 @@
         max-width: 400px;
         padding: 10px 40px;
         background: #eec84b;
-        color: #000000;
+        color: #FFF;
         text-shadow: none;
         box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.31);
     }
