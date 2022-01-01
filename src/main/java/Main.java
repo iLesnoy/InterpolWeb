@@ -1,14 +1,7 @@
-import epam.task.web.dao.impl.SearchApplicationDaoImpl;
-import epam.task.web.dao.impl.UserDaoImpl;
-import epam.task.web.dao.impl.WantedCriminalDaoImpl;
-import epam.task.web.entity.SearchApplication;
-import epam.task.web.entity.SearchApplication.*;
-import epam.task.web.entity.WantedCriminal;
-import epam.task.web.exception.DaoException;
-
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.SQLData;
+import epam.petrorvskiy.webtask.dao.UserDao;
+import epam.petrorvskiy.webtask.dao.impl.UserDaoImpl;
+import epam.petrorvskiy.webtask.dao.impl.WantedCriminalDaoImpl;
+import epam.petrorvskiy.webtask.exception.DaoException;
 
 
 public class Main {
@@ -25,9 +18,12 @@ public class Main {
         NewsFeed newsFeed1 = new NewsFeed("missing child",2);
         newsFeedDao.takeArticleById(5);
         newsFeedDao.deleteArticlesByUserId(2);*/  /*newsFeedDAO*/
+        UserDaoImpl userDao = new UserDaoImpl();
+        userDao.findUsersByName("Heavier");
 
-        WantedCriminalDaoImpl wantedCriminalsDao = new WantedCriminalDaoImpl();
+/*
         WantedCriminal criminals = new WantedCriminal("Hasbula","Mohamed","Tatarstan","Groza 32/2", new Date(2001, 21, 8), new BigDecimal(900), WantedCriminal.CrimType.Murder);
+*/
         /*wantedCriminalsDao.takeWantedCriminalById(2);*/
 /*
         wantedCriminalsDao.addWantedCriminal(criminals, WantedCriminal.CrimType.Murder);
@@ -43,8 +39,9 @@ public class Main {
         SearchApplicationDaoImpl applicationDao = new SearchApplicationDaoImpl();
         applicationDao.addSearchApplication(searchApplication);*/
         /*applicationDao.takeSearchApplicationById(1);*/
-        wantedCriminalsDao.findCriminalByNameAndSurname("Hasbula","Mohamed");
-        wantedCriminalsDao.takeWantedCriminalById(7);
+
+       /* User user4 = new User("Admin@gmail.com","Admin","Admin", User.Role.ADMIN, User.Status.ACTIVE);
+        userDao.addUser(user4,"privet");*/
 
     }
 }

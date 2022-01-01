@@ -1,140 +1,82 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<!DOCTYPE html>
 <html>
 <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Interpol</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        /*body background */
+        body{background: #ffffff
+        }
+
+        /*Navbar effect */
+        .navbar-brand { position: relative; z-index: 2; }
+        .navbar-nav.navbar-right .btn { position: relative; z-index: 2; padding: 4px 20px; margin: 10px auto; }
+        .navbar .navbar-collapse { position: relative; }
+        .navbar .navbar-collapse .navbar-right > li:last-child { padding-left: 22px; }
+        .navbar .nav-collapse { position: absolute; z-index: 1; top: 0; left: 0; right: 0; bottom: 0; margin: 0; padding-right: 120px; padding-left: 80px; width: 100%; }
+        .navbar.navbar-default .nav-collapse { background-color: #ffffff; }
+        .navbar.navbar-inverse .nav-collapse { background-color: #222; }
+        .navbar .nav-collapse .navbar-form { border-width: 0; box-shadow: none; }
+        .nav-collapse>li { float: right; }
+        .btn.btn-circle { border-radius: 50px; }
+        .btn.btn-outline { background-color: transparent; }
+        @media screen and (max-width: 767px) {
+            .navbar .navbar-collapse .navbar-right > li:last-child { padding-left: 15px; padding-right: 15px; }
+            .navbar .nav-collapse { margin: 7.5px auto; padding: 0; }
+            .navbar .nav-collapse .navbar-form { margin: 0; }
+            .nav-collapse>li { float: none; }
+        }
+    </style>
 </head>
 <body>
-<style>
-    label{
-        background-color: darkgrey;
-        width: 70px;
-        display: inline-block;
-    }
 
-    h2{
-        text-align: center;
-    }
-
-    .button{
-        text-decoration: none;
-        line-height: 40px;
-        padding: 0 20px;
-        width: 100px;
-        text-align: center;
-        display: block;
-        height: 40px;
-        border: 1px solid #000;
-        border-radius: 6px;
-        background-color: rgb(58, 106, 124);
-        color: #000;
-    }
-
-    .main-section{
-        display: flex;
-        height: 100%;
-        margin: 0 auto;
-        justify-content: space-between;
-        margin-top: 70px;
-    }
-
-    .nav{
-        display: flex;
-    }
-
-    li{
-        list-style-type: none;
-        margin: 0 20px;
-    }
-
-
-    .left {
-        margin-right: auto;
-    }
-
-    .right{
-        margin-left: auto;
-    }
-
-    .center{
-        margin: 0 auto;
-    }
-
-    td{
-        padding-bottom: 20px;
-    }
-
-
-</style>
-
-<form action="${pageContext.request.contextPath}/controller" method="post">
-    <table style="margin: 0 auto;">
-        <tr>
-            <td>
-                <label for="article_id">ArticleId</label>
-                <input type="number" id="article_id" name="article_id"/>
-            </td>
-        </tr>
-        <div>
-            <input type="submit" class="button center" value="search"/>
+<!-- Second navbar for sign in -->
+<nav class="navbar navbar-default">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-2">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Interpol</a>
         </div>
-    </table>
-</form>
 
-<div class="main-section">
-    <div>
-        <ul class="nav">
-            <li>
-                <a href="pages/newsfeed.jsp" class="button">NewsFeed</a>
-            </li>
-            <li>
-                <a href="pages/missingpeople.jsp" class="button">MissingPeople</a>
-            </li>
-            <li>
-                <a href="pages/wantedcriminals.jsp" class="button">WantedCriminals</a>
-            </li>
-            <li>
-                <a href="pages/account.jsp" class="button">Account</a>
-            </li>
-            <li>
-            </li>
-            <li>
-                <a href="pages/loggin.jsp" class="button">Login</a>
-            </li>
-            <li>
-                <a href="" class="button">Кнопка1</a>
-            </li>
-        </ul>
-    </div>
-    <div style="margin: 0 20px;">
-        <h2>Авторизация</h2>
-        <form action="${pageContext.request.contextPath}/controller" method="post">
-            <input type="hidden" name="command" value="log_in">
-            <table style="margin: 0 auto;">
-                <tr>
-                    <td>
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="password">Password</label>
-                        <input type="text" id="password" name="password"/>
-                    </td>
-                </tr>
-                <tr>
-                    <div>
-                        <input type="submit" class="button center" value="Sign"/>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="navbar-collapse-2">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="pages/newsfeed.jsp">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="pages/newsfeed.jsp">News</a></li>
+                <li><a href="pages/missingpeople.jsp">Missing People</a></li>
+                <li><a href="#">Wanted Criminals</a></li>
+                <li><a href="pages/account.jsp">Account</a></li>
+                <li>
+                    <a class="btn btn-default btn-outline btn-circle" data-toggle="collapse" href="#nav-collapse2" aria-expanded="false" aria-controls="nav-collapse2">Sign in</a>
+                </li>
+            </ul>
+            <div class="collapse nav navbar-nav nav-collapse" id="nav-collapse2">
+                <form action="${pageContext.request.contextPath}/controller" method="post" class="navbar-form navbar-right form-inline">
+                    <input type="hidden" name="command" value="log_in">
+                    <div class="form-group">
+                        <label for="email"></label>
+                        <input type="email" name="email" class="form-control" id="email" placeholder="Email" autofocus required />
                     </div>
-                    <td>
-                        <a href="pages/signing.jsp" class="button">Login</a>
-                    </td>
-                </tr>
-            </table>
-        </form>
-    </div>
-</div>
+                    <div class="form-group">
+                        <label for="password"></label>
+                        <input type="text"  name="password" class="form-control" id="password" placeholder="Password" required />
+                    </div>
+                    <input type="submit" class="btn btn-success" value="Sign"/>
+                    <a href="pages/signing.jsp" class="button">Create new account</a>
+                </form>
+            </div>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container -->
+</nav><!-- /.navbar -->
 </body>
-</html>
 
