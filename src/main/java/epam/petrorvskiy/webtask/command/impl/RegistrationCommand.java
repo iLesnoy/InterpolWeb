@@ -51,7 +51,7 @@ public class RegistrationCommand implements Command {
                 } else {
 
                     router.setPagePath(PagePath.SIGN_UP);
-                    request.setAttribute(ParameterAndAttribute.MESSAGE, Message.USER_ALREDY_EXIST);
+                    request.setAttribute(ParameterAndAttribute.MESSAGE, Message.USER_ALREADY_EXIST);
                 }
             } catch (ServiceException e) {
                 logger.error("Registration command exception" + e);

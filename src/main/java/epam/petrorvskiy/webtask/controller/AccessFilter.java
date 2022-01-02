@@ -17,7 +17,8 @@ import java.util.Set;
         DispatcherType.FORWARD }, urlPatterns = "*.jsp")
 public class AccessFilter implements Filter {
     private static final Set<String> ALLOWED_GUEST_PATH = new HashSet<>(
-            Arrays.asList("/pages/main.jsp", "/pages/newsfeed.jsp", "pages/error404.jsp","pages/error500.jsp","/pages/signing.jsp"));
+            Arrays.asList("/pages/main.jsp", "/pages/newsfeed.jsp", "pages/error404.jsp","pages/error500.jsp"
+                    ,"/pages/wantedcriminals.jsp","/pages/signing.jsp"));
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -35,7 +36,7 @@ public class AccessFilter implements Filter {
         if (loggedIn || allowedPath) {
             chain.doFilter(request, response);
         } else {
-            resp.sendRedirect(req.getContextPath() + PagePath.TO_SIGN_IN_PAGE);
+            resp.sendRedirect(req.getContextPath() + PagePath.TO_MAIN_PAGE);
         }
     }
 }

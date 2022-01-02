@@ -17,9 +17,10 @@ public class ToMainCommand implements Command {
         logger.debug("CommandToMain");
         Router router = new Router();
         HttpSession session = request.getSession();
+
+        logger.warn(session.getAttribute(ParameterAndAttribute.USER));
         session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.TO_MAIN_PAGE);
         router.setPagePath(PagePath.MAIN);
-
         return router;
     }
 }

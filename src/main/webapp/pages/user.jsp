@@ -7,7 +7,12 @@
 <a><b>Welcome User!!!!</b></a>
 <% String username = request.getParameter("username");  %>
 
-<td><a href="pages/main.jsp"><b>Logout</b></a></td></tr>
+<form action="${pageContext.request.contextPath}/controller" method="post" class="navbar-form navbar-right form-inline">
+    <input type="submit" name="command" value="log_out">
+    <a href="pages/main.jsp" class="button">LogOut</a>
+</form>
+
+
 </body>
 </html>
 <body>

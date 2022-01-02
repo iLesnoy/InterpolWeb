@@ -38,26 +38,27 @@ public class LoginCommand implements Command {
                 switch (optionalUser.get().getRole()){
                     case  USER:
                         user = optionalUser.get();
-                        router.setPagePath(PagePath.TO_MAIN_PAGE);
                         session.setAttribute(ParameterAndAttribute.USER,user);
+                        router.setPagePath(PagePath.MAIN);
+                        logger.info("USER");
                         break;
 
                     case ADMIN:
                         user = optionalUser.get();
-                        router.setPagePath(PagePath.ADMIN);
-                        session.setAttribute(ParameterAndAttribute.ADMIN,user);
+                        session.setAttribute(ParameterAndAttribute.USER, user);
+                        router.setPagePath(PagePath.MAIN);
                         logger.info("ADMIN");
                         break;
 
                     case AGENT:
                         user = optionalUser.get();
-                        router.setPagePath(PagePath.TO_USER_PAGE);
-                        session.setAttribute(ParameterAndAttribute.USER,user);
+                        session.setAttribute(ParameterAndAttribute.USER, user);
+                        router.setPagePath(PagePath.MAIN);
+                        logger.info("AGENT");
                         break;
 
                     default:
-                        logger.error("Incorrect user type:" + optionalUser.isPresent());
-                        /*throw */
+                    /*logger.info("");*/
 
                 }
 

@@ -13,6 +13,7 @@ public class ParameterAndAttribute {
 
     public static final String USER = "user";
     public static final String ADMIN = "admin";
+    public static final String AGENT = "agent";
     public static final String MESSAGE = "message";
 
     public static final String EXCEPTION = "EXCEPTION";
@@ -21,6 +22,7 @@ public class ParameterAndAttribute {
 
     public static final String CONFIRMED_PASSWORD = "confirm_password";
     public static final String CURRENT_PAGE = "current_page";
+    public static final String ACTIVE_APPLICATIONS = "active_applications";
     public static final String LIST = "list";
 
 

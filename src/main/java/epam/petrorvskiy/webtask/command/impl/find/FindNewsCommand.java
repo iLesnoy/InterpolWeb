@@ -1,9 +1,10 @@
-package epam.petrorvskiy.webtask.command.impl;
+package epam.petrorvskiy.webtask.command.impl.find;
 
 import com.google.protobuf.ServiceException;
 import epam.petrorvskiy.webtask.command.Command;
 import epam.petrorvskiy.webtask.command.PagePath;
 import epam.petrorvskiy.webtask.command.ParameterAndAttribute;
+import epam.petrorvskiy.webtask.command.impl.Message;
 import epam.petrorvskiy.webtask.controller.Router;
 import epam.petrorvskiy.webtask.dao.impl.NewsFeedDaoImpl;
 import epam.petrorvskiy.webtask.entity.NewsFeed;
@@ -35,11 +36,11 @@ public class FindNewsCommand implements Command {
 
                 }else {
                     router.setPagePath(PagePath.TO_MAIN_PAGE);
-                    request.setAttribute(ParameterAndAttribute.MESSAGE,Message.UNKNOWN_PROBLEM);
+                    request.setAttribute(ParameterAndAttribute.MESSAGE, Message.UNKNOWN_PROBLEM);
                 }
             } catch (ServiceException e) {
                 e.printStackTrace();
             }
-        return null;
+        return router;
     }
 }

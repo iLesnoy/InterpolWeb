@@ -1,9 +1,10 @@
-package epam.petrorvskiy.webtask.command.impl;
+package epam.petrorvskiy.webtask.command.impl.find;
 
 import com.google.protobuf.ServiceException;
 import epam.petrorvskiy.webtask.command.Command;
 import epam.petrorvskiy.webtask.command.PagePath;
 import epam.petrorvskiy.webtask.command.ParameterAndAttribute;
+import epam.petrorvskiy.webtask.command.impl.Message;
 import epam.petrorvskiy.webtask.controller.Router;
 import epam.petrorvskiy.webtask.dao.impl.UserDaoImpl;
 import epam.petrorvskiy.webtask.entity.User;
@@ -36,7 +37,7 @@ public class FindUsersByNameAndSurname implements Command {
             if(users.size()>0){
                 request.setAttribute(ParameterAndAttribute.LIST,users);
             }else {
-                session.setAttribute(ParameterAndAttribute.MESSAGE,Message.ERROR_MESSAGE);
+                session.setAttribute(ParameterAndAttribute.MESSAGE, Message.ERROR_MESSAGE);
             }
 
         }catch (ServiceException e) {

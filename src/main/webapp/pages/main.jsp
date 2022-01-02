@@ -54,8 +54,8 @@
                 <li><a href="#">About</a></li>
                 <li><a href="pages/newsfeed.jsp">News</a></li>
                 <li><a href="pages/missingpeople.jsp">Missing People</a></li>
-                <li><a href="#">Wanted Criminals</a></li>
-                <li><a href="pages/account.jsp" class="button">Account</a></li>
+                <li><a href="pages/wantedcriminals.jsp">WantedCriminals</a></li>
+                <li><a href="${pageContext.request.contextPath}/controller?command=to_account" class="button">Account</a></li>
                 <li>
                     <a class="btn btn-default btn-outline btn-circle" data-toggle="collapse" href="#nav-collapse2" aria-expanded="false" aria-controls="nav-collapse2">Sign in</a>
                 </li>

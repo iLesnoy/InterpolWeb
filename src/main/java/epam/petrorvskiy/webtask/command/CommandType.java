@@ -1,6 +1,9 @@
 package epam.petrorvskiy.webtask.command;
 
 import epam.petrorvskiy.webtask.command.impl.*;
+import epam.petrorvskiy.webtask.command.impl.find.FindNewsCommand;
+import epam.petrorvskiy.webtask.command.impl.find.FindUsersByName;
+import epam.petrorvskiy.webtask.command.impl.find.FindUsersByNameAndSurname;
 
 
 public enum CommandType {

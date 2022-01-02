@@ -16,12 +16,9 @@
 </head>
 <title>AdminPage</title>
 
-<td>
-    <div>
-        <input type="hidden" name="command" value="log_out">
-        <a href="pages/main.jsp" class="button center"> Logout </a>
-    </div>
-</td>
+<form action="${pageContext.request.contextPath}/controller" method="post" class="navbar-form navbar-right form-inline">
+    <input type="submit" name="command" value="logout">
+</form>
 
 <div class="col">
     <div class="button">

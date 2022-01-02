@@ -8,5 +8,6 @@ public class Message {
     public static final String EXCEPTION ="";
     public static final String ERROR_MESSAGE ="";
     public static final Object USER_NOT_ADDED = "";
-    public static final Object USER_ALREDY_EXIST = "";
+    public static final Object USER_ALREADY_EXIST = "";
+    public static final Object ACCOUNT_IS_BLOCKED ="Sorry, your account has been blocked.";
 }
