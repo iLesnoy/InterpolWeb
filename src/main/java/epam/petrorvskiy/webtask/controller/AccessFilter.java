@@ -32,7 +32,6 @@ public class AccessFilter implements Filter {
         boolean loggedIn = (session != null && session.getAttribute(ParameterAndAttribute.USER) != null);
         boolean allowedPath = ALLOWED_GUEST_PATH.contains(pagePath);
 
-
         if (loggedIn || allowedPath) {
             chain.doFilter(request, response);
         } else {
