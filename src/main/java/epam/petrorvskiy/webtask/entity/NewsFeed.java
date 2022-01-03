@@ -1,7 +1,5 @@
 package epam.petrorvskiy.webtask.entity;
 
-import java.sql.Blob;
-
 public class NewsFeed {
 
     private int articleId;
@@ -44,6 +42,34 @@ public class NewsFeed {
     public void setImage(String image) {
         this.image = image;
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        NewsFeed newsFeed = (NewsFeed) o;
+        if (articleId != newsFeed.articleId) {
+            return false;
+        }
+        if (newsArticle != null ? newsArticle.equals(newsFeed.newsArticle) : newsFeed.newsArticle == null) {
+            return false;
+        }
+        return image != null ? image.equals(newsFeed.image) : newsFeed.image == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = articleId;
+        result = prime * result + ((title == null) ? 0 : title.hashCode());
+        result = prime * result + ((newsArticle == null) ? 0 : newsArticle.hashCode());
+        result = prime * result + ((image == null) ? 0 : image.hashCode());
+        return result;
+    }
+
+
 
     public static class NewsFeedBuilder {
         private final NewsFeed newsFeed;

@@ -4,7 +4,8 @@ import java.io.*;
 
 import epam.petrorvskiy.webtask.command.Command;
 import epam.petrorvskiy.webtask.command.CommandProvider;
-import epam.petrorvskiy.webtask.connection.ConnectionPool;
+import epam.petrorvskiy.webtask.command.Router;
+import epam.petrorvskiy.webtask.model.connection.ConnectionPool;
 import epam.petrorvskiy.webtask.command.PagePath;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -41,13 +42,15 @@ public class Controller extends HttpServlet {
 
                 logger.debug("forward");
                 RequestDispatcher dispatcher = request.getRequestDispatcher(router.getPagePath());
-
                 dispatcher.forward(request, response);
                 break;
+
             case REDIRECT:
+
                 logger.debug("redirect");
                 response.sendRedirect(router.getPagePath());
                 break;
+
             default:
                 logger.error("Incorrect router type:" + router.getType());
                 response.sendRedirect(PagePath.MAIN);

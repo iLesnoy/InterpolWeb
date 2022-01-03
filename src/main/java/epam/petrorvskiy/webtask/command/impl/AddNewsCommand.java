@@ -2,12 +2,13 @@ package epam.petrorvskiy.webtask.command.impl;
 
 import com.google.protobuf.ServiceException;
 import epam.petrorvskiy.webtask.command.Command;
+import epam.petrorvskiy.webtask.command.Message;
 import epam.petrorvskiy.webtask.command.PagePath;
 import epam.petrorvskiy.webtask.command.ParameterAndAttribute;
-import epam.petrorvskiy.webtask.controller.Router;
-import epam.petrorvskiy.webtask.dao.impl.NewsFeedDaoImpl;
-import epam.petrorvskiy.webtask.service.NewsFeedService;
-import epam.petrorvskiy.webtask.service.impl.NewsFeedServiceImpl;
+import epam.petrorvskiy.webtask.command.Router;
+import epam.petrorvskiy.webtask.model.dao.impl.NewsFeedDaoImpl;
+import epam.petrorvskiy.webtask.model.service.NewsFeedService;
+import epam.petrorvskiy.webtask.model.service.impl.NewsFeedServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;

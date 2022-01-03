@@ -4,12 +4,19 @@ import epam.petrorvskiy.webtask.command.impl.*;
 import epam.petrorvskiy.webtask.command.impl.find.FindNewsCommand;
 import epam.petrorvskiy.webtask.command.impl.find.FindUsersByName;
 import epam.petrorvskiy.webtask.command.impl.find.FindUsersByNameAndSurname;
+import epam.petrorvskiy.webtask.command.impl.forward.ToAccountCommand;
+import epam.petrorvskiy.webtask.command.impl.forward.ToMainCommand;
+import epam.petrorvskiy.webtask.command.impl.forward.ToNewsFeedCommand;
+import epam.petrorvskiy.webtask.command.impl.forward.ToSignInCommand;
+import epam.petrorvskiy.webtask.command.impl.signing.LogOutCommand;
+import epam.petrorvskiy.webtask.command.impl.signing.LoginCommand;
+import epam.petrorvskiy.webtask.command.impl.signing.SignUpCommand;
 
 
 public enum CommandType {
     LOG_IN(new LoginCommand()),
     LOG_OUT(new LogOutCommand()),
-    REGISTER(new RegistrationCommand()),
+    REGISTER(new SignUpCommand()),
     DEFAULT(new DefaultCommand()),
     FIND_NEWS(new FindNewsCommand()),
     ADD_ARTICLE(new AddNewsCommand()),

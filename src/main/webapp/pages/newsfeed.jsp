@@ -10,27 +10,24 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/3.3.1/masonry.pkgd.min.js"></script>
 
 
-<div class="wrapper">
-
-    <div class="container">
-
-        <div class="masonry-container">
-
-            <head>
-                <title>NesFeed</title>
-            </head>
-
-            <div>
-                <form action="controller" method="GET">
-                    <button type="submit" class="btn btn-primary btn-block">
-                        <fmt:message key="label.add_article"/>
-                    </button>
-                    <input type="hidden" name="command" value="add_article">
-                </form>
-            </div>
+    <div class="wrapper">
+        <display:inline-block>
 
 
-            <c:forEach items="${news}" var="elem" varStatus="status">
+            <title>NesFeed</title>
+            <%--
+                        <div>
+                            <form action="controller" method="GET">
+                                <button type="submit" class="btn btn-primary btn-block">
+                                    <fmt:message key="label.add_article"/>
+                                </button>
+                                <input type="hidden" name="command" value="add_article">
+                            </form>
+                        </div>--%>
+
+
+            <body>
+            <c:forEach items="${news}" var="elem" varStatus="status" >
                 <div class="card">
                     <div class="header">
                         <img alt="img" src="data:image/jpeg;base64,${elem.image}"/>
@@ -56,13 +53,15 @@
                     <a href="<spring:url value="/delete/"/>${elem.id}" class="button">Удалить новость</a>
                 </div>--%>
             </c:forEach>
+            </body>
 
         </div>
     </div>
 </div>
+        </display:inline-block>
 
 <script>
-    $(document).ready(function(){
+    $(document).ready(function () {
         window_width = $(window).width();
 
         // Make the images from the card fill the hole space
@@ -71,17 +70,17 @@
     });
 
     hipster_cards = {
-        misc:{
+        misc: {
             navbar_menu_visible: 0
         },
 
-        fitBackgroundForCards: function(){
-            $('[data-background="image"]').each(function(){
+        fitBackgroundForCards: function () {
+            $('[data-background="image"]').each(function () {
                 $this = $(this);
 
                 background_src = $this.data("src");
 
-                if(background_src != "undefined"){
+                if (background_src != "undefined") {
                     new_css = {
                         "background-image": "url('" + background_src + "')",
                         "background-position": "center center",
@@ -92,13 +91,13 @@
                 }
             });
 
-            $('.card .header img').each(function(){
+            $('.card .header img').each(function () {
                 $card = $(this).parent().parent();
                 $header = $(this).parent();
 
                 background_src = $(this).attr("src");
 
-                if(background_src != "undefined"){
+                if (background_src != "undefined") {
                     new_css = {
                         "background-image": "url('" + background_src + "')",
                         "background-position": "center center",

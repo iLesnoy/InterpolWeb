@@ -28,4 +28,12 @@ public class ParameterAndAttribute {
     public static final String TITLE = "title";
     public static final String NEWS_ARTICLE = "news_article";
     public static final String IMAGE = "image";
+
+    /*public static final String EMAIL_PARAMETER = "email";
+    public static final String PASSWORD_PARAMETER = "password";
+    public static final String SURNAME_PARAMETER = "surname";
+    public static final String NAME_PARAMETER = "name";
+    public static final String REPEATED_PASSWORD_PARAMETER = "repeated_password";
+    public static final String ARTICLE_ID = "article_id";*/
+    public static final String COMMAND = "command";
 }

@@ -107,9 +107,7 @@ public class User {
             return false;
         if (role != user.role)
             return false;
-        if (status != user.status)
-            return false;
-        return true;
+        return status != user.status;
     }
 
 

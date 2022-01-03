@@ -1,8 +1,5 @@
-import epam.petrorvskiy.webtask.dao.UserDao;
-import epam.petrorvskiy.webtask.dao.impl.NewsFeedDaoImpl;
-import epam.petrorvskiy.webtask.dao.impl.UserDaoImpl;
-import epam.petrorvskiy.webtask.dao.impl.WantedCriminalDaoImpl;
-import epam.petrorvskiy.webtask.entity.NewsFeed;
+import epam.petrorvskiy.webtask.model.dao.impl.NewsFeedDaoImpl;
+import epam.petrorvskiy.webtask.model.dao.impl.UserDaoImpl;
 import epam.petrorvskiy.webtask.exception.DaoException;
 
 

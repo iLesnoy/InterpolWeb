@@ -76,8 +76,8 @@
 
 
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <button type="submit" class="dropdown-item" name="command" value="change_user_role_doctor">
-                            <fmt:message key="label.change_role_to_doctor" />
+                        <button type="submit" class="dropdown-item" name="command" value="change_user_role_agent">
+                            <fmt:message key="label.change_role_to_agent" />
                         </button>
 
                         <button type="submit" class="dropdown-item" name="command" value="change_user_role_admin">
