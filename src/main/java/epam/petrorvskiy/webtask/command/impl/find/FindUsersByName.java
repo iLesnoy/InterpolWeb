@@ -29,15 +29,13 @@ public class FindUsersByName implements Command {
         Router router = new Router();
         HttpSession session = request.getSession();
 
-        String page = (String) session.getAttribute(ParameterAndAttribute.CURRENT_PAGE);
-        //page empty
 
         logger.debug( "find user by name: " + name);
         List<User> users;
         try{
 
             users = userService.findUsersByName(name);
-            router.setPagePath("pages/admin.jsp"); /// page string
+            router.setPagePath(PagePath.ADMIN);
 
             if(users.size() >= 0){
 

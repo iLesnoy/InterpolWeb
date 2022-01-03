@@ -22,9 +22,6 @@ public class User {
         ACTIVE, BLOCKED
     }
 
-    public User(String s, String admin, String admin1, String s1, Role role, Status active) {
-    }
-
     public long getUserId() {
         return userId;
     }

@@ -1,6 +1,8 @@
 import epam.petrorvskiy.webtask.dao.UserDao;
+import epam.petrorvskiy.webtask.dao.impl.NewsFeedDaoImpl;
 import epam.petrorvskiy.webtask.dao.impl.UserDaoImpl;
 import epam.petrorvskiy.webtask.dao.impl.WantedCriminalDaoImpl;
+import epam.petrorvskiy.webtask.entity.NewsFeed;
 import epam.petrorvskiy.webtask.exception.DaoException;
 
 
@@ -42,6 +44,8 @@ public class Main {
 
        /* User user4 = new User("Admin@gmail.com","Admin","Admin", User.Role.ADMIN, User.Status.ACTIVE);
         userDao.addUser(user4,"privet");*/
+        NewsFeedDaoImpl newsFeedDao = new NewsFeedDaoImpl();
+        newsFeedDao.findAllNews();
 
     }
 }

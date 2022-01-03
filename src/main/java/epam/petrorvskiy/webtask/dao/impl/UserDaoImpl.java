@@ -96,7 +96,7 @@ public class UserDaoImpl implements UserDao {
     public List<User> findUsersByUserStatus(int userStatus) throws DaoException {
         List<User> users = new ArrayList<>();
         try (Connection connection = connectionPool.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_FIND_USERS_BY_STATUS)) {
+            PreparedStatement statement = connection.prepareStatement(SQL_FIND_USERS_BY_STATUS)) {
             statement.setInt(1, userStatus);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -262,8 +262,8 @@ public class UserDaoImpl implements UserDao {
         String password = resultSet.getString(ColumnName.USER_PASSWORD);
         String name = resultSet.getString(ColumnName.USER_NAME);
         String surname = resultSet.getString(ColumnName.USER_SURNAME);
-        Role role = Role.valueOf(resultSet.getString(ColumnName.USER_ROLE).toUpperCase(Locale.ROOT));
-        Status status = Status.valueOf(resultSet.getString(ColumnName.USER_STATUS).toUpperCase(Locale.ROOT));
+        Role role = Role.valueOf(resultSet.getString(ColumnName.USER_ROLE).toUpperCase());
+        Status status = Status.valueOf(resultSet.getString(ColumnName.USER_STATUS).toUpperCase());
 
         User user = new User.UserBuilder()
                 .setUserid(userId)

@@ -13,13 +13,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 </head>
+
 <title>AdminPage</title>
 
 <form action="${pageContext.request.contextPath}/controller" method="post" class="navbar-form navbar-right form-inline">
-    <input type="submit" name="command" value="logout">
+    <input type="submit" name="command" value="log_out">
 </form>
 
+<body>
 <div class="col">
     <div class="button">
         <form action="controller" method="GET">

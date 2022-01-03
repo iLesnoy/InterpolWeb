@@ -8,10 +8,8 @@ public final class ColumnName {
     public static final String USER_NAME= "name";
     public static final String USER_SURNAME= "surname";
     public static final String USER_STATUS= "user_status";
-    public static final String USER_ROLE= "user_role";
-    public static final String NEWS_ARTICLE= "news_article";
-    public static final String ARTICLE_ID= "article_id";
     public static final String CRIMINAL_FIRST_NAME= "first_name";
+    public static final String USER_ROLE= "user_role";
     public static final String GUILTY_ID= "guilty_id";
     public static final String FIRST_NAME= "first_name";
     public static final String LAST_NAME= "last_name";
@@ -25,6 +23,13 @@ public final class ColumnName {
     public static final String LEAD_TIME= "lead_time";
     public static final String APPLICATION_STATUS= "status";
     public static final String SEARCH_APPLICATION_ID = "search_application_id";
+
+
+
+    public static final String NEWS_ARTICLE= "news_article";
+    public static final String ARTICLE_ID= "article_id";
+    public static final String IMAGE = "image";
+    public static final String TITLE = "title";
 
 
     ColumnName() {

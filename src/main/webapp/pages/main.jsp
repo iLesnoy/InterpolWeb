@@ -52,7 +52,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="pages/newsfeed.jsp">Home</a></li>
                 <li><a href="#">About</a></li>
-                <li><a href="pages/newsfeed.jsp">News</a></li>
+                <li><a href="${pageContext.request.contextPath}/controller?command=to_news_articles" class="button">News</a></li>
                 <li><a href="pages/missingpeople.jsp">Missing People</a></li>
                 <li><a href="pages/wantedcriminals.jsp">WantedCriminals</a></li>
                 <li><a href="${pageContext.request.contextPath}/controller?command=to_account" class="button">Account</a></li>

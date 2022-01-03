@@ -6,7 +6,6 @@ public class ParameterAndAttribute {
     public static final String USER_EMAIL = "email";
     public static final String USER_PASSWORD = "password";
     public static final String ARTICLE_ID = "article_id";
-    public static final String NEWS_ARTICLE = "news_article";
     public static final String USER_ID = "user_id";
     public static final String USER_STATUS = "user_status";
     public static final String USER_ROLE = "user_role";
@@ -25,5 +24,8 @@ public class ParameterAndAttribute {
     public static final String ACTIVE_APPLICATIONS = "active_applications";
     public static final String LIST = "list";
 
-
+    public static final String NEWS = "news" ;
+    public static final String TITLE = "title";
+    public static final String NEWS_ARTICLE = "news_article";
+    public static final String IMAGE = "image";
 }

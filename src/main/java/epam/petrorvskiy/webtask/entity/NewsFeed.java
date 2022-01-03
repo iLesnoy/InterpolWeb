@@ -1,36 +1,32 @@
 package epam.petrorvskiy.webtask.entity;
 
+import java.sql.Blob;
+
 public class NewsFeed {
 
-    private long articleId;
+    private int articleId;
+    private String title;
     private String newsArticle;
-    private long userId;
+    private String image;
 
-    public NewsFeed(long articleId, String newsArticle, long userId) {
-        this.articleId = articleId;
-        this.newsArticle = newsArticle;
-        this.userId = userId;
-    }
-
-    public NewsFeed(String newsArticle, long userId) {
-        this.newsArticle = newsArticle;
-        this.userId = userId;
-    }
 
     public NewsFeed() {
     }
 
-    public NewsFeed(String newsArticle) {
-        this.newsArticle = newsArticle;
-    }
-
-
-    public long getArticleId() {
+    public int getArticleId() {
         return articleId;
     }
 
-    public void setArticleId(long articleId) {
+    public void setArticleId(int articleId) {
         this.articleId = articleId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getNewsArticle() {
@@ -41,12 +37,46 @@ public class NewsFeed {
         this.newsArticle = newsArticle;
     }
 
-    public long getUserId() {
-        return userId;
+    public String getImage() {
+        return image;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public static class NewsFeedBuilder {
+        private final NewsFeed newsFeed;
+
+        public NewsFeedBuilder() {
+            newsFeed = new NewsFeed();
+        }
+
+        public NewsFeed.NewsFeedBuilder setArticleId(int articleId) {
+            newsFeed.setArticleId(articleId);
+            return this;
+        }
+
+        public NewsFeed.NewsFeedBuilder setTitle(String title) {
+            newsFeed.setTitle(title);
+            return this;
+        }
+        public NewsFeed.NewsFeedBuilder setArticle(String article) {
+            newsFeed.setNewsArticle(article);
+            return this;
+        }
+
+        public NewsFeed.NewsFeedBuilder setPicture (String picture) {
+            newsFeed.setImage(picture);
+            return this;
+        }
+
+
+        public NewsFeed build(){
+            return newsFeed;
+        }
+
     }
 
 }
+

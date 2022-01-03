@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+
 public class ToMainCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
 
@@ -18,7 +19,7 @@ public class ToMainCommand implements Command {
         Router router = new Router();
         HttpSession session = request.getSession();
 
-        logger.warn(session.getAttribute(ParameterAndAttribute.USER));
+
         session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.TO_MAIN_PAGE);
         router.setPagePath(PagePath.MAIN);
         return router;

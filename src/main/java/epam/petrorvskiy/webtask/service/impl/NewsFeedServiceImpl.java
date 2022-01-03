@@ -1,17 +1,22 @@
 package epam.petrorvskiy.webtask.service.impl;
 
 import com.google.protobuf.ServiceException;
+import epam.petrorvskiy.webtask.command.ParameterAndAttribute;
 import epam.petrorvskiy.webtask.dao.NewsFeedDao;
 import epam.petrorvskiy.webtask.entity.NewsFeed;
+import epam.petrorvskiy.webtask.entity.User;
 import epam.petrorvskiy.webtask.exception.DaoException;
 import epam.petrorvskiy.webtask.service.NewsFeedService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import static epam.petrorvskiy.webtask.command.ParameterAndAttribute.*;
+import static epam.petrorvskiy.webtask.dao.ColumnName.TITLE;
 
 
 public class NewsFeedServiceImpl implements NewsFeedService {
@@ -26,10 +31,12 @@ public class NewsFeedServiceImpl implements NewsFeedService {
     @Override
     public boolean addArticle(Map<String,String> newsDate) throws ServiceException {
         boolean articleAdded;
-        int articleId = Integer.parseInt(newsDate.get(ARTICLE_ID));
-        String newsArticle = newsDate.get(NEWS_ARTICLE);
-        long userId = Long.parseLong(newsDate.get(USER_ID));
-        NewsFeed newsFeed = new NewsFeed(articleId, newsArticle, userId);
+
+        NewsFeed newsFeed = new NewsFeed.NewsFeedBuilder()
+                .setTitle(newsDate.get(ParameterAndAttribute.TITLE))
+                .setArticle(newsDate.get(ParameterAndAttribute.NEWS_ARTICLE))
+                /*.setPicture(newsDate.get(ParameterAndAttribute.IMAGE))*/
+                .build();
         try {
             articleAdded = newsFeedDao.addArticle(newsFeed);
 
@@ -41,9 +48,20 @@ public class NewsFeedServiceImpl implements NewsFeedService {
     }
 
     @Override
-    public boolean deleteArticlesByUserId(long userId) throws ServiceException{
-        return false;
+    public List<NewsFeed> findAllNews() throws ServiceException {
+        logger.debug("findAllNews");
+        List<NewsFeed> news;
+        try {
+            news = newsFeedDao.findAllNews();
+
+        } catch (DaoException e) {
+            logger.error( "dao exception in method findAllNews" + e);
+            throw new ServiceException(e);
+        }
+
+        return news;
     }
+
 
     @Override
     public boolean deleteArticleById(long articleId) throws ServiceException{

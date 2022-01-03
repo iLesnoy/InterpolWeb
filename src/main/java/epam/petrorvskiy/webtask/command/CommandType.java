@@ -11,12 +11,13 @@ public enum CommandType {
     LOG_OUT(new LogOutCommand()),
     REGISTER(new RegistrationCommand()),
     DEFAULT(new DefaultCommand()),
-    NEWS_FEED(new FindNewsCommand()),
+    FIND_NEWS(new FindNewsCommand()),
     ADD_ARTICLE(new AddNewsCommand()),
     FIND_BY_NAME_AND_SURNAME(new FindUsersByNameAndSurname()),
     FIND_USERS_BY_NAME(new FindUsersByName()),
     TO_MAIN(new ToMainCommand()),
     TO_ACCOUNT(new ToAccountCommand()),
+    TO_NEWS_ARTICLES(new ToNewsFeedCommand()),
     TO_SIGN_IN(new ToSignInCommand());
 
     Command command;
