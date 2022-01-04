@@ -1,4 +1,4 @@
-package epam.petrorvskiy.webtask.command.impl.signing;
+package epam.petrorvskiy.webtask.command.impl.signin;
 
 import com.google.protobuf.ServiceException;
 import epam.petrorvskiy.webtask.command.Command;

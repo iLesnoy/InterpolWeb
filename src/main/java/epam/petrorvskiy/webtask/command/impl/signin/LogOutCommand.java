@@ -1,4 +1,4 @@
-package epam.petrorvskiy.webtask.command.impl.signing;
+package epam.petrorvskiy.webtask.command.impl.signin;
 
 import epam.petrorvskiy.webtask.command.Command;
 import epam.petrorvskiy.webtask.command.PagePath;

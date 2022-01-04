@@ -8,9 +8,9 @@ import epam.petrorvskiy.webtask.command.impl.forward.ToAccountCommand;
 import epam.petrorvskiy.webtask.command.impl.forward.ToMainCommand;
 import epam.petrorvskiy.webtask.command.impl.forward.ToNewsFeedCommand;
 import epam.petrorvskiy.webtask.command.impl.forward.ToSignInCommand;
-import epam.petrorvskiy.webtask.command.impl.signing.LogOutCommand;
-import epam.petrorvskiy.webtask.command.impl.signing.LoginCommand;
-import epam.petrorvskiy.webtask.command.impl.signing.SignUpCommand;
+import epam.petrorvskiy.webtask.command.impl.signin.LogOutCommand;
+import epam.petrorvskiy.webtask.command.impl.signin.LoginCommand;
+import epam.petrorvskiy.webtask.command.impl.signin.SignUpCommand;
 
 
 public enum CommandType {
