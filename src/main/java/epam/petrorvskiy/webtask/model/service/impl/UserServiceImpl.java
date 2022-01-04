@@ -168,7 +168,7 @@ public class UserServiceImpl implements UserService {
                     .build();
             String uniqToken = PasswordEncoder.encodePassword(userDate.get(ColumnName.USER_EMAIL));
             /*String url = userDate.get(ParameterAndAttribute.URL) + COMMAND_CONFIRM + TOKEN + uniqToken + EMAIL
-                    + user.get(ParameterAndAttribute.USER_EMAIL);
+                    + user.get(ParameterAndAttribute.USER_EMAIL);                                           //////////CHECK....
             String message = Message.WELCOM + url;*/
             try {
                 userAdded = userDao.addUser(user, encodedPassword);
@@ -186,16 +186,37 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean updateUserStatusById(long userId, User.Status status) throws ServiceException {
-        return false;
+        boolean updatedStatusById;
+        try {
+            updatedStatusById = userDao.updateUserStatusById(userId,status);
+        } catch (DaoException e) {
+            logger.error("dao exception in method updateUserStatusById" + e);
+            throw new ServiceException(e);
+        }
+        return updatedStatusById;
     }
 
     @Override
     public boolean changeUserRole(long userId, User.Role role) throws ServiceException {
-        return false;
+        boolean changeUserRole;
+        try {
+            changeUserRole = userDao.changeUserRole(userId,role);
+        } catch (DaoException e) {
+            logger.error("dao exception in method changeUserRole" + e);
+            throw new ServiceException(e);
+        }
+        return changeUserRole;
     }
 
     @Override
     public boolean changeUserStatus(long userId, User.Status status) throws ServiceException {
-        return false;
+        boolean changeUserStatus;
+        try {
+            changeUserStatus = userDao.changeUserStatus(userId,status);
+        } catch (DaoException e) {
+            logger.error("dao exception in method changeUserStatus" + e);
+            throw new ServiceException(e);
+        }
+        return changeUserStatus;
     }
 }

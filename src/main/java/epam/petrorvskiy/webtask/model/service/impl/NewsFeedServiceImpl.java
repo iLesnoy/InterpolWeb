@@ -24,19 +24,19 @@ public class NewsFeedServiceImpl implements NewsFeedService {
     }
 
     @Override
-    public boolean addArticle(Map<String,String> newsDate) throws ServiceException {
+    public boolean addArticle(Map<String, String> newsDate) throws ServiceException {
         boolean articleAdded;
 
         NewsFeed newsFeed = new NewsFeed.NewsFeedBuilder()
                 .setTitle(newsDate.get(ParameterAndAttribute.TITLE))
                 .setArticle(newsDate.get(ParameterAndAttribute.NEWS_ARTICLE))
-                /*.setPicture(newsDate.get(ParameterAndAttribute.IMAGE))*/
+                .setImage(newsDate.get(ParameterAndAttribute.IMAGE))
                 .build();
         try {
             articleAdded = newsFeedDao.addArticle(newsFeed);
 
         } catch (DaoException e) {
-            logger.error("dao exception in method add, when we try to add newsArticle:" + newsFeed + ". " + e);
+            logger.error("dao exception in method add, when we try to add addArticle:" + newsFeed + ". " + e);
             throw new ServiceException(e);
         }
         return articleAdded;
@@ -50,7 +50,7 @@ public class NewsFeedServiceImpl implements NewsFeedService {
             news = newsFeedDao.findAllNews();
 
         } catch (DaoException e) {
-            logger.error( "dao exception in method findAllNews" + e);
+            logger.error("dao exception in method findAllNews" + e);
             throw new ServiceException(e);
         }
 
@@ -59,12 +59,19 @@ public class NewsFeedServiceImpl implements NewsFeedService {
 
 
     @Override
-    public boolean deleteArticleById(long articleId) throws ServiceException{
-        return false;
+    public boolean deleteArticleById(long articleId) throws ServiceException {
+        boolean deleteArticle = false;
+        try {
+            deleteArticle = newsFeedDao.deleteArticleById(articleId);
+        } catch (DaoException e) {
+            logger.error("service exception in method deleteArticleById" + e);
+            throw new ServiceException(e);
+        }
+        return deleteArticle;
     }
 
     @Override
-    public Optional<NewsFeed> takeArticleById(int newsId) throws  ServiceException {
+    public Optional<NewsFeed> takeArticleById(int newsId) throws ServiceException {
         Optional<NewsFeed> news;
 
         try {

@@ -20,9 +20,9 @@ public interface UserDao {
     Optional<String> findUserPasswordByEmail(String userEmail) throws DaoException;
 
     boolean addUser(User user, String password) throws DaoException;
-    boolean updateUserStatusById(long userId,Status status) throws DaoException;
     boolean changeUserRole(long userId,Role role) throws DaoException;
-    boolean changeUserStatus(long userId,Status status) throws DaoException;
+    boolean updateUserStatusById(long userId,Status status) throws DaoException;
+    boolean changeUserStatus(long userId,Status status) throws DaoException; //delete
 
 
 }

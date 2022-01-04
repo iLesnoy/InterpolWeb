@@ -109,7 +109,7 @@ public class WantedCriminalDaoImpl implements WantedCriminalDao {
         String firstName = resultSet.getString(ColumnName.FIRST_NAME);
         String lastName = resultSet.getString(ColumnName.LAST_NAME);
         String crimCity = resultSet.getString(ColumnName.CRIM_CITY);
-        String adress = resultSet.getString(ColumnName.ADRESS);
+        String adress = resultSet.getString(ColumnName.ADDRESS);
         Date DOB = resultSet.getDate(ColumnName.CRIM_DOB);
         BigDecimal reward = resultSet.getBigDecimal(ColumnName.REWARD);
         CrimType crimeType = CrimType.valueOf(resultSet.getString(ColumnName.CRIM_TYPE));

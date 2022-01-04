@@ -12,7 +12,6 @@ public interface NewsFeedDao {
     boolean addArticle(NewsFeed article) throws DaoException;
     List<NewsFeed> findAllNews() throws DaoException;
     boolean deleteArticleById(long articleId) throws DaoException;
-
     Optional<NewsFeed>takeArticleById(int newsId) throws DaoException;
 
 

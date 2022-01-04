@@ -41,7 +41,7 @@ public class UserDaoImpl implements UserDao {
         Optional<User> optionalUser;
 
         try (Connection connection = connectionPool.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_FIND_USERS_BY_EMAIL_AND_PASSWORD)) {
+            PreparedStatement statement = connection.prepareStatement(SQL_FIND_USERS_BY_EMAIL_AND_PASSWORD)) {
             statement.setString(1, email);
             statement.setString(2, password);
             ResultSet resultSet = statement.executeQuery();
@@ -62,7 +62,7 @@ public class UserDaoImpl implements UserDao {
     public List<User> findUsersByNameAndSurname(String userName, String userSurname) throws DaoException {
         List<User> users = new ArrayList<>();
         try (Connection connection = connectionPool.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_FIND_USERS_BY_NAME_AND_SURNAME)) {
+            PreparedStatement statement = connection.prepareStatement(SQL_FIND_USERS_BY_NAME_AND_SURNAME)) {
             statement.setString(1, userName);
             statement.setString(2, userSurname);
             ResultSet resultSet = statement.executeQuery();
@@ -111,7 +111,7 @@ public class UserDaoImpl implements UserDao {
     public List<User> findUsersByRole(Role userRole) throws DaoException {
         List<User> users = new ArrayList<>();
         try (Connection connection = connectionPool.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_FIND_USERS_BY_ROLE)) {
+            PreparedStatement statement = connection.prepareStatement(SQL_FIND_USERS_BY_ROLE)) {
             statement.setString(1, userRole.name());
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -125,7 +125,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Optional<User> findUserIdByEmail(String userEmail) throws DaoException {
-        Optional<User> optionalUser;
+        Optional<User> optionalUser;                                           /*//должен возвращать только паротль String ИЗМЕНИТЬ//*/
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_FIND_USER_ID_BY_EMAIL)) {
             statement.setString(1, userEmail);
@@ -133,6 +133,7 @@ public class UserDaoImpl implements UserDao {
             if (resultSet.next()) {
                 User user = createUser(resultSet);
                 optionalUser = Optional.of(user);
+                logger.info("founded user Id by email " +optionalUser );
             } else {
                 logger.info("didn't find user with login:" + userEmail);
                 optionalUser = Optional.empty();
@@ -151,7 +152,7 @@ public class UserDaoImpl implements UserDao {
         String password;
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_FIND_USER_PASSWORD_BY_EMAIL)) {
-            logger.debug("in try block");
+            logger.debug("in try block findUserPasswordByEmail");
             statement.setString(1, userEmail);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -163,7 +164,7 @@ public class UserDaoImpl implements UserDao {
             }
         } catch (SQLException e) {
             logger.error("SQLException in method findPasswordByLogin " + e.getMessage());
-            throw new DaoException("Dao epam.task.web.exception", e);
+            throw new DaoException("Dao exception", e);
         }
         return optionalPassword;
     }
@@ -188,7 +189,7 @@ public class UserDaoImpl implements UserDao {
             }
         } catch (SQLException e) {
             logger.error("SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
-            throw new DaoException("Dao epam.task.web.exception in method addUser, when we try to add user:" + user, e);
+            throw new DaoException("Dao exception in method addUser, when we try to add user:" + user, e);
         }
         return userAdded;
     }
@@ -202,13 +203,13 @@ public class UserDaoImpl implements UserDao {
             int rowCount = statement.executeUpdate();
             if (rowCount != 0) {
                 blockAccount = true;
-                logger.info("account by id-" + userId + "status changed");
+                logger.info("upd user account by id-" + userId + "status changed");
             } else {
-                logger.error("account by id- " + userId + " could not changed");
+                logger.error("upd user account by id- " + userId + " could not changed");
             }
         } catch (SQLException e) {
             logger.error("SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
-            throw new DaoException("Dao epam.task.web.exception in method blockAccount", e);
+            throw new DaoException("Dao exception in method updateUserStatusById", e);
         }
         return blockAccount;
     }
@@ -223,13 +224,13 @@ public class UserDaoImpl implements UserDao {
             int rowCount = statement.executeUpdate();
             if (rowCount != 0) {
                 resultChangeStatus = true;
-                logger.info("account id" + userId + "status has been changed to " + role);
+                logger.info("changeUserRole by id " + userId + "status has been changed to " + role);
             } else {
-                logger.error("account " + userId + "status not changed");
+                logger.error("changeUserRole by id" + userId + "status not changed");
             }
         } catch (SQLException e) {
             logger.error("SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
-            throw new DaoException("Dao epam.task.web.exception in method changeIsBlockedStatus", e);
+            throw new DaoException("Dao exception in method changeUserRole", e);
         }
         return resultChangeStatus;
     }
@@ -250,10 +251,11 @@ public class UserDaoImpl implements UserDao {
             }
         } catch (SQLException e) {
             logger.error("SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
-            throw new DaoException("Dao epam.task.web.exception in method changeUserStatus", e);
+            throw new DaoException("Dao exception in method changeUserStatus", e);
         }
         return resultChangeStatus;
     }
+
 
     private User createUser(ResultSet resultSet) throws SQLException {
         long userId = resultSet.getLong(ColumnName.USER_ID);

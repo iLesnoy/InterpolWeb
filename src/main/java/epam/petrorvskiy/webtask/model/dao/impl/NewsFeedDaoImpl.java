@@ -19,7 +19,6 @@ public class NewsFeedDaoImpl implements NewsFeedDao {
 
     private static final Logger logger = LogManager.getLogger();
     private static final String SQL_ARTICLE_ADD = "INSERT INTO news_feed (article_id,title,news_article,image) values(?,?,?,?)";
-    private static final String SQL_DELETE_ARTICLE_BY_USERS_ID ="DELETE FROM news_feed WHERE users_user_id =?";
     private static final String SQL_FIND_ALL_NEWS ="SELECT article_id,title,news_article,image FROM news_feed";
     private static final String SQL_DELETE_ARTICLE_BY_ID ="DELETE FROM news_feed WHERE article_id =?";
     private static final String SQL_TAKE_ARTICLE_BY_ID ="SELECT article_id,title,news_article,image FROM news_feed WHERE article_id =?";
@@ -125,7 +124,7 @@ public class NewsFeedDaoImpl implements NewsFeedDao {
                 .setArticleId(articleId)
                 .setTitle(title)
                 .setArticle(article)
-                .setPicture(base64Encoded)
+                .setImage(base64Encoded)
                 .build();
         logger.info(newsFeed);
         return newsFeed;

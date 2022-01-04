@@ -92,7 +92,7 @@ public class NewsFeed {
             return this;
         }
 
-        public NewsFeed.NewsFeedBuilder setPicture (String picture) {
+        public NewsFeed.NewsFeedBuilder setImage(String picture) {
             newsFeed.setImage(picture);
             return this;
         }

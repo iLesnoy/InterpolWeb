@@ -12,6 +12,5 @@ public interface NewsFeedService {
     boolean addArticle(Map<String,String> newsDate) throws ServiceException;
     List<NewsFeed> findAllNews() throws ServiceException;
     boolean deleteArticleById(long articleId) throws ServiceException;
-
     Optional<NewsFeed> takeArticleById(int newsId) throws ServiceException;
 }
