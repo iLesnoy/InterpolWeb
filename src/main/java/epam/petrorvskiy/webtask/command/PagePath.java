@@ -9,7 +9,7 @@ public class PagePath {
     public static final String ACCOUNT = "pages/account.jsp";
     public static final String USER = "pages/user.jsp";
     public static final String ERROR = "pages/error404.jsp";
-    public static final String SIGN_IN = "pages/signing.jsp";
+    public static final String SIGN_IN = "pages/signin/signin.jsp";
     public static final String SIGN_UP = "pages/signup.jsp";
 
     public static final String TO_MAIN_PAGE="/controller?command=to_main";
