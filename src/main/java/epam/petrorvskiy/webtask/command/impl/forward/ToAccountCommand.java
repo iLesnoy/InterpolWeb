@@ -55,10 +55,10 @@ public class ToAccountCommand implements Command {
                 case USER:
                     logger.info("USER account");
                     try {
-                        /*List<SearchApplication> application = procedureService.findAllActive();*/
+                        
                         List<User> user2= userService.findUsersByRole(User.Role.USER);
                         session.setAttribute(ParameterAndAttribute.ACTIVE_APPLICATIONS, user2);
-                        /*session.setAttribute(ParameterAndAttribute.ACTIVE_PROCEDURES_LIST, procedures);*/
+                        
                         router.setPagePath(PagePath.USER);
                     } catch (ServiceException e) {
                         logger.error( "ServiceException" + e);
