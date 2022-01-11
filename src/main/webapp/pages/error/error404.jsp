@@ -36,7 +36,7 @@
         <!-- Dark version -->
         <div id="dark" class="row text-center">
             <div class="info">
-                <img src="../css/Light%20404/images/404.png" alt="404 error" />
+                <img src="../css/images/404.png" alt="404 error" />
             </div>
         </div>
         <!-- End Dark version -->
@@ -45,7 +45,7 @@
         <div id="light" class="row text-center">
             <!-- Info -->
             <div class="info">
-                <img src="../css/Light%20404/images/404.gif" alt="404 error" />
+                <img src="../css/images/404.gif" alt="404 error" />
                 <h4>The page you are looking for was moved, removed,
                     renamed or never existed.</h4>
                 <a href="main.jsp" class="button">Home</a>

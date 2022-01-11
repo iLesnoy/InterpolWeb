@@ -14,7 +14,7 @@ public final class ColumnName {
     public static final String FIRST_NAME= "first_name";
     public static final String LAST_NAME= "last_name";
     public static final String CRIM_CITY= "crim_city";
-    public static final String ADDRESS = "crim_adress";
+    public static final String ADDRESS = "crim_address";
     public static final String CRIM_DOB= "crim_DOB";
     public static final String REWARD= "reward";
     public static final String CRIM_TYPE= "crime_type";

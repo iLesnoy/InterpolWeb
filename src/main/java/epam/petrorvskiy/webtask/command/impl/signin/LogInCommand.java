@@ -17,9 +17,8 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Optional;
 
-public class LoginCommand implements Command {
+public class LogInCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
-
     private UserService userService = new UserServiceImpl(new UserDaoImpl());
 
 
@@ -59,12 +58,12 @@ public class LoginCommand implements Command {
                         break;
 
                     default:
-                    /*logger.info("");*/
+                    logger.info("Неверный пароль или почта");
 
                 }
 
             } else {
-                router.setPagePath(PagePath.SIGN_IN);
+                router.setPagePath(PagePath.LOG_IN);
                 request.setAttribute(ParameterAndAttribute.MESSAGE, Message.INCORRECT_EMAIL_OR_LOGIN);
             }
 
@@ -72,7 +71,7 @@ public class LoginCommand implements Command {
             logger.error("UserServiceException in method execute" + e);
             request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
             request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e);
-            router.setPagePath(PagePath.ERROR);
+            router.setPagePath(PagePath.ERROR_404);
         }
 
         return router;

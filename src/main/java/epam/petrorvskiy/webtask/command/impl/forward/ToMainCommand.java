@@ -19,7 +19,6 @@ public class ToMainCommand implements Command {
         Router router = new Router();
         HttpSession session = request.getSession();
 
-
         session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.TO_MAIN_PAGE);
         router.setPagePath(PagePath.MAIN);
         return router;

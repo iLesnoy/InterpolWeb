@@ -47,7 +47,7 @@ public class AddNewsCommand implements Command {
             logger.error("ServiceException: " + e);
             request.setAttribute(Message.EXCEPTION, "ServiceException");
             request.setAttribute(Message.ERROR_MESSAGE, e);
-            router.setPagePath(PagePath.ERROR);
+            router.setPagePath(PagePath.ERROR_404);
         }
         return router;
     }

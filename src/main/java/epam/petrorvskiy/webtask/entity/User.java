@@ -147,7 +147,7 @@ public class User {
             user = new User();
         }
 
-        public UserBuilder setUserid(Long id) {
+        public UserBuilder setUserid(long id) {
             user.setUserId(id);
             return this;
         }

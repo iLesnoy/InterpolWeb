@@ -16,10 +16,11 @@ public interface UserService {
     List<User>findUsersByName(String userName) throws ServiceException;
 
     Optional<User> findUserIdByEmail(String userEmail) throws ServiceException;
+    Optional<User> findUserByEmail(String email)throws ServiceException;
     Optional<User> findUserPasswordByEmail(String userEmail) throws ServiceException;
     Optional<User> findUserByEmailAndPassword(String email, String password) throws ServiceException;
     boolean addUser(Map<String, String> userData) throws ServiceException;
     boolean updateUserStatusById(long userId, User.Status status) throws ServiceException;
     boolean changeUserRole(long userId, User.Role role) throws ServiceException;
-    boolean changeUserStatus(long userId, User.Status status) throws ServiceException;
+    boolean changeUserStatusToBlock(long userId) throws ServiceException;
 }

@@ -1,15 +1,15 @@
 package epam.petrorvskiy.webtask.entity;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 
 public class WantedCriminal {
     private long guiltyId;
     private String firstName;
     private String lastName;
     private String crimCity;
-    private String crimAdress;
-    private Date crimDOB;
+    private String crimAddress;
+    private LocalDate crimDOB;
     private BigDecimal reward;
     private CrimType crimeType;
 
@@ -55,19 +55,19 @@ public class WantedCriminal {
         this.crimCity = crimCity;
     }
 
-    public String getCrimAdress() {
-        return crimAdress;
+    public String getCrimAddress() {
+        return crimAddress;
     }
 
-    public void setCrimAdress(String crimAdress) {
-        this.crimAdress = crimAdress;
+    public void setCrimAddress(String crimAddress) {
+        this.crimAddress = crimAddress;
     }
 
-    public Date getCrimDOB() {
+    public LocalDate getCrimDOB() {
         return crimDOB;
     }
 
-    public void setCrimDOB(Date crimDOB) {
+    public void setCrimDOB(LocalDate crimDOB) {
         this.crimDOB = crimDOB;
     }
 
@@ -101,7 +101,7 @@ public class WantedCriminal {
                 return false;
         if(crimCity != criminal.crimCity)
             return false;
-        if(crimAdress != criminal.crimAdress)
+        if(crimAddress != criminal.crimAddress)
             return false;
         if (crimDOB != null ? !crimDOB.equals(criminal.crimDOB) : criminal.crimDOB != null)
             return false;
@@ -117,7 +117,7 @@ public class WantedCriminal {
         result = result * 31 + (firstName != null ? firstName.hashCode() : 0);
         result = result * 31 + (lastName != null ? lastName.hashCode() : 0);
         result = result * 31 + (crimCity != null ? crimCity.hashCode() : 0);
-        result = result * 31 + (crimAdress != null ? crimAdress.hashCode() : 0);
+        result = result * 31 + (crimAddress != null ? crimAddress.hashCode() : 0);
         result = result * 31 + crimDOB.hashCode();
         result = result * 31 + (reward != null ? reward.hashCode() : 0);
         result = result * 31 + (crimeType != null ? crimeType.hashCode() : 0);
@@ -127,12 +127,12 @@ public class WantedCriminal {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("BankCards{");
+        sb.append("WantedCriminal{");
         sb.append("guiltyId=").append(guiltyId);
         sb.append(", firstName=").append(firstName);
         sb.append(", lastName=").append(lastName);
         sb.append(", crimCity=").append(crimCity);
-        sb.append(", crimAdress=").append(crimAdress);
+        sb.append(", crimAdress=").append(crimAddress);
         sb.append(", crimDOB=").append(crimDOB);
         sb.append(", reward=").append(reward);
         sb.append(", crimeType=").append(crimeType).append("}");
@@ -168,11 +168,11 @@ public class WantedCriminal {
         }
 
         public WantedCriminalBuilder setCrimAdress(String crimAdress) {
-            wantedCriminal.setCrimAdress(crimAdress);
+            wantedCriminal.setCrimAddress(crimAdress);
             return this;
         }
 
-        public WantedCriminalBuilder setDOB(Date date) {
+        public WantedCriminalBuilder setDOB(LocalDate date) {
             wantedCriminal.setCrimDOB(date);
             return this;
         }

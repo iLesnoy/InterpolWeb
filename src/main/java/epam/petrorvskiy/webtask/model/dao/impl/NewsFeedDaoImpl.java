@@ -22,6 +22,7 @@ public class NewsFeedDaoImpl implements NewsFeedDao {
     private static final String SQL_FIND_ALL_NEWS ="SELECT article_id,title,news_article,image FROM news_feed";
     private static final String SQL_DELETE_ARTICLE_BY_ID ="DELETE FROM news_feed WHERE article_id =?";
     private static final String SQL_TAKE_ARTICLE_BY_ID ="SELECT article_id,title,news_article,image FROM news_feed WHERE article_id =?";
+    private static final String SQL_UPDATE_ARTICLE_BY_ID ="UPDATE news_feed SET article_id,title,news_article,image WHERE article_id =?";
     private final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
     @Override
@@ -45,6 +46,30 @@ public class NewsFeedDaoImpl implements NewsFeedDao {
             throw new DaoException("Dao exception in method addArticle, when we try to add user:" + article, e);
         }
         return articleAdded;
+    }
+
+    @Override
+    public boolean updateArticle(NewsFeed article,long articleId) throws DaoException {
+        boolean updArticle = false;
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_ARTICLE_BY_ID)) {
+            statement.setInt(1, article.getArticleId());
+            statement.setString(2, article.getTitle());
+            statement.setString(3, article.getNewsArticle());
+            statement.setString(4, article.getImage());
+            statement.setLong(5, articleId);
+            int rowCount = statement.executeUpdate();
+            if (rowCount != 0) {
+                updArticle = true;
+                logger.info("article updated" + article);
+            } else {
+                logger.error("article not updated");
+            }
+        } catch (SQLException e) {
+            logger.error("SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
+            throw new DaoException("Dao exception in method updateArticle, when we try to update article by Id" + article, e);
+        }
+        return updArticle;
     }
 
     @Override

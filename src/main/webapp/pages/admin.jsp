@@ -1,16 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-         pageEncoding="utf-8"%>
+         pageEncoding="utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--<fmt:setBundle basename="src/main/resources/pagecontent_eng_US.properties" />
 <fmt:setLocale value="${locale}" scope="session" />--%>
-
 
 
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
@@ -26,75 +25,122 @@
 <div class="col">
     <div class="button">
         <form action="controller" method="GET">
-            <input type="text" type="hidden" name="name" value="" class="form-control"
+            <input type="text" type="hidden" name="name" value="" width="13%"
                    placeholder=<fmt:message key="label.name"/>> <input
                 type="hidden" name="command" value="find_users_by_name">
             <button type="submit" class="btn btn-success">
-                <fmt:message key="label.find" />
+                <fmt:message key="label.findUser"/>
             </button>
         </form>
     </div>
     <br/>
 </div>
 
+<div class="col">
+    <div class="button">
+        <form action="controller" method="GET">
+            <input type="text" type="hidden" name="name" value="" width="13%"
+                   placeholder=<fmt:message key="label.firstName"/>> <input
+                type="hidden" name="command" value="find_wanted_criminals">
+            <button type="submit" class="btn btn-success">
+                <fmt:message key="label.findWantedCriminal"/>
+            </button>
+        </form>
+    </div>
+    <br/>
+</div>
+
+<div class="col">
+    <h4>Name: ${user.name }</h4>
+    <h4>Surname: ${user.surname }</h4>
+    <h4>Email: ${user.email }</h4>
+    <h4>Password: ${user.password }</h4>
+    <div>
+        <form action="controller" method="GET">
+            <button type="submit" class="btn btn-primary">
+                <fmt:message key="label.change" />
+            </button>
+            <input type="hidden" name="command"
+                   value="to_personal_info_change">
+        </form>
+    </div>
+</div>
+</div>
 
 
-<table class="table table-striped table-dark">
+
+<table class="table table-striped">
     <c:if test="${list ne null}">
-    <tr>
-        <th><fmt:message key="label.number" /></th>
-        <th><fmt:message key="label.id" /></th>
-        <th><fmt:message key="label.email" /></th>
-        <th><fmt:message key="label.password" /></th>
-        <th><fmt:message key="label.name" /></th>
-        <th><fmt:message key="label.surname" /></th>
-        <th><fmt:message key="label.status" /></th>
-        <th><fmt:message key="label.role" /></th>
-    </tr>
+        <tr>
+            <th><fmt:message key="label.number"/></th>
+            <th><fmt:message key="label.id"/></th>
+            <th><fmt:message key="label.email"/></th>
+            <th><fmt:message key="label.password"/></th>
+            <th><fmt:message key="label.name"/></th>
+            <th><fmt:message key="label.surname"/></th>
+            <th><fmt:message key="label.status"/></th>
+            <th><fmt:message key="label.role"/></th>
+            <th><fmt:message key="label.action"/></th>
+        </tr>
 
-    <jsp:useBean id="list" scope="request" type="java.util.List"/>
-    <c:forEach var="elem" items="${list}" varStatus="status">
-    <tr>
-        <td><c:out value="${status.count }" /></td>
-        <td><c:out value="${elem.userId }" /></td>
-        <td><c:out value="${elem.email }" /></td>
-        <td><c:out value="${elem.password }" /></td>
-        <td><c:out value="${elem.name }" /></td>
-        <td><c:out value="${elem.surname }" /></td>
-        <td><c:out value="${elem.status }" /></td>
-        <td><c:out value="${elem.role }" /></td>
+        <c:forEach var="elem" items="${list}" varStatus="status">
+            <tr>
+                <td><c:out value="${status.count }"/></td>
+                <td><c:out value="${elem.userId }"/></td>
+                <td><c:out value="${elem.email }"/></td>
+                <td><c:out value="${elem.password }"/></td>
+                <td><c:out value="${elem.name }"/></td>
+                <td><c:out value="${elem.surname }"/></td>
+                <td><c:out value="${elem.status }"/></td>
+                <td><c:out value="${elem.role }"/></td>
+                <td>
+                    <c:if test="${elem.status=='ACTIVE'}">
+                        <form action="controller" method="POST">
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                <fmt:message key="label.block_user"/>
+                            </button>
+                            <input type="hidden" name="id" value="${elem.userId}">
+                            <input type="hidden" name="command" value="block_user">
+                        </form>
+                    </c:if>
 
-        <td>
-            <div class="dropdown">
-                <form action="controller" method="post">
-                    <button class="button" type="button"
-                            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">
-                        <fmt:message key="label.change_role" />
-                    </button>
-
-
-
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <button type="submit" class="dropdown-item" name="command" value="change_user_role_agent">
-                            <fmt:message key="label.change_role_to_agent" />
-                        </button>
-
-                        <button type="submit" class="dropdown-item" name="command" value="change_user_role_admin">
-                            <fmt:message key="label.change_role_to_admin" />
-                        </button>
-
-                        <button type="submit" class="dropdown-item" name="command" value="change_user_role_user">
-                            <fmt:message key="label.change_role_to_user" />
-                        </button>
-                        <input type="hidden" name="id" value="${elem.userId}">
-                    </div>
-                </form>
-            </div>
-        </td>
-    </tr>
-    </c:forEach>
+                    <c:if test="${elem.status=='BLOCKED'}">
+                        <form action="controller" method="POST">
+                            <button type="submit" class="btn btn-success btn-sm">
+                                <fmt:message key="label.unblock_user"/>
+                            </button>
+                            <input type="hidden" name="id" value="${elem.userId}">
+                            <input type="hidden" name="command" value="unblock_user">
+                        </form>
+                    </c:if>
+                </td>
+            </tr>
+        </c:forEach>
     </c:if>
+
+        <table class="table table-striped">
+            <c:if test="${criminals_list ne null}">
+            <tr>
+                <th><fmt:message key="label.guiltyId"/></th>
+                <th><fmt:message key="label.firstName"/></th>
+                <th><fmt:message key="label.lastName"/></th>
+            </tr>
+
+            <c:forEach var="elem" items="${criminals_list}" varStatus="status">
+            <tr>
+                <td><c:out value="${status.count }"/></td>
+                <td><c:out value="${elem.guiltyId }"/></td>
+                <td><c:out value="${elem.firstName }"/></td>
+                <td><c:out value="${elem.lastName }"/></td>
+            </tr>
+            </c:forEach>
+            </c:if>
+        </table>
 </table>
 </body>
 </html>
+
+
+
+
+</table>

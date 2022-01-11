@@ -1,3 +1,4 @@
+<%--
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -10,12 +11,12 @@
 <div class="form-container">
     <form action="controller" method="POST">
         <div class="mb-3">
-            <%--@declare id="email"--%><label for="email" class="form-label"><fmt:message
+            &lt;%&ndash;@declare id="email"&ndash;%&gt;<label for="email" class="form-label"><fmt:message
                     key="label.email" /></label>
             <input class="form-control" name="email" required pattern=".*[^<>]" placeholder=<fmt:message key="label.email"/>>
         </div>
         <div class="mb-3">
-            <%--@declare id="password"--%><label for="password" class="form-label"><fmt:message
+            &lt;%&ndash;@declare id="password"&ndash;%&gt;<label for="password" class="form-label"><fmt:message
                     key="label.password" /></label> <input type="password"
                                                            class="form-control" name="password" required
                                                            placeholder=<fmt:message key="label.password"/>>
@@ -35,4 +36,4 @@
 
 <c:import url="pages/main.jsp" />
 </body>
-</html>
+</html>--%>

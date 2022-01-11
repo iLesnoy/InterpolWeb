@@ -6,6 +6,7 @@ import epam.petrorvskiy.webtask.model.dao.ColumnName;
 import epam.petrorvskiy.webtask.model.dao.UserDao;
 import epam.petrorvskiy.webtask.entity.User;
 import epam.petrorvskiy.webtask.exception.DaoException;
+import epam.petrorvskiy.webtask.model.dao.impl.UserDaoImpl;
 import epam.petrorvskiy.webtask.validator.UserValidator;
 import epam.petrorvskiy.webtask.model.service.UserService;
 import org.apache.logging.log4j.LogManager;
@@ -22,10 +23,9 @@ public class UserServiceImpl implements UserService {
     private static final Logger logger = LogManager.getLogger();
     private final UserDao userDao;
 
-    public UserServiceImpl(UserDao userDao) {
+    public UserServiceImpl(UserDaoImpl userDao) {
         this.userDao = userDao;
     }
-
 
 
     @Override
@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
 
         } catch (DaoException e) {
             logger.error( "dao exception in method findUsersByNameAndSurname" + e);
-            e.printStackTrace();
+            throw new ServiceException(e);
         }
 
         return users;
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
 
         } catch (DaoException e) {
             logger.error("dao exception in method findUsersByUserStatus" + e);
-            e.printStackTrace();
+            throw new ServiceException(e);
         }
         return users;
     }
@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
 
         } catch (DaoException e) {
             logger.error("dao exception in method findUsersByRole" + e);
-            e.printStackTrace();
+            throw new ServiceException(e);
         }
         return users;
     }
@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserService {
 
         } catch (DaoException e) {
             logger.error("dao exception in method findUsersByName" + e);
-            e.printStackTrace();
+            throw new ServiceException(e);
         }
         return users;
     }
@@ -108,9 +108,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Optional<User> findUserByEmail(String email) throws ServiceException {
+        logger.debug("findUserByEmail, email:" + email);
+        Optional<User> user;
+        try {
+            if (UserValidator.isValidEmail(email)) {
+                user = userDao.findUserByEmail(email);
+            } else {
+                user = Optional.empty();
+            }
+        } catch (DaoException e) {
+            logger.error( "dao exception in method findUserByEmail" + e);
+            throw new ServiceException(e);
+        }
+        return user;
+    }
+
+    @Override
     public Optional<User> findUserPasswordByEmail(String userEmail) throws ServiceException {
         logger.debug( "findUserPasswordByEmail");
-        Optional<User> optionalUser = null;
+        Optional<User> optionalUser = Optional.empty();
         if (UserValidator.isValidEmail(userEmail)) {
 
             try {
@@ -133,10 +150,27 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> findUserByEmailAndPassword(String email, String password) throws ServiceException {
         logger.debug( "findUserByEmailAndPassword");
-        Optional<User> optionalEmailAndPassword;
+        Optional<User> optionalUser;
         if(UserValidator.isValidEmail(email) && UserValidator.isValidPassword(String.valueOf(password))){
+            String encodedPassword = PasswordEncoder.encodePassword(password);
+            logger.debug("Encoded password: " + encodedPassword);
+
             try{
-                optionalEmailAndPassword = userDao.findUserByEmailAndPassword(email, password);
+                Optional<String>optionalPasswordFromDb = userDao.findUserPasswordByEmail(email);
+                if(optionalPasswordFromDb.isPresent()){
+                    String passwordFromDb = optionalPasswordFromDb.get();
+                    logger.debug( "passwordFromDB: " + passwordFromDb);
+
+                    if(passwordFromDb.equals(encodedPassword)){
+                        logger.info("passwords equals, authorization is successful for user: " + email);
+                        optionalUser = userDao.findUserByEmail(email);
+                    }else {
+                        logger.info("passwords not equals");
+                        optionalUser = Optional.empty();
+                    }
+                }else{
+                    optionalUser = Optional.empty();
+                }
 
             } catch (DaoException e) {
                 logger.error( "dao exception in method findUserByEmailAndPassword" + e);
@@ -144,9 +178,9 @@ public class UserServiceImpl implements UserService {
             }
 
         } else {
-            optionalEmailAndPassword = Optional.empty();
+            optionalUser = Optional.empty();
         }
-        return optionalEmailAndPassword;
+        return optionalUser;
     }
 
     @Override
@@ -209,10 +243,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean changeUserStatus(long userId, User.Status status) throws ServiceException {
+    public boolean changeUserStatusToBlock(long userId) throws ServiceException {
         boolean changeUserStatus;
         try {
-            changeUserStatus = userDao.changeUserStatus(userId,status);
+            changeUserStatus = userDao.changeUserStatusToBlock(userId);
         } catch (DaoException e) {
             logger.error("dao exception in method changeUserStatus" + e);
             throw new ServiceException(e);

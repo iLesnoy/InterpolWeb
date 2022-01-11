@@ -10,4 +10,5 @@ public class Message {
     public static final Object USER_NOT_ADDED = "";
     public static final Object USER_ALREADY_EXIST = "";
     public static final Object ACCOUNT_IS_BLOCKED ="Sorry, your account has been blocked.";
+    public static final Object UNSUCCESSFUL = "unsuccessful";
 }

@@ -47,11 +47,6 @@
                     </div>
                 </div>
 
-
-                <%--<div class="news_buttons">
-                    <a href="<spring:url value="/edit/"/>${elem.id}" class="button">Редактировать новость</a>
-                    <a href="<spring:url value="/delete/"/>${elem.id}" class="button">Удалить новость</a>
-                </div>--%>
             </c:forEach>
             </body>
 

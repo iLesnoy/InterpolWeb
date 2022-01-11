@@ -11,6 +11,7 @@ import java.util.Optional;
 public interface UserDao {
 
     Optional<User> findUserByEmailAndPassword(String email, String password)throws DaoException;
+    Optional<User> findUserByEmail(String email)throws DaoException;
     List<User>findUsersByNameAndSurname(String userName,String userSurname) throws DaoException;
     List<User>findUsersByName(String userName) throws DaoException;
     List<User>findUsersByUserStatus(int userStatus)throws DaoException;
@@ -22,7 +23,7 @@ public interface UserDao {
     boolean addUser(User user, String password) throws DaoException;
     boolean changeUserRole(long userId,Role role) throws DaoException;
     boolean updateUserStatusById(long userId,Status status) throws DaoException;
-    boolean changeUserStatus(long userId,Status status) throws DaoException; //delete
+    boolean changeUserStatusToBlock(long userId) throws DaoException;
 
 
 }

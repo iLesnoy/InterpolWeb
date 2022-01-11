@@ -52,8 +52,8 @@
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="pages/newsfeed.jsp">Home</a></li>
                 <li><a href="#">About</a></li>
-                <li><a href="${pageContext.request.contextPath}/controller?command=to_news_articles" class="button">News</a></li>
-                <li><a href="pages/missingpeople.jsp">Missing People</a></li>
+                <li><a href="${pageContext.request.contextPath}/controller?command=to_news_feed" class="button">News</a></li>
+                <li><a href="${pageContext.request.contextPath}/controller?command=to_missing" class="button">Missing People</a></li>
                 <li><a href="pages/wantedcriminals.jsp">WantedCriminals</a></li>
                 <li><a href="${pageContext.request.contextPath}/controller?command=to_account" class="button">Account</a></li>
                 <li>
@@ -72,9 +72,10 @@
                         <input type="text"  name="password" class="form-control" id="password" placeholder="Password" required />
                     </div>
                     <input type="submit" class="btn btn-success" value="Sign"/>
-                    <a href="pages/signing.jsp" class="button">Create new account</a>
+                    <a href="pages/signup.jsp" class="button">Create new account</a>
                 </form>
             </div>
+            <img alt="img" src="src/main/webapp/images/home.jpg"/>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container -->
 </nav><!-- /.navbar -->

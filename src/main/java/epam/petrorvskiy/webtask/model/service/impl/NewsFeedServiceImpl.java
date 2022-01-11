@@ -5,6 +5,7 @@ import epam.petrorvskiy.webtask.command.ParameterAndAttribute;
 import epam.petrorvskiy.webtask.model.dao.NewsFeedDao;
 import epam.petrorvskiy.webtask.entity.NewsFeed;
 import epam.petrorvskiy.webtask.exception.DaoException;
+import epam.petrorvskiy.webtask.model.dao.impl.NewsFeedDaoImpl;
 import epam.petrorvskiy.webtask.model.service.NewsFeedService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,7 +20,7 @@ public class NewsFeedServiceImpl implements NewsFeedService {
     private static final Logger logger = LogManager.getLogger();
     private final NewsFeedDao newsFeedDao;
 
-    public NewsFeedServiceImpl(NewsFeedDao newsFeedDao) {
+    public NewsFeedServiceImpl(NewsFeedDaoImpl newsFeedDao) {
         this.newsFeedDao = newsFeedDao;
     }
 
@@ -43,6 +44,19 @@ public class NewsFeedServiceImpl implements NewsFeedService {
     }
 
     @Override
+    public boolean updateArticle(NewsFeed article, long articleId) throws ServiceException {
+        boolean updateArticle = false;
+
+        try {
+            newsFeedDao.updateArticle(article, articleId);
+            updateArticle = true;
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
+        return updateArticle;
+    }
+
+    @Override
     public List<NewsFeed> findAllNews() throws ServiceException {
         logger.debug("findAllNews");
         List<NewsFeed> news;
@@ -60,7 +74,7 @@ public class NewsFeedServiceImpl implements NewsFeedService {
 
     @Override
     public boolean deleteArticleById(long articleId) throws ServiceException {
-        boolean deleteArticle = false;
+        boolean deleteArticle;
         try {
             deleteArticle = newsFeedDao.deleteArticleById(articleId);
         } catch (DaoException e) {

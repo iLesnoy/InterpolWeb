@@ -31,6 +31,7 @@ public class ToAccountCommand implements Command {
         HttpSession session = request.getSession();
 
         User user = (User) session.getAttribute(ParameterAndAttribute.USER);
+        logger.info("user " + user);
 
         if (user != null ) {
             if(user.getStatus().equals(BLOCKED)){
@@ -42,6 +43,7 @@ public class ToAccountCommand implements Command {
             switch (user.getRole()) {
                 case ADMIN:
                     logger.info("ADMIN account");
+
                     session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.TO_ACCOUNT_PAGE);
                     router.setPagePath(PagePath.ADMIN);
                     break;
@@ -62,23 +64,23 @@ public class ToAccountCommand implements Command {
                         logger.error( "ServiceException" + e);
                         request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
                         request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e);
-                        session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.ERROR);
-                        router.setPagePath(PagePath.ERROR);
+                        session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.ERROR_404);
+                        router.setPagePath(PagePath.ERROR_404);
                     }
                     session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, TO_ACCOUNT_PAGE);
                     router.setPagePath(PagePath.USER);
                     break;
                 default:
 
-                    session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.TO_SIGN_IN_PAGE);
-                    router.setPagePath(PagePath.SIGN_IN);
+                    session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, TO_SIGN_UP_PAGE);
+                    router.setPagePath(SIGN_UP);
                     break;
             }
 
 
-        }else {
-            session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.TO_SIGN_IN_PAGE);
-            router.setPagePath(PagePath.SIGN_IN);
+        } else {
+            session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.TO_SIGN_UP_PAGE);
+            router.setPagePath(SIGN_UP);
 
         }
 

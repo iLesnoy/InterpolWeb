@@ -25,21 +25,22 @@ public class FindUsersByName implements Command {
 
     @Override
     public Router execute(HttpServletRequest request) {
-        String name = request.getParameter(ParameterAndAttribute.USER_NAME);
         Router router = new Router();
         HttpSession session = request.getSession();
 
+        String page = (String) session.getAttribute(ParameterAndAttribute.CURRENT_PAGE);
+        String userName = request.getParameter(ParameterAndAttribute.USER_NAME);
 
-        logger.debug( "find user by name: " + name);
+        logger.debug( "find user by name: " + userName);
         List<User> users;
         try{
 
-            users = userService.findUsersByName(name);
-            router.setPagePath(PagePath.ADMIN);
+            users = userService.findUsersByName(userName);
+            router.setPagePath(page);
 
-            if(users.size() >= 0){
+            if(users.size() > 0){
 
-                request.setAttribute(LIST,users);
+                request.setAttribute(ParameterAndAttribute.LIST,users);
                 logger.debug(request.getAttribute(LIST));
 
             } else {
@@ -50,7 +51,7 @@ public class FindUsersByName implements Command {
             logger.error("UserServiceException in method execute");
             request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
             request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e);
-            router.setPagePath(PagePath.ERROR);
+            router.setPagePath(PagePath.ERROR_404);
         }
         return router;
     }

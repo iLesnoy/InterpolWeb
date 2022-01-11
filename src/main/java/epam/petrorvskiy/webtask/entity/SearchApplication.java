@@ -1,12 +1,13 @@
 package epam.petrorvskiy.webtask.entity;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 
 public class SearchApplication {
 
     private long searchApplicationId;
-    private Date leadTime;
+    private LocalDate leadTime;
     private long userId;
     ApplicationStatus status;
 
@@ -14,11 +15,7 @@ public class SearchApplication {
         CONFIRMED, REJECTED, PROCESSED, CLOSED
     }
 
-    public SearchApplication(long searchApplicationId, Date leadTime, long userId, ApplicationStatus status) {
-        this.searchApplicationId = searchApplicationId;
-        this.leadTime = leadTime;
-        this.userId = userId;
-        this.status = status;
+    public SearchApplication() {
     }
 
 
@@ -30,11 +27,11 @@ public class SearchApplication {
         this.searchApplicationId = searchApplicationId;
     }
 
-    public Date getLeadTime() {
+    public LocalDate getLeadTime() {
         return leadTime;
     }
 
-    public void setLeadTime(Date leadTime) {
+    public void setLeadTime(LocalDate leadTime) {
         this.leadTime = leadTime;
     }
 
@@ -99,6 +96,39 @@ public class SearchApplication {
         builder.append("}");
 
         return builder.toString();
+
+    }
+
+    public static class ApplicationBuilder {
+        private final SearchApplication searchApplication;
+
+        public ApplicationBuilder() {
+            searchApplication = new SearchApplication();
+        }
+
+        public SearchApplication.ApplicationBuilder setApplicationId(long applicationId) {
+            searchApplication.setSearchApplicationId(applicationId);
+            return this;
+        }
+
+        public SearchApplication.ApplicationBuilder setLeadTime(LocalDate leadTime) {
+            searchApplication.setLeadTime(leadTime);
+            return this;
+        }
+
+        public SearchApplication.ApplicationBuilder setStatus(SearchApplication.ApplicationStatus status) {
+            searchApplication.setStatus(status);
+            return this;
+        }
+
+        public SearchApplication.ApplicationBuilder setUserId(long userId) {
+            searchApplication.setUserId(userId);
+            return this;
+        }
+
+        public SearchApplication build(){
+            return searchApplication;
+        }
 
     }
 }

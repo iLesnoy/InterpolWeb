@@ -13,7 +13,7 @@ public class PasswordEncoder {
         Base64.Encoder encoder = Base64.getEncoder();
         byte[] bytesEncoded = encoder.encode(password.getBytes());
         BigInteger bigInt = new BigInteger(1, bytesEncoded);
-        String resultHex = bigInt.toString(14);
+        String resultHex = bigInt.toString(15);
         return resultHex;
     }
 }

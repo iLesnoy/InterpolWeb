@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class ToSignInCommand implements Command {
+public class ToLogInCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
@@ -17,8 +17,8 @@ public class ToSignInCommand implements Command {
         logger.info( "ToSignInCommand");
         Router router = new Router();
         HttpSession session = request.getSession();
-        session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.TO_SIGN_IN_PAGE);
-        router.setPagePath(PagePath.SIGN_IN);
+        session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.TO_MAIN_PAGE);
+        router.setPagePath(PagePath.MAIN);
         return router;
     }
 }

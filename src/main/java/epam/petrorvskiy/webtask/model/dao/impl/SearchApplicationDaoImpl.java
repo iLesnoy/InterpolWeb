@@ -1,5 +1,6 @@
 package epam.petrorvskiy.webtask.model.dao.impl;
 
+import epam.petrorvskiy.webtask.entity.User;
 import epam.petrorvskiy.webtask.model.connection.ConnectionPool;
 import epam.petrorvskiy.webtask.model.dao.ColumnName;
 import epam.petrorvskiy.webtask.model.dao.SearchApplicationDao;
@@ -9,7 +10,12 @@ import epam.petrorvskiy.webtask.entity.SearchApplication.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.math.BigDecimal;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class SearchApplicationDaoImpl implements SearchApplicationDao {
@@ -20,6 +26,8 @@ public class SearchApplicationDaoImpl implements SearchApplicationDao {
     private static final String SQL_DELETE_SEARCH_APPLICATION_BY_ID = "DELETE FROM search_application WHERE  search_application_id=?";
     private static final String SQL_TAKE_SEARCH_APPLICATION_BY_ID = "SELECT search_application_id,lead_time,status,users_user_id FROM search_application  WHERE search_application_id =?";
     private static final String SQL_TAKE_SEARCH_APPLICATION_BY_USER_ID = "SELECT search_application_id,lead_time,status,users_user_id WHERE users_user_id=?";
+    private static final String SQL_TAKE_ALL_SEARCH_APPLICATION = "SELECT search_application_id,lead_time,status,users_user_id FROM search_application";
+
     private final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
     @Override
@@ -27,7 +35,7 @@ public class SearchApplicationDaoImpl implements SearchApplicationDao {
         boolean applicationAdd = false;
         try (Connection connection = connectionPool.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_ADD_SEARCH_APPLICATION)) {
-            statement.setDate(1, application.getLeadTime());
+            statement.setDate(1, Date.valueOf(application.getLeadTime()));
             statement.setString(2, String.valueOf(application.getStatus()));
             statement.setLong(3, application.getUserId());
             int rowCount = statement.executeUpdate();
@@ -63,6 +71,27 @@ public class SearchApplicationDaoImpl implements SearchApplicationDao {
             throw new DaoException("Dao epam.task.web.exception in method updateSearchApplicationStatus", e);
         }
         return updateSearchApplication;
+    }
+
+    @Override
+    public boolean payForApplication(long applicationId, BigDecimal reward) throws DaoException {
+        return false;
+    }
+
+    @Override
+    public List<SearchApplication> findAllSearchApplications() throws DaoException {
+        List<SearchApplication> searchApplications = new ArrayList<>();
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL_TAKE_ALL_SEARCH_APPLICATION)) {
+
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                searchApplications.add(createApplication(resultSet));
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Dao exception in method findAllSearchApplications", e);
+        }
+        return searchApplications;
     }
 
     @Override
@@ -104,17 +133,24 @@ public class SearchApplicationDaoImpl implements SearchApplicationDao {
             }
         } catch (SQLException e) {
             logger.error( "SQLException in method takeSearchApplicationById " + e.getMessage());
-            throw new DaoException("Dao epam.task.web.exception", e);
+            throw new DaoException("Dao exception", e);
         }
         return searchApplication;
     }
 
     private SearchApplication createApplication(ResultSet resultSet) throws SQLException {
         long applicationId = resultSet.getLong(ColumnName.SEARCH_APPLICATION_ID);
-        Date leadTime = resultSet.getDate(ColumnName.LEAD_TIME);
-        long userId = resultSet.getLong(ColumnName.USERS_USER_ID);
+        LocalDate leadTime = resultSet.getDate(ColumnName.LEAD_TIME).toLocalDate();
         ApplicationStatus status = ApplicationStatus.valueOf(resultSet.getString(ColumnName.APPLICATION_STATUS));
-        SearchApplication searchApplication = new SearchApplication(applicationId,leadTime,userId,status);
+        long userId = resultSet.getLong(ColumnName.USERS_USER_ID);
+
+        SearchApplication searchApplication = new SearchApplication.ApplicationBuilder()
+                .setApplicationId(applicationId)
+                .setLeadTime(leadTime)
+                .setStatus(status)
+                .setUserId(userId)
+                .build();
+        logger.info("application " + searchApplication);
         return searchApplication;
     }
 }

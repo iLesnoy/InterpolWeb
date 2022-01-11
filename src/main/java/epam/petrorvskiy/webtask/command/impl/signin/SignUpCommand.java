@@ -36,6 +36,7 @@ public class SignUpCommand implements Command {
         userData.put(ParameterAndAttribute.USER_PASSWORD, password);
         userData.put(ParameterAndAttribute.USER_NAME, name);
         userData.put(ParameterAndAttribute.USER_SURNAME, surname);
+
         if (password.equals(confirmedPassword)) {
             try {
                 if (userService.findUserIdByEmail(email).isEmpty()) {
@@ -43,22 +44,23 @@ public class SignUpCommand implements Command {
                         String page = request.getContextPath();
                         router.setPagePath(page);
                         router.setType(Router.Type.REDIRECT);
-                        /*session.setAttribute(EMAIL_CHECK);*/
-                        return new Router(PagePath.TO_MAIN_PAGE);
+
+                        /*session.setAttribute(ParameterAndAttribute.USER, userData);
+                        logger.debug("user "+ userData + " registr");
+                        router.setPagePath(TO_MAIN_PAGE);                       save user in session -> change ToAccount*/
                     } else {
-                        router.setPagePath(PagePath.SIGN_IN);
+                        router.setPagePath(PagePath.SIGN_UP);
                         request.setAttribute(ParameterAndAttribute.MESSAGE, Message.USER_NOT_ADDED);
                     }
                 } else {
-
-                    router.setPagePath(PagePath.SIGN_UP);
+                    router.setPagePath(PagePath.LOG_IN);
                     request.setAttribute(ParameterAndAttribute.MESSAGE, Message.USER_ALREADY_EXIST);
                 }
             } catch (ServiceException e) {
                 logger.error("Registration command exception" + e);
                 request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
                 request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e);
-                router.setPagePath(PagePath.ERROR);
+                router.setPagePath(PagePath.ERROR_404);
             }
         }else {
             router.setPagePath(PagePath.SIGN_UP);

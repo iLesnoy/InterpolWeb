@@ -8,13 +8,8 @@ public class MissingPeople {
     private String surname;
     private Date disappearanceDate;
 
-    public MissingPeople(long missingPeopleId, String name, String surname, Date disappearanceDate) {
-        this.missingPeopleId = missingPeopleId;
-        this.name = name;
-        this.surname = surname;
-        this.disappearanceDate = disappearanceDate;
+    public MissingPeople() {
     }
-
 
     public String getName() {
         return name;
@@ -81,10 +76,44 @@ public class MissingPeople {
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("MissingPeople{");
-        builder.append(", missingPeopleId").append(missingPeopleId);
-        builder.append(", name").append(name);
-        builder.append(", surname") .append(surname);
-        builder.append(", disappearanceDate") .append(disappearanceDate);
+        builder.append(", missingPeopleId ").append(missingPeopleId);
+        builder.append(", name ").append(name);
+        builder.append(", surname ") .append(surname);
+        builder.append(", disappearanceDate ") .append(disappearanceDate);
         return builder.toString();
+    }
+
+    public static class MissingPeopleBuilder {
+        private final MissingPeople missingPeople;
+
+        public MissingPeopleBuilder() {
+            missingPeople = new MissingPeople();
+        }
+
+        public MissingPeople.MissingPeopleBuilder setPeopleId(long id) {
+            missingPeople.setMissingPeopleId(id);
+            return this;
+        }
+
+        public MissingPeople.MissingPeopleBuilder setName(String name){
+            missingPeople.setName(name);
+            return this;
+        }
+
+        public MissingPeople.MissingPeopleBuilder setSurname(String surname){
+            missingPeople.setSurname(surname);
+            return this;
+        }
+
+        public MissingPeople.MissingPeopleBuilder setDisappearanceDate(Date disappearanceDate){
+            missingPeople.setDisappearanceDate(disappearanceDate);
+            return this;
+        }
+
+
+        public MissingPeople build(){
+            return missingPeople;
+        }
+
     }
 }
