@@ -1,11 +1,6 @@
 
-import epam.petrorvskiy.webtask.entity.SearchApplication;
-import epam.petrorvskiy.webtask.entity.WantedCriminal;
-import epam.petrorvskiy.webtask.model.dao.impl.*;
-import epam.petrorvskiy.webtask.exception.DaoException;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
+import by.petrorvskiy.webtask.model.dao.impl.WantedCriminalDaoImpl;
+import by.petrorvskiy.webtask.exception.DaoException;
 
 
 public class Main {

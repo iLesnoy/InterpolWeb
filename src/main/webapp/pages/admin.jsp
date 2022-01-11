@@ -99,7 +99,7 @@
                             <button type="submit" class="btn btn-danger btn-sm">
                                 <fmt:message key="label.block_user"/>
                             </button>
-                            <input type="hidden" name="id" value="${elem.userId}">
+                            <input type="hidden" name="userId" value="${elem.userId}">
                             <input type="hidden" name="command" value="block_user">
                         </form>
                     </c:if>
@@ -109,7 +109,7 @@
                             <button type="submit" class="btn btn-success btn-sm">
                                 <fmt:message key="label.unblock_user"/>
                             </button>
-                            <input type="hidden" name="id" value="${elem.userId}">
+                            <input type="hidden" name="userId" value="${elem.userId}">
                             <input type="hidden" name="command" value="unblock_user">
                         </form>
                     </c:if>
