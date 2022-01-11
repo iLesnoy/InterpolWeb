@@ -2,8 +2,8 @@
          pageEncoding="utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%--<fmt:setBundle basename="src/main/resources/pagecontent_eng_US.properties" />
-<fmt:setLocale value="${locale}" scope="session" />--%>
+<fmt:setLocale value="en_US" scope="session" />
+<fmt:setBundle basename="pagecontent"/>
 
 
 <!DOCTYPE html>
