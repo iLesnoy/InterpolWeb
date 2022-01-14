@@ -1,6 +1,7 @@
 package by.petrorvskiy.webtask.model.service;
 
 import by.petrorvskiy.webtask.entity.User;
+import by.petrorvskiy.webtask.exception.DaoException;
 import com.google.protobuf.ServiceException;
 
 import java.util.List;
@@ -14,6 +15,9 @@ public interface UserService {
     List<User> findUsersByUserStatus(int userStatus) throws ServiceException;
     List<User> findUsersByRole(User.Role role) throws ServiceException;
     List<User>findUsersByName(String userName) throws ServiceException;
+    List<User> findUsersFromRow(int fromRow) throws ServiceException;
+    List<User>findAllUsers() throws ServiceException;
+    int findNumberOfPages() throws ServiceException;
 
     Optional<User> findUserIdByEmail(String userEmail) throws ServiceException;
     Optional<User> findUserByEmail(String email)throws ServiceException;
@@ -22,5 +26,5 @@ public interface UserService {
     boolean addUser(Map<String, String> userData) throws ServiceException;
     boolean updateUserStatusById(long userId, User.Status status) throws ServiceException;
     boolean changeUserRole(long userId, User.Role role) throws ServiceException;
-    boolean changeUserStatusToBlock(long userId) throws ServiceException;
+    boolean updateUserInfo(User user, Map<String, String> userData) throws ServiceException;
 }

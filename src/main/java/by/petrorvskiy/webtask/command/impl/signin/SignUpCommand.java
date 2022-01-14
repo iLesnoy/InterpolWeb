@@ -17,10 +17,12 @@ import org.apache.logging.log4j.Logger;
 import java.util.HashMap;
 import java.util.Map;
 
+import static by.petrorvskiy.webtask.command.PagePath.TO_MAIN_PAGE;
+
 public class SignUpCommand implements Command {
 
     private static final Logger logger = LogManager.getLogger();
-    private final UserService userService = new UserServiceImpl(new UserDaoImpl());
+    private final UserService userService = new UserServiceImpl();
 
     @Override
     public Router execute(HttpServletRequest request) {
@@ -47,7 +49,8 @@ public class SignUpCommand implements Command {
 
                         /*session.setAttribute(ParameterAndAttribute.USER, userData);
                         logger.debug("user "+ userData + " registr");
-                        router.setPagePath(TO_MAIN_PAGE);                       save user in session -> change ToAccount*/
+                        logger.debug("  "+ userData);
+                        router.setPagePath(TO_MAIN_PAGE);    */                   /*save user in session -> Change ToAccount*/
                     } else {
                         router.setPagePath(PagePath.SIGN_UP);
                         request.setAttribute(ParameterAndAttribute.MESSAGE, Message.USER_NOT_ADDED);

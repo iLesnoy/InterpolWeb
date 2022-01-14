@@ -1,5 +1,6 @@
 package by.petrorvskiy.webtask.entity;
 
+
 import java.time.LocalDate;
 
 
@@ -10,8 +11,9 @@ public class SearchApplication {
     private long userId;
     ApplicationStatus status;
 
+
     public enum ApplicationStatus {
-        CONFIRMED, REJECTED, PROCESSED, CLOSED
+        ACTIVE, REJECTED, EXPIRED, CLOSED
     }
 
     public SearchApplication() {

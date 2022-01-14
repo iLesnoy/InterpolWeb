@@ -25,6 +25,14 @@ public class SearchApplicationDaoImpl implements SearchApplicationDao {
     private static final String SQL_TAKE_SEARCH_APPLICATION_BY_ID = "SELECT search_application_id,lead_time,status,users_user_id FROM search_application  WHERE search_application_id =?";
     private static final String SQL_TAKE_SEARCH_APPLICATION_BY_USER_ID = "SELECT search_application_id,lead_time,status,users_user_id WHERE users_user_id=?";
     private static final String SQL_TAKE_ALL_SEARCH_APPLICATION = "SELECT search_application_id,lead_time,status,users_user_id FROM search_application";
+    private static final SearchApplicationDaoImpl INSTANCE = new SearchApplicationDaoImpl();
+
+    public SearchApplicationDaoImpl() {
+    }
+
+    public static SearchApplicationDaoImpl getInstance() {
+        return INSTANCE;
+    }
 
     private final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
@@ -51,12 +59,12 @@ public class SearchApplicationDaoImpl implements SearchApplicationDao {
     }
 
     @Override
-    public boolean updateSearchApplicationStatus(SearchApplication status,long applicationId) throws DaoException {
+    public boolean updateSearchApplicationStatus(SearchApplication.ApplicationStatus status,long applicationId) throws DaoException {
         boolean updateSearchApplication = false;
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_SEARCH_APPLICATION_STATUS_BY_ID)) {
-            statement.setString(1, String.valueOf(status.getStatus()));
-            statement.setLong(1, applicationId);
+            statement.setString(1, status.name());
+            statement.setLong(2, applicationId);
             int rowCount = statement.executeUpdate();
             if (rowCount != 0) {
                 updateSearchApplication = true;
@@ -93,19 +101,18 @@ public class SearchApplicationDaoImpl implements SearchApplicationDao {
     }
 
     @Override
-    public Optional<SearchApplication> deleteSearchApplicationByUserId(long userId) throws DaoException {
-        Optional<SearchApplication> deletedSearchApplication;
+    public boolean deleteSearchApplicationByUserId(long userId) throws DaoException {
+        boolean deletedSearchApplication;
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_DELETE_SEARCH_APPLICATION_BY_ID)) {
             logger.debug( "in try block");
             statement.setLong(1, userId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                SearchApplication deletedApplication = createApplication(resultSet);
-                deletedSearchApplication = Optional.of(deletedApplication);
-                logger.info( "deleted application id =" + deletedApplication);
+                deletedSearchApplication = true;
+                logger.info( "deleted application id =" + deletedSearchApplication);
             } else {
-                deletedSearchApplication = Optional.empty();
+                deletedSearchApplication = false;
             }
         } catch (SQLException e) {
             logger.error( "SQLException in method deleteSearchApplicationByUserId " + e.getMessage());
@@ -134,6 +141,28 @@ public class SearchApplicationDaoImpl implements SearchApplicationDao {
             throw new DaoException("Dao exception", e);
         }
         return searchApplication;
+    }
+
+    @Override
+    public Optional<SearchApplication> findApplicationsByUserId(long userId) throws DaoException {
+        Optional<SearchApplication> userApplications;
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL_TAKE_SEARCH_APPLICATION_BY_USER_ID)) {
+            statement.setLong(1, userId);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                SearchApplication application = createApplication(resultSet);
+                userApplications = Optional.of(application);
+                logger.info( "userApplications =" + userApplications);
+            } else {
+                userApplications = Optional.empty();
+            }
+
+        } catch (SQLException e) {
+            logger.error( "SQLException in method findApplicationsByUserId " + e.getMessage());
+            throw new DaoException("Dao exception", e);
+        }
+        return userApplications;
     }
 
     private SearchApplication createApplication(ResultSet resultSet) throws SQLException {

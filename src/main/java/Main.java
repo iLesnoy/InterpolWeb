@@ -1,4 +1,6 @@
 
+import by.petrorvskiy.webtask.entity.User;
+import by.petrorvskiy.webtask.model.dao.impl.UserDaoImpl;
 import by.petrorvskiy.webtask.model.dao.impl.WantedCriminalDaoImpl;
 import by.petrorvskiy.webtask.exception.DaoException;
 
@@ -17,7 +19,8 @@ public class Main {
         MissingPeopleDaoImpl missingPeopleDao = new MissingPeopleDaoImpl();
         missingPeopleDao.findAllMissingPeople();*/
 
-        WantedCriminalDaoImpl wantedCriminalDao = new WantedCriminalDaoImpl();
-        wantedCriminalDao.findAllCriminalsByName("Hasbula");
+        UserDaoImpl userDao = UserDaoImpl.getInstance();
+        User user = new User.UserBuilder().setEmail("vor@vor.by").setPassword("12345")
+                        .setName("Muhamad").setSurname("Dorn").setStatus(User.Status.BLOCKED).setRole(User.Role.USER).build();
     }
 }

@@ -10,8 +10,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/3.3.1/masonry.pkgd.min.js"></script>
 
 
-    <div class="wrapper">
-        <display:inline-block>
+
 
 
             <title>NesFeed</title>
@@ -25,10 +24,12 @@
                             </form>
                         </div>--%>
 
-
+<div class="wrapper">
+    <div class="container">
+        <div class="masonry-container">
             <body>
+            <div class="card">
             <c:forEach items="${news}" var="elem" varStatus="status" >
-                <div class="card">
                     <div class="header">
                         <img alt="img" src="data:image/jpeg;base64,${elem.image}"/>
                         <div class="filter"></div>
@@ -45,15 +46,13 @@
                         <h6>${elem.title}</h6>
                         <p class="description">${elem.newsArticle}</p>
                     </div>
-                </div>
-
             </c:forEach>
+            </div>
             </body>
-
         </div>
     </div>
 </div>
-        </display:inline-block>
+
 
 <script>
     $(document).ready(function () {
@@ -61,7 +60,6 @@
 
         // Make the images from the card fill the hole space
         hipster_cards.fitBackgroundForCards();
-
     });
 
     hipster_cards = {
@@ -102,7 +100,6 @@
                     $header.css(new_css);
                 }
             });
-
         },
     }
 </script>

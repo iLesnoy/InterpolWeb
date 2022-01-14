@@ -21,17 +21,15 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private static final Logger logger = LogManager.getLogger();
-    private final UserDao userDao;
+    private final UserDao userDao = UserDaoImpl.getInstance();
+    private final int numberOfUsersInPage = 10;
 
-    public UserServiceImpl(UserDaoImpl userDao) {
-        this.userDao = userDao;
-    }
 
 
     @Override
     public List<User> findUsersByNameAndSurname(String userName, String userSurname) throws ServiceException {
-        logger.debug("findUserByNameAndSurname()" +userName);
-        List<User> users = new ArrayList<>();
+        logger.debug("findUserByNameAndSurname" +userName);
+        List<User> users;
         try {
 
             users = userDao.findUsersByNameAndSurname(userName,userSurname);
@@ -62,7 +60,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findUsersByRole(User.Role userRole) throws ServiceException {
         logger.debug("findUsersByRole" + userRole);
-        List<User> users = new ArrayList<>();
+        List<User> users;
         try {
 
             users = userDao.findUsersByRole(userRole);
@@ -77,7 +75,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findUsersByName(String userName) throws ServiceException {
         logger.debug("findUsersByName" + userName);
-        List<User> users = new ArrayList<>();
+        List<User> users;
         try {
 
             users = userDao.findUsersByName(userName);
@@ -89,6 +87,57 @@ public class UserServiceImpl implements UserService {
         return users;
     }
 
+    @Override
+    public int findNumberOfPages() throws ServiceException {
+        logger.debug( "FindNumberOfPages:");
+        int numberOfPages;
+        int numberOfUser;
+        try {
+            numberOfUser = userDao.findNumberOfRows();
+            if (numberOfUser > numberOfUsersInPage) {
+                numberOfPages = (int) Math.ceil((double) numberOfUser / numberOfUsersInPage);
+            } else {
+                numberOfPages = 1;
+            }
+        } catch (DaoException e) {
+            logger.error( "dao exception in method findNumberOfRows()" + e);
+            throw new ServiceException(e);
+        }
+        return numberOfPages;
+    }
+
+    @Override
+    public List<User> findUsersFromRow(int pageNumber) throws ServiceException {
+        logger.debug( "findUsersFromRow(), page number:" + pageNumber);
+        List<User> users;
+        int fromRow;
+        if (pageNumber > 1) {
+            fromRow = (pageNumber - 1) * numberOfUsersInPage;
+        } else {
+            fromRow = 0;
+        }
+        try {
+            users = userDao.findUsersFromRow(fromRow, numberOfUsersInPage);
+        } catch (DaoException e) {
+            logger.error( "dao exception in method findUsersFromRow" + e);
+            throw new ServiceException(e);
+        }
+        return users;
+    }
+
+    @Override
+    public List<User> findAllUsers() throws ServiceException {
+        List<User> foundedUsers;
+        try {
+
+            foundedUsers = userDao.findAllUsers();
+
+        } catch (DaoException e) {
+            logger.error("dao exception in method findUsersAllUser" + e);
+            throw new ServiceException(e);
+        }
+        return foundedUsers;
+    }
 
     @Override
     public Optional<User> findUserIdByEmail(String userEmail) throws ServiceException {
@@ -243,14 +292,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean changeUserStatusToBlock(long userId) throws ServiceException {
-        boolean changeUserStatus;
-        try {
-            changeUserStatus = userDao.changeUserStatusToBlock(userId);
-        } catch (DaoException e) {
-            logger.error("dao exception in method changeUserStatus" + e);
-            throw new ServiceException(e);
+    public boolean updateUserInfo(User user, Map<String, String> userData) throws ServiceException {
+        boolean isChanged = false;
+        if (UserValidator.isValidName(userData.get(ParameterAndAttribute.USER_NAME))
+                && UserValidator.isValidName(userData.get(ParameterAndAttribute.USER_SURNAME))) {
+
+            user.setName(userData.get(ParameterAndAttribute.USER_NAME));
+            user.setSurname(userData.get(ParameterAndAttribute.USER_SURNAME));
+
+            try {
+                isChanged = userDao.updateUserInfo(user);
+            } catch (DaoException e) {
+                logger.error( "dao exception in method updateUserInfo" + e);
+                throw new ServiceException(e);
+            }
         }
-        return changeUserStatus;
+        return isChanged;
     }
+
 }

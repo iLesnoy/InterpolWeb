@@ -14,12 +14,12 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-public class WantedCriminalsServiceImpl implements WantedCriminalService {
+public class WantedCriminalServiceImpl implements WantedCriminalService {
 
     private static final Logger logger = LogManager.getLogger();
     private final WantedCriminalDao wantedCriminalDao;
 
-    public WantedCriminalsServiceImpl(WantedCriminalDaoImpl wantedCriminalDao) {
+    public WantedCriminalServiceImpl(WantedCriminalDaoImpl wantedCriminalDao) {
         this.wantedCriminalDao = wantedCriminalDao;
     }
 

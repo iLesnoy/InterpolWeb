@@ -7,9 +7,9 @@ public class WantedCriminal {
     private long guiltyId;
     private String firstName;
     private String lastName;
-    private String crimCity;
-    private String crimAddress;
-    private LocalDate crimDOB;
+    private String crimeCity;
+    private String crimeAddress;
+    private LocalDate crimeDOB;
     private BigDecimal reward;
     private CrimType crimeType;
 
@@ -47,28 +47,28 @@ public class WantedCriminal {
         this.lastName = lastName;
     }
 
-    public String getCrimCity() {
-        return crimCity;
+    public String getCrimeCity() {
+        return crimeCity;
     }
 
-    public void setCrimCity(String crimCity) {
-        this.crimCity = crimCity;
+    public void setCrimeCity(String crimeCity) {
+        this.crimeCity = crimeCity;
     }
 
-    public String getCrimAddress() {
-        return crimAddress;
+    public String getCrimeAddress() {
+        return crimeAddress;
     }
 
-    public void setCrimAddress(String crimAddress) {
-        this.crimAddress = crimAddress;
+    public void setCrimeAddress(String crimeAddress) {
+        this.crimeAddress = crimeAddress;
     }
 
-    public LocalDate getCrimDOB() {
-        return crimDOB;
+    public LocalDate getCrimeDOB() {
+        return crimeDOB;
     }
 
-    public void setCrimDOB(LocalDate crimDOB) {
-        this.crimDOB = crimDOB;
+    public void setCrimeDOB(LocalDate crimeDOB) {
+        this.crimeDOB = crimeDOB;
     }
 
     public BigDecimal getReward() {
@@ -99,11 +99,11 @@ public class WantedCriminal {
             return false;
         if(lastName != criminal.lastName)
                 return false;
-        if(crimCity != criminal.crimCity)
+        if(crimeCity != criminal.crimeCity)
             return false;
-        if(crimAddress != criminal.crimAddress)
+        if(crimeAddress != criminal.crimeAddress)
             return false;
-        if (crimDOB != null ? !crimDOB.equals(criminal.crimDOB) : criminal.crimDOB != null)
+        if (crimeDOB != null ? !crimeDOB.equals(criminal.crimeDOB) : criminal.crimeDOB != null)
             return false;
         if(reward != null ? reward.equals(criminal.reward) : criminal.reward != null)
             return false;
@@ -116,9 +116,9 @@ public class WantedCriminal {
         result = result * 31 + Long.hashCode(guiltyId);
         result = result * 31 + (firstName != null ? firstName.hashCode() : 0);
         result = result * 31 + (lastName != null ? lastName.hashCode() : 0);
-        result = result * 31 + (crimCity != null ? crimCity.hashCode() : 0);
-        result = result * 31 + (crimAddress != null ? crimAddress.hashCode() : 0);
-        result = result * 31 + crimDOB.hashCode();
+        result = result * 31 + (crimeCity != null ? crimeCity.hashCode() : 0);
+        result = result * 31 + (crimeAddress != null ? crimeAddress.hashCode() : 0);
+        result = result * 31 + crimeDOB.hashCode();
         result = result * 31 + (reward != null ? reward.hashCode() : 0);
         result = result * 31 + (crimeType != null ? crimeType.hashCode() : 0);
         return result;
@@ -131,9 +131,9 @@ public class WantedCriminal {
         sb.append("guiltyId=").append(guiltyId);
         sb.append(", firstName=").append(firstName);
         sb.append(", lastName=").append(lastName);
-        sb.append(", crimCity=").append(crimCity);
-        sb.append(", crimAdress=").append(crimAddress);
-        sb.append(", crimDOB=").append(crimDOB);
+        sb.append(", crimeCity=").append(crimeCity);
+        sb.append(", crimeAddress=").append(crimeAddress);
+        sb.append(", crimeDOB=").append(crimeDOB);
         sb.append(", reward=").append(reward);
         sb.append(", crimeType=").append(crimeType).append("}");
         return sb.toString();
@@ -163,17 +163,17 @@ public class WantedCriminal {
         }
 
         public WantedCriminalBuilder setCrimCity(String crimCity) {
-            wantedCriminal.setCrimCity(crimCity);
+            wantedCriminal.setCrimeCity(crimCity);
             return this;
         }
 
         public WantedCriminalBuilder setCrimAdress(String crimAdress) {
-            wantedCriminal.setCrimAddress(crimAdress);
+            wantedCriminal.setCrimeAddress(crimAdress);
             return this;
         }
 
         public WantedCriminalBuilder setDOB(LocalDate date) {
-            wantedCriminal.setCrimDOB(date);
+            wantedCriminal.setCrimeDOB(date);
             return this;
         }
 

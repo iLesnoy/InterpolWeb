@@ -12,6 +12,7 @@ public class PagePath {
     public static final String LOG_IN = "pages/login.jsp";
     public static final String SIGN_UP = "pages/signup.jsp";
     public static final String MISSING_PEOPLE = "pages/missing.jsp";
+    public static final String USER_PERSONAL_INFO_CHANGE = "pages/changepersonalinfo.jsp";
 
     public static final String TO_MAIN_PAGE="/controller?command=to_main";
     public static final String TO_NEWS_PAGE="/controller?command=to_news_feed";
@@ -22,6 +23,7 @@ public class PagePath {
     public static final String TO_ACCOUNT_PAGE="/controller?command=to_account";
     public static final String TO_SIGN_UP_PAGE="/controller?command=to_sign_up";
     public static final String TO_MISSING_PAGE = "/controller?command=to_missing_page";
+    public static final String TO_PERSONAL_INFO_CHANGE = "/controller?command=to_personal_info_change";
 
     private PagePath(){
     }

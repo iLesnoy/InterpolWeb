@@ -22,7 +22,7 @@ import static by.petrorvskiy.webtask.entity.User.Status.BLOCKED;
 
 public class ToAccountCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
-    private UserService userService = new UserServiceImpl(new UserDaoImpl());
+    private UserService userService = new UserServiceImpl();
 
     @Override
     public Router execute(HttpServletRequest request) {
@@ -55,10 +55,8 @@ public class ToAccountCommand implements Command {
                 case USER:
                     logger.info("USER account");
                     try {
-                        
                         List<User> user2= userService.findUsersByRole(User.Role.USER);
                         session.setAttribute(ParameterAndAttribute.ACTIVE_APPLICATIONS, user2);
-                        
                         router.setPagePath(PagePath.USER);
                     } catch (ServiceException e) {
                         logger.error( "ServiceException" + e);

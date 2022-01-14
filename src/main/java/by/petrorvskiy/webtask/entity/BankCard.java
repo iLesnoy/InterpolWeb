@@ -3,16 +3,16 @@ package by.petrorvskiy.webtask.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class BankCards {
+public class BankCard {
     private long cardNumber;
     private int cvvNumber;
     private Date replenishmentDate;
     private long userId;
     private BigDecimal paymentAmount;
 
-    public BankCards(long cardNumber, int cvvNumber,
-                     Date replenishmentDate, long userId,
-                     BigDecimal paymentAmount) {
+    public BankCard(long cardNumber, int cvvNumber,
+                    Date replenishmentDate, long userId,
+                    BigDecimal paymentAmount) {
         this.cardNumber = cardNumber;
         this.cvvNumber = cvvNumber;
         this.replenishmentDate = replenishmentDate;
@@ -64,7 +64,7 @@ public class BankCards {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        BankCards bankCard = (BankCards) o;
+        BankCard bankCard = (BankCard) o;
         if (cardNumber != bankCard.cardNumber)
             return false;
         if (cvvNumber != bankCard.cvvNumber)

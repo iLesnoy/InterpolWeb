@@ -21,7 +21,7 @@ import static by.petrorvskiy.webtask.command.ParameterAndAttribute.LIST;
 
 public class FindUsersByName implements Command {
     private static final Logger logger = LogManager.getLogger();
-    private UserService userService = new UserServiceImpl(new UserDaoImpl());
+    private UserService userService = new UserServiceImpl();
 
     @Override
     public Router execute(HttpServletRequest request) {

@@ -1,41 +1,38 @@
 package by.petrorvskiy.webtask.command.impl;
 
 import by.petrorvskiy.webtask.command.*;
-import by.petrorvskiy.webtask.model.dao.impl.UserDaoImpl;
+import com.google.protobuf.ServiceException;
+import by.petrorvskiy.webtask.entity.User;
 import by.petrorvskiy.webtask.model.service.UserService;
 import by.petrorvskiy.webtask.model.service.impl.UserServiceImpl;
-import com.google.protobuf.ServiceException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import static by.petrorvskiy.webtask.command.ParameterAndAttribute.USER_ID;
-import static by.petrorvskiy.webtask.entity.User.Status.ACTIVE;
 
-public class UnblockUserCommand implements Command {
+public class ChangeUserRoleToAdminCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     UserService userService = new UserServiceImpl();
 
+
     @Override
     public Router execute(HttpServletRequest request) {
-        logger.info("UnblockUserCommand");
         Router router = new Router();
         HttpSession session = request.getSession();
-        boolean isBlocked;
+        boolean isChanged;
+        logger.debug("execute method ChangeUserRoleAdminCommand");
+        long id = Long.parseLong(request.getParameter(ParameterAndAttribute.USER_ID));
 
-        long id = Long.parseLong(request.getParameter(USER_ID));
 
-        System.out.println(id);
         try {
             String page = request.getContextPath() + PagePath.TO_ACCOUNT_PAGE;
-            isBlocked = userService.updateUserStatusById(id,ACTIVE);
+            isChanged = userService.changeUserRole(id, User.Role.ADMIN);
 
-            if (isBlocked) {
+            if (isChanged) {
                 router.setPagePath(page);
                 router.setType(Router.Type.REDIRECT);
                 session.setAttribute(ParameterAndAttribute.MESSAGE_FOR_USER, Message.SUCCESSFUL);
-
             } else {
                 router.setPagePath(page);
                 router.setType(Router.Type.REDIRECT);

@@ -36,9 +36,9 @@ public class WantedCriminalDaoImpl implements WantedCriminalDao {
              PreparedStatement statement = connection.prepareStatement(SQL_ADD_CRIMINAL)) {
             statement.setString(1, criminal.getFirstName());
             statement.setString(2, criminal.getLastName());
-            statement.setString(3, criminal.getCrimCity());
-            statement.setString(4, criminal.getCrimAddress());
-            statement.setDate(5, Date.valueOf(criminal.getCrimDOB()));
+            statement.setString(3, criminal.getCrimeCity());
+            statement.setString(4, criminal.getCrimeAddress());
+            statement.setDate(5, Date.valueOf(criminal.getCrimeDOB()));
             statement.setBigDecimal(6, criminal.getReward());
             statement.setString(7, type.name());
             int rowCount = statement.executeUpdate();
@@ -83,9 +83,9 @@ public class WantedCriminalDaoImpl implements WantedCriminalDao {
              PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_WANTED_CRIMINAL_BY_ID)) {
             statement.setString(1, wantedCriminal.getFirstName());
             statement.setString(2, wantedCriminal.getLastName());
-            statement.setString(3, wantedCriminal.getCrimCity());
-            statement.setString(4, wantedCriminal.getCrimAddress());
-            statement.setDate(5, Date.valueOf(wantedCriminal.getCrimDOB()));
+            statement.setString(3, wantedCriminal.getCrimeCity());
+            statement.setString(4, wantedCriminal.getCrimeAddress());
+            statement.setDate(5, Date.valueOf(wantedCriminal.getCrimeDOB()));
             statement.setBigDecimal(6, wantedCriminal.getReward());
             statement.setString(7, wantedCriminal.getCrimeType().name());
             statement.setLong(8, crimId);

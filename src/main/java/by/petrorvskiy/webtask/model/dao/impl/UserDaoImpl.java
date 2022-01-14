@@ -10,14 +10,12 @@ import by.petrorvskiy.webtask.entity.User.Status;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static by.petrorvskiy.webtask.entity.User.Status.ACTIVE;
 import static by.petrorvskiy.webtask.entity.User.Status.BLOCKED;
 
 public class UserDaoImpl implements UserDao {
@@ -29,15 +27,24 @@ public class UserDaoImpl implements UserDao {
     private static final String SQL_FIND_USERS_BY_EMAIL_AND_PASSWORD = "SELECT user_id,email,password,name,surname,user_status,user_role FROM users WHERE email=? AND password=?";
     private static final String SQL_FIND_USER_ID_BY_EMAIL = "SELECT user_id FROM users WHERE email=?";
     private static final String SQL_FIND_USER_PASSWORD_BY_EMAIL = "SELECT password FROM users WHERE email=?";
-    private static final  String SQL_FIND_USERS_BY_EMAIL ="SELECT user_id,email,password,name,surname,user_status,user_role FROM users WHERE email=?";
+    private static final String SQL_FIND_ALL_USERS = "SELECT user_id,email,password,name,surname,user_status,user_role password FROM users";
+    private static final String SQL_FIND_USERS_BY_EMAIL ="SELECT user_id,email,password,name,surname,user_status,user_role FROM users WHERE email=?";
     private static final String SQL_FIND_USERS_BY_NAME = "SELECT user_id,email,password,name,surname,user_status,user_role FROM users WHERE name =? ";
-
+    private static final String SQL_FIND_USERS_FROM_ROW = "SELECT user_id,email,password,name,surname,user_status,user_role FROM users LIMIT ?,?";
     private static final String SQL_ADD_USER = "INSERT INTO users (email,password,name,surname,user_status,user_role) values(?,?,?,?,?,?)";
     private static final String SQL_CHANGE_ACCOUNT_STATUS_BY_ID = "UPDATE users SET user_status=? WHERE user_id=?";
     private static final String SQL_CHANGE_USER_ROLE_BY_ID = "UPDATE users SET user_role=? WHERE user_id=?";
-    private static final String SQL_CHANGE_USER_STATUS_TO_BLOCKED = "UPDATE users SET user_status=? WHERE user_id=?";
+    private static final String SQL_UPDATE_USER_INFO = "UPDATE users SET name=?,surname=? WHERE user_id=? ";
+    private static final String SQL_COUNT_ALL_USERS = "SELECT COUNT(*) FROM users";
     private final ConnectionPool connectionPool = ConnectionPool.getInstance();
+    private static final UserDaoImpl INSTANCE = new UserDaoImpl();
 
+    private UserDaoImpl(){
+    }
+
+    public static UserDaoImpl getInstance(){
+        return INSTANCE;
+    }
 
     @Override
     public Optional<User> findUserByEmailAndPassword(String email, String password) throws DaoException {
@@ -112,6 +119,22 @@ public class UserDaoImpl implements UserDao {
             }
         } catch (SQLException e) {
             throw new DaoException("Dao exception in method findUsersByName", e);
+        }
+        return users;
+    }
+
+    @Override
+    public List<User> findAllUsers() throws DaoException {
+        List<User> users = new ArrayList<>();
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL_USERS)) {
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()){
+                users.add(createUser(resultSet));
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Dao exception in method findUsersAllUser", e);
         }
         return users;
     }
@@ -220,15 +243,35 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public List<User> findUsersFromRow(int fromRow, int numberOfUsersInPage) throws DaoException {
+        logger.info( "findUsersFromRow");
+        List<User> users = new ArrayList<>();
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL_FIND_USERS_FROM_ROW)) {
+            statement.setInt(1, fromRow);
+            statement.setInt(2, numberOfUsersInPage);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                users.add(createUser(resultSet));
+            }
+        } catch (SQLException e) {
+            logger.error( "SQLException in findUsersFromRow(): " + e.getMessage() + " : " + e.getErrorCode());
+            throw new DaoException("Dao exception", e);
+        }
+        return users;
+    }
+
+    @Override
     public boolean updateUserStatusById(long userId, Status status) throws DaoException {
-        boolean blockAccount = false;
+        boolean updateStatus = false;
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_CHANGE_ACCOUNT_STATUS_BY_ID)) {
             statement.setString(1, status.name());
+            statement.setLong(2, userId);
             int rowCount = statement.executeUpdate();
             if (rowCount != 0) {
-                blockAccount = true;
-                logger.info("upd user account by id-" + userId + "status changed");
+                updateStatus = true;
+                logger.info("upd user account by id-" + userId + "status changed to " + status);
             } else {
                 logger.error("upd user account by id- " + userId + " could not changed");
             }
@@ -236,7 +279,46 @@ public class UserDaoImpl implements UserDao {
             logger.error("SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
             throw new DaoException("Dao exception in method updateUserStatusById", e);
         }
-        return blockAccount;
+        return updateStatus;
+    }
+
+    @Override
+    public boolean updateUserInfo(User user) throws DaoException {
+        boolean updateUser = false;
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_USER_INFO)) {
+            statement.setString(1, user.getName());
+            statement.setString(2, user.getSurname());
+            statement.setLong(3, user.getUserId());
+            int rowCount = statement.executeUpdate();
+            if (rowCount != 0) {
+                updateUser = true;
+                logger.info("userInfo updated");
+            } else {
+                logger.error("userInfo not updated");
+            }
+        } catch (SQLException e) {
+            logger.error("SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
+            throw new DaoException("Dao exception in method updateUserInfo", e);
+        }
+        return updateUser;
+    }
+
+    @Override
+    public int findNumberOfRows() throws DaoException {
+        logger.info( "findNumberOfRows");
+        int numberOfRows = 0;
+        try (Connection connection = connectionPool.getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(SQL_COUNT_ALL_USERS)) {
+            if (resultSet.next()) {
+                numberOfRows = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            logger.error( "SQLException in findNumberOfRows: " + e.getMessage() + " : " + e.getErrorCode());
+            throw new DaoException("Dao exception", e);
+        }
+        return numberOfRows;
     }
 
     @Override
@@ -260,26 +342,6 @@ public class UserDaoImpl implements UserDao {
         return resultChangeStatus;
     }
 
-    @Override
-    public boolean changeUserStatusToBlock(long userId) throws DaoException {
-        boolean resultChangeStatus = false;
-        try (Connection connection = connectionPool.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_CHANGE_USER_STATUS_TO_BLOCKED)) {
-            statement.setString(1, String.valueOf(BLOCKED));
-            statement.setLong(2, userId);
-            int rowCount = statement.executeUpdate();
-            if (rowCount != 0) {
-                resultChangeStatus = true;
-                logger.info("account id" + userId + "status has been changed to " + BLOCKED);
-            } else {
-                logger.error("account " + userId + "status not changed");
-            }
-        } catch (SQLException e) {
-            logger.error("SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
-            throw new DaoException("Dao exception in method changeUserStatus", e);
-        }
-        return resultChangeStatus;
-    }
 
 
     private User createUser(ResultSet resultSet) throws SQLException {

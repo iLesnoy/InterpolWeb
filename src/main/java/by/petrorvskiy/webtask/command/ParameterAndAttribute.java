@@ -42,4 +42,9 @@ public class ParameterAndAttribute {
     public static final String MESSAGE_FOR_USER = "message_for_user";
     public static final String USERID = "userId";
     public static final String CRIMINALS_LIST = "criminals_list";
+    public static final String APPLICATIONS = "applications";
+    public static final String APPLICATION_ID = "search_application_id";
+    public static final String START_FROM = "start_from";
+    public static final String NUMBER_OF_PAGES = "number_of_pages";
+    public static final String ENCODED_PASSWORD = "encoded_password";
 }

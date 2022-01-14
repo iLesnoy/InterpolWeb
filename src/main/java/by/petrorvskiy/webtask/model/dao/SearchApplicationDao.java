@@ -10,11 +10,11 @@ import java.util.Optional;
 public interface SearchApplicationDao {
 
     boolean addSearchApplication(SearchApplication application) throws DaoException;
-    boolean updateSearchApplicationStatus(SearchApplication status,long applicationId) throws DaoException;
+    boolean updateSearchApplicationStatus(SearchApplication.ApplicationStatus status,long applicationId) throws DaoException;
+    boolean deleteSearchApplicationByUserId(long userId) throws DaoException;
     boolean payForApplication(long applicationId, BigDecimal reward) throws DaoException;
 
     List<SearchApplication> findAllSearchApplications() throws DaoException;
-
-    Optional<SearchApplication> deleteSearchApplicationByUserId(long userId) throws DaoException;
     Optional<SearchApplication> takeSearchApplicationById(long applicationId) throws DaoException;
+    Optional<SearchApplication> findApplicationsByUserId(long userId) throws DaoException;
 }

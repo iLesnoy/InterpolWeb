@@ -1,3 +1,10 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+         pageEncoding="utf-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="en_US" scope="session" />
+<fmt:setBundle basename="pagecontent"/>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
@@ -43,19 +50,22 @@
         margin: 0 auto;
         max-width: 400px;
         padding: 10px 40px;
-        background: #eec84b;
+        background: #5d6ee0;
         color: #FFF;
         text-shadow: none;
         box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.31);
     }
     span.input-group-addon i {
-        color: #ecd863;
+        color: #5d6ee0;
         font-size: 17px;
     }
     .login-button{
         margin-top: 5px;
     }
 </style>
+<header>
+   <c:import url="main.jsp" />
+</header>
 
 <div class="container">
     <div class="row main-form">
@@ -67,7 +77,8 @@
                 <div class="cols-sm-10">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-                        <input type="text" class="form-control" name="email" id="email" placeholder="Enter your Email"/>
+                        <input type="text" class="form-control" name="email" pattern="[a-zA-Z0-9_\.\+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-\.]+"
+                               required id="email" placeholder="Enter your Email"/>
                     </div>
                 </div>
             </div>
@@ -77,7 +88,8 @@
                 <div class="cols-sm-10">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-                        <input type="password" class="form-control" name="password" id="password" placeholder="Enter your Password"/>
+                        <input type="password" class="form-control" name="password" pattern=".*[^<>]" required
+                               id="password" placeholder="Enter your Password"/>
                     </div>
                 </div>
             </div>
@@ -87,7 +99,8 @@
                 <div class="cols-sm-10">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-                        <input type="password" class="form-control" name="confirm_password" id="confirm" placeholder="Confirm your Password"/>
+                        <input type="password" class="form-control" name="confirm_password" pattern=".*[^<>]"
+                               required id="confirm" placeholder="Confirm your Password"/>
                     </div>
                 </div>
             </div>
@@ -97,7 +110,7 @@
                 <div class="cols-sm-10">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                        <input type="text" class="form-control" name="name" id="name" placeholder="Enter your Name"/>
+                        <input type="text" class="form-control" name="name" pattern=".*[^<>]" required id="name" placeholder="Enter your Name"/>
                     </div>
                 </div>
             </div>
@@ -109,7 +122,8 @@
                 <div class="cols-sm-10">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
-                        <input type="text" class="form-control" name="surname" id="surname" placeholder="Enter your Username"/>
+                        <input type="text" class="form-control" name="surname" pattern=".*[^<>]" required
+                               id="surname" placeholder="Enter your Username"/>
                     </div>
                 </div>
             </div>

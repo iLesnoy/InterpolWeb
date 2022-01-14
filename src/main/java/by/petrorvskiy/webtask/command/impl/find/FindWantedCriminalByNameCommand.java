@@ -5,7 +5,7 @@ import by.petrorvskiy.webtask.model.dao.impl.WantedCriminalDaoImpl;
 import com.google.protobuf.ServiceException;
 import by.petrorvskiy.webtask.entity.WantedCriminal;
 import by.petrorvskiy.webtask.model.service.WantedCriminalService;
-import by.petrorvskiy.webtask.model.service.impl.WantedCriminalsServiceImpl;
+import by.petrorvskiy.webtask.model.service.impl.WantedCriminalServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
@@ -16,15 +16,14 @@ import java.util.Optional;
 
 import static by.petrorvskiy.webtask.command.ParameterAndAttribute.CRIMINALS_LIST;
 
-public class FindWantedCriminalsByName implements Command {
+public class FindWantedCriminalByNameCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
-    private WantedCriminalService wantedCriminalService = new WantedCriminalsServiceImpl(new WantedCriminalDaoImpl());
+    private WantedCriminalService wantedCriminalService = new WantedCriminalServiceImpl(new WantedCriminalDaoImpl());
 
     @Override
     public Router execute(HttpServletRequest request) {
         Router router = new Router();
         HttpSession session = request.getSession();
-
         String page = (String) session.getAttribute(ParameterAndAttribute.CURRENT_PAGE);
         /*String criminalName = request.getParameter(ParameterAndAttribute.FIRST_NAME);*/
         String criminalName = request.getParameter(ParameterAndAttribute.USER_NAME);
@@ -50,7 +49,7 @@ public class FindWantedCriminalsByName implements Command {
             }
 
         }catch (ServiceException e) {
-            logger.error("UserServiceException in method execute");
+            logger.error("ServiceException in method execute");
             request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
             request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e);
             router.setPagePath(PagePath.ERROR_404);
