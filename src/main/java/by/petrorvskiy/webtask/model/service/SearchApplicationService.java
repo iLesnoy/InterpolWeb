@@ -18,5 +18,8 @@ public interface SearchApplicationService {
     List<SearchApplication> findAllSearchApplications() throws ServiceException;
 
     Optional<SearchApplication> takeSearchApplicationById(long applicationId) throws ServiceException;
-    Optional<SearchApplication> findApplicationsByUserId(long userId) throws ServiceException;
+    List<SearchApplication> findApplicationsByUserId(long userId) throws ServiceException;
+
+    long findWantedCriminalGuiltyId(long applicationId) throws ServiceException;
+    long findMissingPeopleId(long applicationId) throws ServiceException;
 }

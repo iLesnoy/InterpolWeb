@@ -1,8 +1,13 @@
 
+import by.petrorvskiy.webtask.entity.SearchApplication;
 import by.petrorvskiy.webtask.entity.User;
-import by.petrorvskiy.webtask.model.dao.impl.UserDaoImpl;
-import by.petrorvskiy.webtask.model.dao.impl.WantedCriminalDaoImpl;
+import by.petrorvskiy.webtask.model.dao.impl.*;
 import by.petrorvskiy.webtask.exception.DaoException;
+import by.petrorvskiy.webtask.model.service.impl.SearchApplicationServiceImpl;
+import com.google.protobuf.ServiceException;
+
+import java.util.List;
+import java.util.Optional;
 
 
 public class Main {
@@ -18,9 +23,16 @@ public class Main {
 
         MissingPeopleDaoImpl missingPeopleDao = new MissingPeopleDaoImpl();
         missingPeopleDao.findAllMissingPeople();*/
+        List<SearchApplication> searchApplication = null;
 
-        UserDaoImpl userDao = UserDaoImpl.getInstance();
-        User user = new User.UserBuilder().setEmail("vor@vor.by").setPassword("12345")
-                        .setName("Muhamad").setSurname("Dorn").setStatus(User.Status.BLOCKED).setRole(User.Role.USER).build();
+        SearchApplicationServiceImpl applicationService = new SearchApplicationServiceImpl();
+        try {
+            searchApplication = applicationService.findApplicationsByUserId(51);
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
+        System.out.println(searchApplication);
+
+
     }
 }

@@ -15,11 +15,7 @@ import java.util.Optional;
 public class MissingPeopleServiceImpl implements MissingPeopleService {
 
     private static final Logger logger = LogManager.getLogger();
-    private final MissingPeopleDao missingPeopleDao;
-
-    public MissingPeopleServiceImpl(MissingPeopleDaoImpl missingPeopleDao) {
-        this.missingPeopleDao = missingPeopleDao;
-    }
+    private final MissingPeopleDao missingPeopleDao = MissingPeopleDaoImpl.getInstance();
 
     @Override
     public boolean addMissedPeople(MissingPeople people) throws ServiceException {
@@ -73,10 +69,10 @@ public class MissingPeopleServiceImpl implements MissingPeopleService {
     }
 
     @Override
-    public Optional<MissingPeople> takeMissedHumanById(MissingPeople people, long id) throws ServiceException {
+    public Optional<MissingPeople> takeMissedHumanById(long id) throws ServiceException {
         Optional<MissingPeople> optionalMissingPeople;
         try {
-            optionalMissingPeople = missingPeopleDao.takeMissedHumanById(people,id);
+            optionalMissingPeople = missingPeopleDao.takeMissedHumanById(id);
         } catch (DaoException e) {
             logger.info("DaoException in method " + e);
             throw new ServiceException(e);

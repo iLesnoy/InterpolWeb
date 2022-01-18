@@ -12,6 +12,6 @@ public interface MissingPeopleService {
     boolean updateMissingPeopleById(MissingPeople missingPeople,long id) throws ServiceException;
     boolean deleteMissedHumanById(long humanId) throws ServiceException;
     List<MissingPeople> findAllMissingPeople() throws ServiceException;
-    Optional<MissingPeople> takeMissedHumanById(MissingPeople people, long id) throws ServiceException;;
+    Optional<MissingPeople> takeMissedHumanById(long id) throws ServiceException;;
     List<MissingPeople> findAllMissingPeopleByName(String name) throws ServiceException;
 }

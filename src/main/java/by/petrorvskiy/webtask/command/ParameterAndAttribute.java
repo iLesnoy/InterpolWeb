@@ -31,6 +31,7 @@ public class ParameterAndAttribute {
     public static final String IMAGE = "image";
 
     public static final String MISSING_PEOPLE = "missing" ;
+    public static final String WANTED_CRIMINAL = "wanted_criminal" ;
 
     /*public static final String EMAIL_PARAMETER = "email";
     public static final String PASSWORD_PARAMETER = "password";
@@ -43,7 +44,9 @@ public class ParameterAndAttribute {
     public static final String USERID = "userId";
     public static final String CRIMINALS_LIST = "criminals_list";
     public static final String APPLICATIONS = "applications";
-    public static final String APPLICATION_ID = "search_application_id";
+    public static final String APPLICATION_ID = "searchApplicationId";
+    public static final String APPLICATION_GUILTY_ID = "application_guilty_id";
+    public static final String APPLICATION_MISSING_PEOPLE_ID = "application_missing_people_id";
     public static final String START_FROM = "start_from";
     public static final String NUMBER_OF_PAGES = "number_of_pages";
     public static final String ENCODED_PASSWORD = "encoded_password";

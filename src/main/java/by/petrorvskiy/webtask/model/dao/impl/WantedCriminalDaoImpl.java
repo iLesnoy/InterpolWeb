@@ -19,7 +19,7 @@ import java.util.Optional;
 public class WantedCriminalDaoImpl implements WantedCriminalDao {
 
     private static final Logger logger = LogManager.getLogger();
-    private static final String SQL_TAKE_CRIMINAL_BY_ID = "SELECT first_name,last_name,crim_city,crim_address,crim_DOB,reward,crime_type FROM wanted_criminals WHERE guilty_id=?";
+    private static final String SQL_TAKE_CRIMINAL_BY_ID = "SELECT guilty_id,first_name,last_name,crim_city,crim_address,crim_DOB,reward,crime_type FROM wanted_criminals WHERE guilty_id=?";
     private static final String SQL_FIND_CRIMINAL_BY_NAME = "SELECT guilty_id,first_name,last_name,crim_city,crim_address,crim_DOB,reward,crime_type FROM wanted_criminals WHERE first_name=?";
     private static final String SQL_FIND_CRIMINAL_REWARD_BY_ID = "SELECT reward FROM wanted_criminals WHERE guilty_id=?";
     private static final String SQL_DELETE_CRIMINAL_BY_ID = "DELETE FROM wanted_criminals WHERE guilty_id =?";
@@ -27,6 +27,15 @@ public class WantedCriminalDaoImpl implements WantedCriminalDao {
 
     private static final String SQL_ADD_CRIMINAL = "INSERT INTO wanted_criminals (first_name,last_name,crim_city,crim_address,crim_DOB,reward,crime_type) values(?,?,?,?,?,?,?)";
     private final ConnectionPool connectionPool = ConnectionPool.getInstance();
+
+    private static final WantedCriminalDaoImpl INSTANCE = new WantedCriminalDaoImpl();
+
+    public WantedCriminalDaoImpl(){
+    }
+
+    public static WantedCriminalDaoImpl getInstance(){
+        return INSTANCE;
+    }
 
 
     @Override

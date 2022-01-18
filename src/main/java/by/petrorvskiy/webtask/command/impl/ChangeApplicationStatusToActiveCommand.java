@@ -22,7 +22,7 @@ public class ChangeApplicationStatusToActiveCommand implements Command {
         HttpSession session = request.getSession();
         boolean isChanged;
         logger.debug("execute method ChangeApplicationStatusToActive");
-        long id = Long.parseLong(request.getParameter(ParameterAndAttribute.USER_ID));
+        long id = Long.parseLong(request.getParameter(ParameterAndAttribute.APPLICATION_ID));
 
 
         try {

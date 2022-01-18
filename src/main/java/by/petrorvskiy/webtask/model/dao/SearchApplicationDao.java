@@ -16,5 +16,8 @@ public interface SearchApplicationDao {
 
     List<SearchApplication> findAllSearchApplications() throws DaoException;
     Optional<SearchApplication> takeSearchApplicationById(long applicationId) throws DaoException;
-    Optional<SearchApplication> findApplicationsByUserId(long userId) throws DaoException;
+    List<SearchApplication> findApplicationsByUserId(long userId) throws DaoException;
+
+    long findWantedCriminalGuiltyId(long applicationId) throws DaoException;
+    long findMissingPeopleId(long applicationId) throws DaoException;
 }

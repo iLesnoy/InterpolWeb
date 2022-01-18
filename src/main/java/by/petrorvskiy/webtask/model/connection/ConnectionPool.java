@@ -20,8 +20,6 @@ public class ConnectionPool {
     private static final Logger logger = LogManager.getLogger();
     private static final String POOL_PROPERTIES_ERROR = "initialization ConnectionPool Error";
     private static final String DRIVER_LOADING_ERROR = "JDBC driver loading Error";
-    private static final Lock threadLocker = new ReentrantLock(true);
-    private static final AtomicBoolean isCreated = new AtomicBoolean();
     private static final int DEFAULT_POOL_SIZE = 8;
     private static final Properties properties = new Properties();
     private static final String DATABASE_URL;
@@ -43,10 +41,10 @@ public class ConnectionPool {
             Class.forName(DATABASE_DRIVER);
 
         } catch (IOException e) {
-            logger.fatal(POOL_PROPERTIES_ERROR,e);
+            logger.fatal(POOL_PROPERTIES_ERROR, e);
             throw new RuntimeException();
         } catch (ClassNotFoundException e) {
-            logger.fatal(DRIVER_LOADING_ERROR,e);
+            logger.fatal(DRIVER_LOADING_ERROR, e);
             throw new RuntimeException();
         }
     }
@@ -55,20 +53,16 @@ public class ConnectionPool {
         try {
             return DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD);
         } catch (SQLException e) {
-            logger.fatal(POOL_PROPERTIES_ERROR,e);
+            logger.fatal(POOL_PROPERTIES_ERROR, e);
             throw new RuntimeException();
         }
     }
 
     public static ConnectionPool getInstance() {
-        if (!isCreated.get()) {
-            threadLocker.lock();
-            if (instance == null) {
-                instance = new ConnectionPool();
-                isCreated.set(true);
-            }
-            threadLocker.unlock();
+        if (instance == null) {
+            instance = new ConnectionPool();
         }
+
         return instance;
     }
 
@@ -106,14 +100,14 @@ public class ConnectionPool {
         if (!(connection instanceof ProxyConnection)) {
             return false;
         }
-            try {
-                givenAwayConnections.remove(connection);
-                freeConnection.put((ProxyConnection) connection);
-            } catch (InterruptedException e) {
-                logger.error("releaseConnection method InterruptedException " + e.getMessage());
-                Thread.currentThread().interrupt();
-            }
-       return true;
+        try {
+            givenAwayConnections.remove(connection);
+            freeConnection.put((ProxyConnection) connection);
+        } catch (InterruptedException e) {
+            logger.error("releaseConnection method InterruptedException " + e.getMessage());
+            Thread.currentThread().interrupt();
+        }
+        return true;
     }
 
 

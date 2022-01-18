@@ -1,6 +1,5 @@
 package by.petrorvskiy.webtask.model.dao;
 
-import by.petrorvskiy.webtask.entity.NewsFeed;
 import by.petrorvskiy.webtask.entity.User;
 import by.petrorvskiy.webtask.entity.User.Role;
 import by.petrorvskiy.webtask.entity.User.Status;

@@ -19,7 +19,7 @@ public class ChangeApplicationStatusToRejectedCommand implements Command {
         HttpSession session = request.getSession();
         boolean isChanged;
         logger.debug("execute method ChangeApplicationStatusToRejectedCommand");
-        long id = Long.parseLong(request.getParameter(ParameterAndAttribute.USER_ID));
+        long id = Long.parseLong(request.getParameter(ParameterAndAttribute.APPLICATION_ID));
 
 
         try {

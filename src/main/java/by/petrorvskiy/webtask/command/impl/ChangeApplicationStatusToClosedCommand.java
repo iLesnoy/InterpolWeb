@@ -20,8 +20,7 @@ public class ChangeApplicationStatusToClosedCommand implements Command {
         HttpSession session = request.getSession();
         boolean isChanged;
         logger.debug("execute method ChangeApplicationStatusToClosedCommand");
-        long id = Long.parseLong(request.getParameter(ParameterAndAttribute.USER_ID));
-
+        long id = Long.parseLong(request.getParameter(ParameterAndAttribute.APPLICATION_ID));
 
         try {
             String page = request.getContextPath() + PagePath.TO_ACCOUNT_PAGE;

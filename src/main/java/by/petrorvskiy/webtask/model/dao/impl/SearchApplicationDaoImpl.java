@@ -1,5 +1,6 @@
 package by.petrorvskiy.webtask.model.dao.impl;
 
+import by.petrorvskiy.webtask.command.ParameterAndAttribute;
 import by.petrorvskiy.webtask.exception.DaoException;
 import by.petrorvskiy.webtask.model.connection.ConnectionPool;
 import by.petrorvskiy.webtask.model.dao.ColumnName;
@@ -23,8 +24,11 @@ public class SearchApplicationDaoImpl implements SearchApplicationDao {
     private static final String SQL_UPDATE_SEARCH_APPLICATION_STATUS_BY_ID = "UPDATE search_application SET status=?  WHERE search_application_id= ?";
     private static final String SQL_DELETE_SEARCH_APPLICATION_BY_ID = "DELETE FROM search_application WHERE  search_application_id=?";
     private static final String SQL_TAKE_SEARCH_APPLICATION_BY_ID = "SELECT search_application_id,lead_time,status,users_user_id FROM search_application  WHERE search_application_id =?";
-    private static final String SQL_TAKE_SEARCH_APPLICATION_BY_USER_ID = "SELECT search_application_id,lead_time,status,users_user_id WHERE users_user_id=?";
+    private static final String SQL_TAKE_SEARCH_APPLICATION_BY_USER_ID = "SELECT search_application_id,lead_time,status,users_user_id FROM search_application WHERE users_user_id=?";
     private static final String SQL_TAKE_ALL_SEARCH_APPLICATION = "SELECT search_application_id,lead_time,status,users_user_id FROM search_application";
+    private static final String SQL_TAKE_MISSING_PEOPLE_ID_BY_APPLICATION_ID= "SELECT application_missing_people_id FROM missing_people_applications WHERE search_application_id=?";
+    private static final String SQL_TAKE_GUILTY_ID_BY_APPLICATION_ID= "SELECT application_guilty_id FROM wanted_criminals_applications WHERE search_application_id=?";
+
     private static final SearchApplicationDaoImpl INSTANCE = new SearchApplicationDaoImpl();
 
     public SearchApplicationDaoImpl() {
@@ -144,25 +148,63 @@ public class SearchApplicationDaoImpl implements SearchApplicationDao {
     }
 
     @Override
-    public Optional<SearchApplication> findApplicationsByUserId(long userId) throws DaoException {
-        Optional<SearchApplication> userApplications;
+    public List<SearchApplication> findApplicationsByUserId(long userId) throws DaoException {
+        List<SearchApplication> userApplications = new ArrayList<>();
         try (Connection connection = connectionPool.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_TAKE_SEARCH_APPLICATION_BY_USER_ID)) {
-            statement.setLong(1, userId);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_TAKE_SEARCH_APPLICATION_BY_USER_ID)) {
+            preparedStatement.setLong(1, userId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
                 SearchApplication application = createApplication(resultSet);
-                userApplications = Optional.of(application);
-                logger.info( "userApplications =" + userApplications);
-            } else {
-                userApplications = Optional.empty();
+                userApplications.add(application);
             }
+
 
         } catch (SQLException e) {
             logger.error( "SQLException in method findApplicationsByUserId " + e.getMessage());
             throw new DaoException("Dao exception", e);
         }
         return userApplications;
+    }
+
+    @Override
+    public long findWantedCriminalGuiltyId(long applicationId) throws DaoException {
+        long guiltyId = 0;
+        try(Connection connection = connectionPool.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SQL_TAKE_GUILTY_ID_BY_APPLICATION_ID)){
+            preparedStatement.setLong(1, applicationId);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                guiltyId = resultSet.getLong(ParameterAndAttribute.APPLICATION_GUILTY_ID);
+                logger.info( "guiltyId =" + guiltyId);
+            }
+
+        } catch (SQLException e) {
+            logger.error( "SQLException in method findWantedCriminalGuiltyId " + e.getMessage());
+            throw new DaoException("Dao exception", e);
+        }
+        return guiltyId;
+    }
+
+    @Override
+    public long findMissingPeopleId(long applicationId) throws DaoException {
+        long missingPeopleId = 0;
+        try(Connection connection = connectionPool.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_TAKE_MISSING_PEOPLE_ID_BY_APPLICATION_ID)){
+            preparedStatement.setLong(1, applicationId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                missingPeopleId = resultSet.getLong(ParameterAndAttribute.APPLICATION_MISSING_PEOPLE_ID);
+                logger.info( "missingPeopleId =" + missingPeopleId);
+            }
+        } catch (SQLException e) {
+            logger.error( "SQLException in method findMissingPeopleId " + e.getMessage());
+            throw new DaoException("Dao exception", e);
+        }
+        return missingPeopleId;
     }
 
     private SearchApplication createApplication(ResultSet resultSet) throws SQLException {

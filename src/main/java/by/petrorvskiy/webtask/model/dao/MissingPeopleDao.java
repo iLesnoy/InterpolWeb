@@ -12,6 +12,6 @@ public interface MissingPeopleDao {
     boolean updateMissingPeopleById(MissingPeople missingPeople,long id) throws DaoException;
     boolean deleteMissedHumanById(long humanId) throws DaoException;
     List<MissingPeople> findAllMissingPeople() throws DaoException;
-    Optional<MissingPeople> takeMissedHumanById(MissingPeople people,long id) throws DaoException;
+    Optional<MissingPeople> takeMissedHumanById(long id) throws DaoException;
     List<MissingPeople> findAllMissingPeopleByName(String name) throws DaoException;
 }

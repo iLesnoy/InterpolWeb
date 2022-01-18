@@ -5,6 +5,8 @@
 <link rel="stylesheet" href="https://bootstraptema.ru/plugins/font-awesome/4-4-0/font-awesome.min.css"/>
 <link rel="stylesheet" href="https://bootstraptema.ru/snippets/font/2016/pe-icon-stroke/Pe-icon-7-stroke.css">
 <link href="https://bootstraptema.ru/_sf/3/391.css" rel="stylesheet"/>
+<link href="css/style.css" rel="stylesheet"/>
+
 <script src="https://bootstraptema.ru/plugins/jquery/jquery-1.11.3.min.js"></script>
 <script src="https://bootstraptema.ru/plugins/2015/b-v3-3-6/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/3.3.1/masonry.pkgd.min.js"></script>
@@ -24,12 +26,13 @@
                             </form>
                         </div>--%>
 
+<body>
 <div class="wrapper">
     <div class="container">
         <div class="masonry-container">
-            <body>
-            <div class="card">
+
             <c:forEach items="${news}" var="elem" varStatus="status" >
+                <div class="card">
                     <div class="header">
                         <img alt="img" src="data:image/jpeg;base64,${elem.image}"/>
                         <div class="filter"></div>
@@ -46,12 +49,13 @@
                         <h6>${elem.title}</h6>
                         <p class="description">${elem.newsArticle}</p>
                     </div>
+                </div>
+
             </c:forEach>
-            </div>
-            </body>
         </div>
     </div>
 </div>
+</body>
 
 
 <script>

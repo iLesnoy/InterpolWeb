@@ -17,26 +17,33 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
-public class FindUsersByNameAndSurname implements Command {
+import static by.petrorvskiy.webtask.command.ParameterAndAttribute.LIST;
+
+public class FindUsersByNameCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private UserService userService = new UserServiceImpl();
 
     @Override
     public Router execute(HttpServletRequest request) {
-        String name = request.getParameter(ParameterAndAttribute.USER_NAME);
-        String surname = request.getParameter(ParameterAndAttribute.USER_SURNAME);
-        HttpSession session = request.getSession();
-        String page = (String) session.getAttribute(ParameterAndAttribute.CURRENT_PAGE);
         Router router = new Router();
-        logger.debug( "find user by name: " + name + " surname: " + surname);
+        HttpSession session = request.getSession();
+
+        String page = (String) session.getAttribute(ParameterAndAttribute.CURRENT_PAGE);
+        String userName = request.getParameter(ParameterAndAttribute.USER_NAME);
+
+        logger.debug( "find user by name: " + userName);
         List<User> users;
         try{
-            users = userService.findUsersByNameAndSurname(name,surname);
+
+            users = userService.findUsersByName(userName);
             router.setPagePath(page);
 
-            if(users.size()>0){
+            if(users.size() > 0){
+
                 request.setAttribute(ParameterAndAttribute.LIST,users);
-            }else {
+                logger.debug(request.getAttribute(LIST));
+
+            } else {
                 session.setAttribute(ParameterAndAttribute.MESSAGE, Message.ERROR_MESSAGE);
             }
 

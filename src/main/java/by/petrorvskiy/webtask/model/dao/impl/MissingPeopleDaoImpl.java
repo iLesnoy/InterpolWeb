@@ -26,6 +26,14 @@ public class MissingPeopleDaoImpl implements MissingPeopleDao {
 
 
     private final ConnectionPool connectionPool = ConnectionPool.getInstance();
+    private static final MissingPeopleDaoImpl INSTANCE = new MissingPeopleDaoImpl();
+
+    public MissingPeopleDaoImpl(){
+    }
+
+    public static MissingPeopleDaoImpl getInstance(){
+        return INSTANCE;
+    }
 
 
     @Override
@@ -110,7 +118,7 @@ public class MissingPeopleDaoImpl implements MissingPeopleDao {
 
 
     @Override
-    public Optional<MissingPeople> takeMissedHumanById(MissingPeople people, long id) throws DaoException {
+    public Optional<MissingPeople> takeMissedHumanById(long id) throws DaoException {
         Optional<MissingPeople> missingPeople;
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_MISSING_PEOPLE_SEARCH_BY_ID)) {
@@ -126,7 +134,7 @@ public class MissingPeopleDaoImpl implements MissingPeopleDao {
             }
         } catch (SQLException e) {
             logger.error("SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
-            throw new DaoException("Dao epam.task.web.exception in method takeArticleById, when we try to take article:" + people, e);
+            throw new DaoException("Dao epam.task.web.exception in method takeArticleById", e);
         }
         return missingPeople;
     }

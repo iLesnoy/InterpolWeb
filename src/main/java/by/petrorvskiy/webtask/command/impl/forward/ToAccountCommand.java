@@ -30,6 +30,8 @@ public class ToAccountCommand implements Command {
         Router router = new Router();
         HttpSession session = request.getSession();
 
+
+
         User user = (User) session.getAttribute(ParameterAndAttribute.USER);
         logger.info("user " + user);
 

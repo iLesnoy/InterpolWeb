@@ -18,26 +18,23 @@ public class FindAllSearchApplicationByIdCommand implements Command {
 
     @Override
     public Router execute(HttpServletRequest request) {
-        logger.debug("execute FindAllSearchApplicationByIdCommand method");
-        Optional<SearchApplication> optionalSearchApplication;
+        logger.debug("execute FindAllSearchApplicationByIdCommand ");
+
         List<SearchApplication> searchApplications;
         Router router = new Router();
         HttpSession session = request.getSession();
 
-        String page = (String) session.getAttribute(ParameterAndAttribute.USER);
-        long applicationId = Long.parseLong(request.getParameter(ParameterAndAttribute.USER_ID));
-        logger.debug("applicationId " + applicationId);
+        String page = (String) session.getAttribute(ParameterAndAttribute.CURRENT_PAGE);
+        long userId = Long.parseLong(request.getParameter(ParameterAndAttribute.USER_ID));
+        logger.debug("userId " + userId);
 
 
         try {
-            optionalSearchApplication = applicationService.takeSearchApplicationById(applicationId);
+            searchApplications = applicationService.findApplicationsByUserId(userId);
             router.setPagePath(page);
-            if(optionalSearchApplication.isPresent()){
-                searchApplications = optionalSearchApplication.stream().toList();
-                request.setAttribute(ParameterAndAttribute.APPLICATIONS,searchApplications);
-            }else {
-                session.setAttribute(ParameterAndAttribute.MESSAGE, Message.ERROR_MESSAGE);
-            }
+
+            request.setAttribute(ParameterAndAttribute.APPLICATIONS, searchApplications);
+            session.setAttribute(ParameterAndAttribute.MESSAGE, Message.ERROR_MESSAGE);
 
 
         } catch (ServiceException e) {

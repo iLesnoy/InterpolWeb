@@ -18,7 +18,7 @@ public class FindSearchApplicationsByUserIdCommand implements Command {
 
     @Override
     public Router execute(HttpServletRequest request) {
-        Optional<SearchApplication> optionalSearchApplications;
+        logger.debug("execute FindSearchApplicationsByUserIdCommand");
         List<SearchApplication> searchApplications;
         Router router = new Router();
         HttpSession session = request.getSession();
@@ -28,14 +28,10 @@ public class FindSearchApplicationsByUserIdCommand implements Command {
 
 
         try {
-            optionalSearchApplications = searchApplicationService.findApplicationsByUserId(userId);
+            searchApplications = searchApplicationService.findApplicationsByUserId(userId);
+            logger.debug("searchApplication "+ searchApplications);
             router.setPagePath(page);
-            if(optionalSearchApplications.isPresent()){
-                searchApplications = optionalSearchApplications.stream().toList();
-                request.setAttribute(ParameterAndAttribute.APPLICATIONS,searchApplications);
-            }else {
-                session.setAttribute(ParameterAndAttribute.MESSAGE, Message.ERROR_MESSAGE);
-            }
+
 
 
         } catch (ServiceException e) {

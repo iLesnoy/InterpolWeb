@@ -10,9 +10,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <html>
-<head>
-<c:import url="main.jsp"/>
-</head>
+
 
 <title>AdminPage</title>
 
@@ -61,13 +59,13 @@
 
     <div class="col">
         <div type="button" class="btn btn-secondary">
-        <form action="controller" method="GET">
-            <button type="submit" class="btn btn-primary">
-                <fmt:message key="label.find_all_users" />
-            </button>
-            <input type="hidden" name="command" value="find_all_users">
-        </form>
-    </div>
+            <form action="controller" method="GET">
+                <button type="submit" class="btn btn-primary">
+                    <fmt:message key="label.find_all_users"/>
+                </button>
+                <input type="hidden" name="command" value="find_all_users">
+            </form>
+        </div>
     </div>
 
     <div class="col">
@@ -133,7 +131,7 @@
                     <td><c:out value="${elem.status }"/></td>
                     <td><c:out value="${elem.role }"/></td>
                     <td>
-                        <div class="dropdown">
+                        <div class="nav-item dropdown">
                             <form action="controller" method="post">
                                 <button class="btn btn-danger btn-sm dropdown-toggle" type="button"
                                         id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
@@ -157,36 +155,55 @@
                                     </button>
                                     <input type="hidden" name="userId" value="${elem.userId}">
                                 </div>
-                                <c:if test="${elem.status=='ACTIVE'}">
-                                <form action="controller" method="POST">
-                                    <button type="submit" class="btn btn-danger btn-sm">
-                                        <fmt:message key="label.block_user"/>
-                                    </button>
-                                    <input type="hidden" name="userId" value="${elem.userId}">
-                                    <input type="hidden" name="command" value="block_user">
-                                </form>
-                                </c:if>
+                            </form>
+                        </div>
 
-                                <c:if test="${elem.status=='BLOCKED'}">
-                                <form action="controller" method="POST">
-                                    <button type="submit" class="btn btn-success btn-sm">
-                                        <fmt:message key="label.unblock_user"/>
-                                    </button>
-                                    <input type="hidden" name="userId" value="${elem.userId}">
-                                    <input type="hidden" name="command" value="unblock_user">
-                                </form>
-                                </c:if>
                     </td>
+                        <c:if test="${elem.status=='ACTIVE'}">
+                            <td>
+                            <form action="controller" method="POST">
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    <fmt:message key="label.block_user"/>
+                                </button>
+                                <input type="hidden" name="userId" value="${elem.userId}">
+                                <input type="hidden" name="command" value="block_user">
+                            </form>
+                            </td>
+                        </c:if>
+
+                        <c:if test="${elem.status=='BLOCKED'}">
+                            <td>
+                            <form action="controller" method="POST">
+                                <button type="submit" class="btn btn-success btn-sm">
+                                    <fmt:message key="label.unblock_user"/>
+                                </button>
+                                <input type="hidden" name="userId" value="${elem.userId}">
+                                <input type="hidden" name="command" value="unblock_user">
+                            </form>
+                            </td>
+                        </c:if>
                 </tr>
             </c:forEach>
+
+
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
                     <c:forEach begin="1" end="${number_of_pages }" var="i">
                         <li class="page-item">
                             <form action="controller" method="POST">
-                                <button type="submit" class="page-link" value="${i }">
-                                    <c:out value="${i }" />
+                                <div>
+                                <button  type="submit" class="page-item disabled" value="${i - 1}">
+                                    <fmt:message key="label.Previous"/>
                                 </button>
+
+                                <button type="submit" class="page-item disabled" value="${i }">
+                                    <c:out value="${i }"/>
+                                </button>
+
+                                <button  type="submit" class="page-item disabled" value="${i + 1}">
+                                    <fmt:message key="label.Next"/>
+                                </button>
+                                </div>
                                 <input type="hidden" name="start_from" value="${i}"> <input
                                     type="hidden" name="command" value="find_users_by_name_pagination">
                             </form>
@@ -196,97 +213,94 @@
             </nav>
         </c:if>
     </table>
-</div>
 
-<table class="table table-striped">
-    <c:if test="${criminals_list ne null}">
-        <tr>
-            <th><fmt:message key="label.number"/></th>
-            <th><fmt:message key="label.guiltyId"/></th>
-            <th><fmt:message key="label.firstName"/></th>
-            <th><fmt:message key="label.lastName"/></th>
-            <th><fmt:message key="label.crimeCity"/></th>
-            <th><fmt:message key="label.crimeAddress"/></th>
-            <th><fmt:message key="label.reward"/></th>
-            <th><fmt:message key="label.crimeDOB"/></th>
-            <th><fmt:message key="label.crimeType"/></th>
 
-        </tr>
-
-        <c:forEach var="elem" items="${criminals_list}" varStatus="status">
+    <table class="table table-striped">
+        <c:if test="${criminals_list ne null}">
             <tr>
-                <td><c:out value="${status.count }"/></td>
-                <td><c:out value="${elem.guiltyId }"/></td>
-                <td><c:out value="${elem.firstName }"/></td>
-                <td><c:out value="${elem.crimeCity }"/></td>
-                <td><c:out value="${elem.crimeAddress }"/></td>
-                <td><c:out value="${elem.reward }"/>$</td>
-                <td><c:out value="${elem.crimeDOB }"/></td>
-                <td><c:out value="${elem.crimeType }"/></td>
+                <th><fmt:message key="label.number"/></th>
+                <th><fmt:message key="label.guiltyId"/></th>
+                <th><fmt:message key="label.firstName"/></th>
+                <th><fmt:message key="label.lastName"/></th>
+                <th><fmt:message key="label.crimeCity"/></th>
+                <th><fmt:message key="label.crimeAddress"/></th>
+                <th><fmt:message key="label.reward"/></th>
+                <th><fmt:message key="label.crimeDOB"/></th>
+                <th><fmt:message key="label.crimeType"/></th>
 
             </tr>
+
+            <c:forEach var="elem" items="${criminals_list}" varStatus="status">
+                <tr>
+                    <td><c:out value="${status.count }"/></td>
+                    <td><c:out value="${elem.guiltyId }"/></td>
+                    <td><c:out value="${elem.firstName }"/></td>
+                    <td><c:out value="${elem.crimeCity }"/></td>
+                    <td><c:out value="${elem.crimeAddress }"/></td>
+                    <td><c:out value="${elem.reward }"/>$</td>
+                    <td><c:out value="${elem.crimeDOB }"/></td>
+                    <td><c:out value="${elem.crimeType }"/></td>
+
+                </tr>
+            </c:forEach>
+        </c:if>
+    </table>
+
+    <table class="table">
+        <thead class="thead-dark">
+        <c:if test="${applications ne null}">
+        <tr>
+            <th><fmt:message key="label.number"/></th>
+            <th><fmt:message key="label.searchApplicationId"/></th>
+            <th><fmt:message key="label.lead_time"/></th>
+            <th><fmt:message key="label.user_id"/></th>
+            <th><fmt:message key="label.status"/></th>
+        </tr>
+        <tbody>
+        <c:forEach var="elem" items="${applications}" varStatus="status">
+        <tr>
+            <td><c:out value="${status.count }"/></td>
+            <td><c:out value="${elem.searchApplicationId }"/></td>
+            <td><c:out value="${elem.leadTime }"/></td>
+            <td><c:out value="${elem.userId }"/></td>
+            <td><c:out value="${elem.status }"/></td>
+            <td>
+                <div class="dropdown">
+                    <form action="controller" method="post">
+                        <button class="btn btn-danger btn-sm dropdown-toggle" type="button"
+                                id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                            <fmt:message key="label.update_status"/>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <button type="submit" class="dropdown-item" name="command"
+                                    value="update_application_status_to_active">
+                                <fmt:message key="label.update_application_status_to_active"/>
+                            </button>
+
+                            <button type="submit" class="dropdown-item" name="command"
+                                    value="update_application_status_to_rejected">
+                                <fmt:message key="label.update_application_status_to_rejected"/>
+                            </button>
+                            <button type="submit" class="dropdown-item" name="command"
+                                    value="update_application_status_to_expired">
+                                <fmt:message key="label.update_application_status_to_expired"/>
+                            </button>
+                            <button type="submit" class="dropdown-item" name="command"
+                                    value="update_application_status_to_closed">
+                                <fmt:message key="label.update_application_status_to_closed"/>
+                            </button>
+                            <input type="hidden" name="searchApplicationId" value="${elem.searchApplicationId}">
+                        </div>
+                    </form>
+                </div>
+            </td>
+        </tr>
+        </tbody>
         </c:forEach>
-    </c:if>
-</table>
-
-<table class="table">
-    <thead class="thead-dark">
-    <c:if test="${applications ne null}">
-    <tr>
-        <th><fmt:message key="label.number"/></th>
-        <th><fmt:message key="label.searchApplicationId"/></th>
-        <th><fmt:message key="label.lead_time"/></th>
-        <th><fmt:message key="label.user_id"/></th>
-        <th><fmt:message key="label.status"/></th>
-    </tr>
-    <tbody>
-    <c:forEach var="elem" items="${applications}" varStatus="status">
-    <tr>
-        <td><c:out value="${status.count }"/></td>
-        <td><c:out value="${elem.searchApplicationId }"/></td>
-        <td><c:out value="${elem.leadTime }"/></td>
-        <td><c:out value="${elem.userId }"/></td>
-        <td><c:out value="${elem.status }"/></td>
-        <td>
-            <div class="dropdown">
-                <form action="controller" method="post">
-                    <button class="btn btn-danger btn-sm dropdown-toggle" type="button"
-                            id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">
-                        <fmt:message key="label.update_status"/>
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <button type="submit" class="dropdown-item" name="command"
-                                value="update_application_status_to_active">
-                            <fmt:message key="label.update_application_status_to_active"/>
-                        </button>
-
-                        <button type="submit" class="dropdown-item" name="command"
-                                value="update_application_status_to_rejected">
-                            <fmt:message key="label.update_application_status_to_rejected"/>
-                        </button>
-                        <button type="submit" class="dropdown-item" name="command"
-                                value="update_application_status_to_expired">
-                            <fmt:message key="label.update_application_status_to_expired"/>
-                        </button>
-                        <button type="submit" class="dropdown-item" name="command"
-                                value="update_application_status_to_closed">
-                            <fmt:message key="label.update_application_status_to_closed"/>
-                        </button>
-                        <input type="hidden" name="userId" value="${elem.userId}">
-                    </div>
-                </form>
-            </div>
-        </td>
-    </tr>
-    </tbody>
-    </c:forEach>
-    </c:if>
-</table>
+        </c:if>
+    </table>
 
 
 </body>
 </html>
-
-
-</table>

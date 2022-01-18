@@ -19,7 +19,7 @@ import java.util.List;
 public class ToMissingPeopleCommand implements Command {
 
     private static final Logger logger = LogManager.getLogger();
-    MissingPeopleService missingPeopleService = new MissingPeopleServiceImpl(new MissingPeopleDaoImpl());
+    MissingPeopleService missingPeopleService = new MissingPeopleServiceImpl();
 
     @Override
     public Router execute(HttpServletRequest request) {

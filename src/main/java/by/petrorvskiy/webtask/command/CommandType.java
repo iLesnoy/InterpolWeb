@@ -18,8 +18,8 @@ public enum CommandType {
     DEFAULT(new DefaultCommand()),
     FIND_NEWS(new FindNewsCommand()),
     ADD_ARTICLE(new AddNewsCommand()),
-    FIND_BY_NAME_AND_SURNAME(new FindUsersByNameAndSurname()),
-    FIND_USERS_BY_NAME(new FindUsersByName()),
+    FIND_BY_NAME_AND_SURNAME(new FindUsersByNameAndSurnameCommand()),
+    FIND_USERS_BY_NAME(new FindUsersByNameCommand()),
     CHANGE_USER_INFO(new ChangeUserInfoCommand()),
     CHANGE_USER_ROLE_TO_USER(new ChangeUserRoleToUserCommand()),
     CHANGE_USER_ROLE_TO_AGENT(new ChangeUserRoleToAgentCommand()),
@@ -30,6 +30,7 @@ public enum CommandType {
     UPDATE_APPLICATION_STATUS_TO_EXPIRED(new ChangeApplicationStatusToExpiredCommand()),
     FIND_USERS_BY_NAME_PAGINATION(new FindUsersPaginationCommand()),
     FIND_ALL_USERS(new FindAllUserCommand()),
+    FIND_APPLICATION_INFORMATION_BY_ID(new FindApplicationInformationByIdCommand()),
 
     TO_MAIN(new ToMainCommand()),
     TO_ACCOUNT(new ToAccountCommand()),

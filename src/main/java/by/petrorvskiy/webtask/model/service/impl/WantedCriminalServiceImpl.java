@@ -17,11 +17,8 @@ import java.util.Optional;
 public class WantedCriminalServiceImpl implements WantedCriminalService {
 
     private static final Logger logger = LogManager.getLogger();
-    private final WantedCriminalDao wantedCriminalDao;
+    private final WantedCriminalDao wantedCriminalDao = WantedCriminalDaoImpl.getInstance();
 
-    public WantedCriminalServiceImpl(WantedCriminalDaoImpl wantedCriminalDao) {
-        this.wantedCriminalDao = wantedCriminalDao;
-    }
 
     @Override
     public boolean addWantedCriminal(WantedCriminal criminal, WantedCriminal.CrimType type) throws ServiceException {
