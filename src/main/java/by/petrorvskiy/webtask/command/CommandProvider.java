@@ -14,7 +14,7 @@ public class CommandProvider {
 
         String command = request.getParameter(ParameterAndAttribute.COMMAND);
 
-        if (command == null || command.isEmpty()) {
+        if (command == null) {
             logger.info( "command is empty");
             return CommandType.DEFAULT.getCommand();
         }

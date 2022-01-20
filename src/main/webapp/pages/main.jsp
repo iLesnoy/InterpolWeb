@@ -2,20 +2,22 @@
          pageEncoding="utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<fmt:setLocale value="en_US" scope="session" />
+<fmt:setLocale value="${locale}" scope="session"/>
 <fmt:setBundle basename="pagecontent"/>
+
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
+<link rel="stylesheet" href="css/main.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 <html>
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Interpol</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/main.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-</head>
-<body>
+
 
 <!-- Second navbar for sign in -->
 <nav class="navbar navbar-default">
@@ -34,20 +36,20 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="navbar-collapse-2">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="pages/newsfeed.jsp">Home</a></li>
+                <li><a href="pages/newsfeed.jsp"><fmt:message key="label.home"/></a></li>
                 <li><a href="#">About</a></li>
-                <li><a href="${pageContext.request.contextPath}/controller?command=to_news_feed" class="button">News</a></li>
-                <li><a href="${pageContext.request.contextPath}/controller?command=to_missing" class="button">Missing People</a></li>
-                <li><a href="pages/wantedcriminals.jsp">WantedCriminals</a></li>
-                <li><a href="${pageContext.request.contextPath}/controller?command=to_account" class="button">Account</a></li>
+                <li><a href="${pageContext.request.contextPath}/controller?command=to_news_feed" class="button"><fmt:message key="label.news_feed"/></a></li>
+                <li><a href="${pageContext.request.contextPath}/controller?command=to_missing" class="button"><fmt:message key="label.missing_people"/></a></li>
+                <li><a href="${pageContext.request.contextPath}/controller?command=to_wanted"><fmt:message key="label.wanted_criminals"/></a></li>
+                <li><a href="${pageContext.request.contextPath}/controller?command=to_account" class="button"><fmt:message key="label.account"/></a></li>
                 <c:if test="${user == null}">
                 <li>
-                    <a class="btn btn-default btn-outline btn-circle" data-toggle="collapse" href="#nav-collapse2" aria-expanded="false" aria-controls="nav-collapse2">Sign in</a>
+                    <a class="btn btn-default btn-outline btn-circle" data-toggle="collapse" href="#nav-collapse2" aria-expanded="false" aria-controls="nav-collapse2"><fmt:message key="label.sign_in"/></a>
                 </li>
                 </c:if>
                 <c:if test="${user ne null}">
                 <li>
-                    <a class="btn btn-default btn-outline btn-circle" data-toggle="collapse" href="#nav-collapse2" aria-expanded="false" aria-controls="nav-collapse2">Logout</a>
+                    <a class="btn btn-default btn-outline btn-circle" data-toggle="collapse" href="#nav-collapse2" aria-expanded="false" aria-controls="nav-collapse2"><fmt:message key="label.logOut"/></a>
                 </li>
                 </c:if>
             </ul>
@@ -65,7 +67,7 @@
                         <input type="text"  name="password" class="form-control" id="password" pattern=".*[^<>]"  placeholder="Password" required />
                     </div>
                     <input type="submit" class="btn btn-success" value="Sign"/>
-                    <a href="pages/signup.jsp" class="button">Create new account</a>
+                    <a href="pages/signup.jsp" class="button"><fmt:message key="label.create_account"/></a>
                 </form>
             </div>
             </c:if>
@@ -76,32 +78,38 @@
                     <input type="hidden" name="command" value="log_out">
                     <div class="form-group">
                         <label for="email"></label>
-                        <input type="email" name="email" value="${user.email}" class="form-control" id="providedEmail"  pattern=".*[^<>]"  placeholder="Email" autofocus required />
+                        <input type="email" name="email" value="${user.email}" class="form-control" id="providedEmail"  pattern=".*[^<>]"  placeholder="<fmt:message key="label.email"/>" autofocus required />
                     </div>
                     <div class="form-group">
                         <label for="password"></label>
-                        <input type="text"  name="password" value="${password}" class="form-control" id="providedPassword" pattern=".*[^<>]"  placeholder="Password" required />
+                        <input type="text"  name="password" value="${password}" class="form-control" id="providedPassword" pattern=".*[^<>]"  placeholder="<fmt:message key="label.password"/>" required />
                     </div>
                     <input type="submit" class="btn btn-success" value="Logout"/>
                 </form>
             </div>
             </c:if>
 
-
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container -->
 </nav><!-- /.navbar -->
+</head>
+<body>
+<form action="controller" method="post">
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <fmt:message key="label.language" />
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <button class="dropdown-item" type="submit" name="language"
+                    value="en_US">English</button>
+            <button class="dropdown-item" type="submit" name="language"
+                    value="ru_RU">Russian</button>
+            <input type="hidden" name="command" value="change_locale">
+        </div>
+    </div>
+</form>
 </body>
 
-<%--<script>
-    $('body').on('click', '.password-checkbox', function(){
-        if ($(this).is(':checked')){
-            $('#password-input').attr('type', 'text');
-        } else {
-            $('#password-input').attr('type', 'password');
-        }
-    });
-</script>--%>
 
 
 

@@ -23,6 +23,8 @@ public class ParameterAndAttribute {
     public static final String CONFIRMED_PASSWORD = "confirm_password";
     public static final String CURRENT_PAGE = "current_page";
     public static final String ACTIVE_APPLICATIONS = "active_applications";
+    public static final String SESSION_LOCALE="locale";
+    public static final String LANGUAGE="language";
     public static final String LIST = "list";
 
     public static final String NEWS = "news" ;
@@ -31,7 +33,7 @@ public class ParameterAndAttribute {
     public static final String IMAGE = "image";
 
     public static final String MISSING_PEOPLE = "missing" ;
-    public static final String WANTED_CRIMINAL = "wanted_criminal" ;
+    public static final String WANTED_CRIMINAL = "wantedCriminals" ;
 
     /*public static final String EMAIL_PARAMETER = "email";
     public static final String PASSWORD_PARAMETER = "password";
@@ -50,4 +52,6 @@ public class ParameterAndAttribute {
     public static final String START_FROM = "start_from";
     public static final String NUMBER_OF_PAGES = "number_of_pages";
     public static final String ENCODED_PASSWORD = "encoded_password";
+    public static final String APPLICATION_STATUS = "application_status";
+
 }

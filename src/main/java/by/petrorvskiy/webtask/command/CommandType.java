@@ -1,6 +1,7 @@
 package by.petrorvskiy.webtask.command;
 
 import by.petrorvskiy.webtask.command.impl.*;
+import by.petrorvskiy.webtask.command.impl.common.ChangeLocaleCommand;
 import by.petrorvskiy.webtask.command.impl.find.*;
 import by.petrorvskiy.webtask.command.impl.forward.*;
 import by.petrorvskiy.webtask.command.impl.signin.LogOutCommand;
@@ -24,15 +25,12 @@ public enum CommandType {
     CHANGE_USER_ROLE_TO_USER(new ChangeUserRoleToUserCommand()),
     CHANGE_USER_ROLE_TO_AGENT(new ChangeUserRoleToAgentCommand()),
     CHANGE_USER_ROLE_TO_ADMIN(new ChangeUserRoleToAdminCommand()),
-    UPDATE_APPLICATION_STATUS_TO_ACTIVE(new ChangeApplicationStatusToActiveCommand()),
-    UPDATE_APPLICATION_STATUS_TO_CLOSED(new ChangeApplicationStatusToClosedCommand()),
-    UPDATE_APPLICATION_STATUS_TO_REJECTED(new ChangeApplicationStatusToRejectedCommand()),
-    UPDATE_APPLICATION_STATUS_TO_EXPIRED(new ChangeApplicationStatusToExpiredCommand()),
+    UPDATE_APPLICATION_STATUS(new UpdateApplicationStatusCommand()),
     FIND_USERS_BY_NAME_PAGINATION(new FindUsersPaginationCommand()),
-    FIND_ALL_USERS(new FindAllUserCommand()),
-    FIND_APPLICATION_INFORMATION_BY_ID(new FindApplicationInformationByIdCommand()),
+    FIND_ALL_USERS(new FindAllUsersCommand()),
 
     TO_MAIN(new ToMainCommand()),
+    TO_WANTED(new ToWantedCriminalsCommand()),
     TO_ACCOUNT(new ToAccountCommand()),
     TO_NEWS_FEED(new ToNewsFeedCommand()),
     BLOCK_USER(new BlockUserCommand()),
@@ -41,8 +39,9 @@ public enum CommandType {
     TO_PERSONAL_INFO_CHANGE(new ToChangeUserInfoCommand()),
     CHANGE_PERSONAL_INFO(new ChangeUserInfoCommand()),
     FIND_ALL_APPLICATIONS(new FindAllApplicationsCommand()),
-    FIND_SEARCH_APPLICATIONS_BY_USER_ID(new FindSearchApplicationsByUserIdCommand()),
-
+    FIND_SEARCH_APPLICATIONS_BY_USER_ID(new FindAllSearchApplicationByUserIdCommand()),
+    FIND_APPLICATION_INFORMATION_BY_ID(new FindApplicationInformationByIdCommand()),
+    CHANGE_LOCALE(new ChangeLocaleCommand()),
     TO_MISSING(new ToMissingPeopleCommand());
 
 

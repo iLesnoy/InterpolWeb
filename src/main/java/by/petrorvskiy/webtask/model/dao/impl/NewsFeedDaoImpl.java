@@ -149,8 +149,7 @@ public class NewsFeedDaoImpl implements NewsFeedDao {
                 .setArticleId(articleId)
                 .setTitle(title)
                 .setArticle(article)
-                .setImage(base64Encoded)
-                .build();
+                .setImage(base64Encoded).build();
         logger.info(newsFeed);
         return newsFeed;
     }

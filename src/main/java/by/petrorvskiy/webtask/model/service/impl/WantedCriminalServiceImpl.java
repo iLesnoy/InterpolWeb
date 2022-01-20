@@ -60,18 +60,35 @@ public class WantedCriminalServiceImpl implements WantedCriminalService {
     }
 
     @Override
+    public List<SearchApplication> findUserSearchApplicationsByUserId(long userId) throws ServiceException {
+        return null;
+    }
+
+    @Override
+    public List<WantedCriminal> findAllWantedCriminals() throws ServiceException {
+       List<WantedCriminal> wantedCriminals;
+        try {
+            wantedCriminals = wantedCriminalDao.findAllWantedCriminals();
+        } catch (DaoException e) {
+            logger.info("DaoException in method findAllWantedCriminals " + e);
+            throw new ServiceException(e);
+        }
+        return wantedCriminals;
+    }
+
+    @Override
     public Optional<WantedCriminal> findAllCriminalsByName(String name) throws ServiceException {
         Optional<WantedCriminal> optionalCriminal;
         try {
             optionalCriminal = wantedCriminalDao.findAllCriminalsByName(name);
         } catch (DaoException e) {
-            logger.info("DaoException in method " + e);
+            logger.info("DaoException in method findAllCriminalsByName" + e);
             throw new ServiceException(e);
         }
         return optionalCriminal;
     }
 
-    @Override
+   /* @Override
     public List<SearchApplication> findUserSearchApplicationsByUserId(long userId) throws ServiceException {
         List<SearchApplication> searchApplications;
         try {
@@ -81,7 +98,7 @@ public class WantedCriminalServiceImpl implements WantedCriminalService {
             throw new ServiceException(e);
         }
         return searchApplications;
-    }
+    }*/
 
     @Override
     public Optional<WantedCriminal> takeWantedCriminalById(long criminalId) throws ServiceException {

@@ -1,14 +1,17 @@
 package by.petrorvskiy.webtask.model.dao.impl;
 
 import by.petrorvskiy.webtask.model.connection.ConnectionPool;
+import by.petrorvskiy.webtask.model.dao.ColumnName;
 import by.petrorvskiy.webtask.model.dao.MissingPeopleDao;
 import by.petrorvskiy.webtask.entity.MissingPeople;
 import by.petrorvskiy.webtask.exception.DaoException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,12 +20,12 @@ import static by.petrorvskiy.webtask.model.dao.ColumnName.*;
 public class MissingPeopleDaoImpl implements MissingPeopleDao {
 
     private static final Logger logger = LogManager.getLogger();
-    private static final String SQL_ADD_MISSING_PEOPLE = "INSERT INTO missing_people (first_name,last_name,disappearance_date) values (?,?,?)";
-    private static final String SQL_MISSING_PEOPLE_SEARCH_BY_ID = "SELECT missing_people_id,first_name,last_name,disappearance_date FROM missing_people WHERE missing_people_id =? ";
-    private static final String SQL_UPDATE_MISSING_PEOPLE = "UPDATE missing_people SET first_name=?,last_name=?,disappearance_date=? WHERE missing_people_id=?";
-    private static final String SQL_FIND_ALL_MISSING_PEOPLE ="SELECT missing_people_id,first_name,last_name,disappearance_date FROM missing_people";
+    private static final String SQL_ADD_MISSING_PEOPLE = "INSERT INTO missing_people (first_name,last_name,disappearance_date,photo) values (?,?,?,?)";
+    private static final String SQL_MISSING_PEOPLE_SEARCH_BY_ID = "SELECT missing_people_id,first_name,last_name,disappearance_date,photo FROM missing_people WHERE missing_people_id =? ";
+    private static final String SQL_UPDATE_MISSING_PEOPLE = "UPDATE missing_people SET first_name=?,last_name=?,disappearance_date=?,photo=? WHERE missing_people_id=?";
+    private static final String SQL_FIND_ALL_MISSING_PEOPLE ="SELECT missing_people_id,first_name,last_name,disappearance_date,photo FROM missing_people";
     private static final String SQL_DELETE_HUMAN_BY_ID = "DELETE FROM missing_people WHERE missing_people_id=?";
-    private static final String SQL_FIND_ALL_MISSING_PEOPLE_BY_NAME = "SELECT missing_people_id,first_name,last_name,disappearance_date FROM missing_people WHERE first_name =? ";
+    private static final String SQL_FIND_ALL_MISSING_PEOPLE_BY_NAME = "SELECT missing_people_id,first_name,last_name,disappearance_date,photo FROM missing_people WHERE first_name =? ";
 
 
     private final ConnectionPool connectionPool = ConnectionPool.getInstance();
@@ -44,6 +47,7 @@ public class MissingPeopleDaoImpl implements MissingPeopleDao {
             statement.setString(1, people.getName());
             statement.setString(2, people.getSurname());
             statement.setDate(3, people.getDisappearanceDate());
+            statement.setString(4, people.getPhoto());
             int rowCount = statement.executeUpdate();
             if (rowCount != 0) {
                 missingPeopleAdded = true;
@@ -66,7 +70,8 @@ public class MissingPeopleDaoImpl implements MissingPeopleDao {
             statement.setString(1, missingPeople.getName());
             statement.setString(2, missingPeople.getSurname());
             statement.setDate(3, missingPeople.getDisappearanceDate());
-            statement.setLong(4, id);
+            statement.setString(4, missingPeople.getPhoto());
+            statement.setLong(5, id);
             int rowCount = statement.executeUpdate();
             if (rowCount != 0) {
                 missingPeopleUpdate = true;
@@ -160,13 +165,16 @@ public class MissingPeopleDaoImpl implements MissingPeopleDao {
         String firstName = resultSet.getString(FIRST_NAME);
         String lastName = resultSet.getString(LAST_NAME);
         Date disappearanceDate = resultSet.getDate(DISAPPEARANCE_DATE);
+        byte[] photo = resultSet.getBytes(PHOTO);
+        byte[] encodeImageBytes = Base64.getEncoder().encode(photo);
+        String base64Encoded  = new String(encodeImageBytes, StandardCharsets.UTF_8);
         MissingPeople people = new MissingPeople.MissingPeopleBuilder()
                 .setPeopleId(peopleId)
                 .setName(firstName)
                 .setSurname(lastName)
                 .setDisappearanceDate(disappearanceDate)
-                .build();
-        logger.info("created human " + people);
+                .setPhoto(base64Encoded).build();
+        logger.info("created missed human " + people);
         return people;
 
     }

@@ -10,15 +10,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
-import java.util.Optional;
 
-public class FindAllSearchApplicationByIdCommand implements Command {
+
+public class FindAllSearchApplicationByUserIdCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private SearchApplicationServiceImpl applicationService = new SearchApplicationServiceImpl();
 
     @Override
     public Router execute(HttpServletRequest request) {
-        logger.debug("execute FindAllSearchApplicationByIdCommand ");
+        logger.debug("execute FindAllSearchApplicationByUserIdCommand ");
 
         List<SearchApplication> searchApplications;
         Router router = new Router();
@@ -38,7 +38,7 @@ public class FindAllSearchApplicationByIdCommand implements Command {
 
 
         } catch (ServiceException e) {
-            logger.error("ServiceException in method FindAllSearchApplicationByIdCommand " + e.getMessage());
+            logger.error("ServiceException in method FindAllSearchApplicationByUserIdCommand " + e.getMessage());
             request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
             request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e);
             router.setPagePath(PagePath.ERROR_404);

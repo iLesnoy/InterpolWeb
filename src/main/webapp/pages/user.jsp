@@ -54,6 +54,7 @@
         <th><fmt:message key="label.searchApplicationId"/></th>
         <th><fmt:message key="label.lead_time"/></th>
         <th><fmt:message key="label.status"/></th>
+        <th><fmt:message key="label.photo"/></th>
     </tr>
     <tbody>
     <c:forEach var="elem" items="${applications}" varStatus="status">
@@ -90,6 +91,7 @@
         <th><fmt:message key="label.crimeDOB"/></th>
         <th><fmt:message key="label.reward"/></th>
         <th><fmt:message key="label.crimeType"/></th>
+        <th><fmt:message key="label.photo"/></th>
     </tr>
     <tbody>
     <c:forEach var="elem" items="${wanted_criminal}" varStatus="status">
@@ -103,6 +105,7 @@
             <td><c:out value="${elem.crimeDOB }"/></td>
             <td><c:out value="${elem.reward }"/></td>
             <td><c:out value="${elem.crimeType }"/></td>
+            <td><c:out value="${elem.photo }"/></td>
         </tr>
     </c:forEach>
     </tbody>
@@ -117,6 +120,7 @@
         <th><fmt:message key="label.name"/></th>
         <th><fmt:message key="label.surname"/></th>
         <th><fmt:message key="label.disappearanceDate"/></th>
+        <th><fmt:message key="label.photo"/></th>
 
     </tr>
     <tbody>
@@ -126,7 +130,8 @@
             <td><c:out value="${elem.missingPeopleId }"/></td>
             <td><c:out value="${elem.name }"/></td>
             <td><c:out value="${elem.surname }"/></td>
-            <td><c:out value="${elem.disappearanceDate }"/></td>
+            <td><c:out value="${elem.disappearanceDate}"/></td>
+            <td><img width="150" height="200" alt="img" src="data:image/jpeg;base64,${elem.photo}"/></td>
         </tr>
     </c:forEach>
     </tbody>

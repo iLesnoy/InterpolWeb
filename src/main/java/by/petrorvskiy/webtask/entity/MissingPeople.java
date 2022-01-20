@@ -7,6 +7,7 @@ public class MissingPeople {
     private String name;
     private String surname;
     private Date disappearanceDate;
+    private String photo;
 
     public MissingPeople() {
     }
@@ -43,22 +44,32 @@ public class MissingPeople {
         this.missingPeopleId = missingPeopleId;
     }
 
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MissingPeople that = (MissingPeople) o;
-        if (missingPeopleId != that.missingPeopleId) {
+        MissingPeople people = (MissingPeople) o;
+        if (missingPeopleId != people.missingPeopleId) {
             return false;
         }
-        if (name != null ? name.equals(that.name) : that.name == null) {
+        if (name != null ? name.equals(people.name) : people.name == null) {
             return false;
         }
-        if (surname != null ? surname.equals(that.surname) : that.surname == null) {
+        if (surname != null ? surname.equals(people.surname) : people.surname == null) {
             return false;
         }
-        return disappearanceDate != null ? disappearanceDate.equals(that.disappearanceDate) : that.disappearanceDate == null;
+        if(disappearanceDate != null ? disappearanceDate.equals(people.disappearanceDate) : people.disappearanceDate == null){
+            return false;
+        }
+        return photo != null ? photo.equals(people.photo) : people.photo == null;
     }
 
     @Override
@@ -68,7 +79,8 @@ public class MissingPeople {
         result = prime * result + (int) (missingPeopleId - (missingPeopleId >>> 32));
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + ((surname == null) ? 0 : surname.hashCode());
-        result = result * 31 + (disappearanceDate != null ? disappearanceDate.hashCode() : 0);
+        result = prime * result + (disappearanceDate != null ? disappearanceDate.hashCode() : 0);
+        result = prime * result + ((photo == null) ? 0 : photo.hashCode());
         return result;
     }
 
@@ -76,10 +88,11 @@ public class MissingPeople {
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("MissingPeople{");
-        builder.append(", missingPeopleId ").append(missingPeopleId);
-        builder.append(", name ").append(name);
-        builder.append(", surname ") .append(surname);
-        builder.append(", disappearanceDate ") .append(disappearanceDate);
+        builder.append(", missingPeopleId=").append(missingPeopleId);
+        builder.append(", name=").append(name);
+        builder.append(", surname=") .append(surname);
+        builder.append(", disappearanceDate=") .append(disappearanceDate).append("}");
+        /*builder.append(", photo=") .append(photo).append("}");*/
         return builder.toString();
     }
 
@@ -107,6 +120,11 @@ public class MissingPeople {
 
         public MissingPeople.MissingPeopleBuilder setDisappearanceDate(Date disappearanceDate){
             missingPeople.setDisappearanceDate(disappearanceDate);
+            return this;
+        }
+
+        public MissingPeople.MissingPeopleBuilder setPhoto(String photo) {
+            missingPeople.setPhoto(photo);
             return this;
         }
 

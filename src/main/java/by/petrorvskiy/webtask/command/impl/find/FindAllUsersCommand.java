@@ -12,7 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
-public class FindAllUserCommand implements Command {
+public class FindAllUsersCommand implements Command {
     Logger logger = LogManager.getLogger();
     UserServiceImpl userService = new UserServiceImpl();
     private final int startRow = 0;

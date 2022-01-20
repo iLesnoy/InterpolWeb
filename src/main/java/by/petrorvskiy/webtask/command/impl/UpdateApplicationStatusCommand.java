@@ -10,21 +10,24 @@ import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class ChangeApplicationStatusToRejectedCommand implements Command {
+
+public class UpdateApplicationStatusCommand implements Command {
+
     private static final Logger logger = LogManager.getLogger();
-    SearchApplicationService searchApplicationService = new SearchApplicationServiceImpl();
+    private final SearchApplicationService searchApplicationService = new SearchApplicationServiceImpl();
+
     @Override
     public Router execute(HttpServletRequest request) {
         Router router = new Router();
         HttpSession session = request.getSession();
         boolean isChanged;
-        logger.debug("execute method ChangeApplicationStatusToRejectedCommand");
+        logger.debug("execute method UpdateApplicationStatus");
         long id = Long.parseLong(request.getParameter(ParameterAndAttribute.APPLICATION_ID));
-
+        SearchApplication.ApplicationStatus status = SearchApplication.ApplicationStatus.valueOf(request.getParameter(ParameterAndAttribute.APPLICATION_STATUS));
 
         try {
             String page = request.getContextPath() + PagePath.TO_ACCOUNT_PAGE;
-            isChanged = searchApplicationService.updateSearchApplicationStatus(SearchApplication.ApplicationStatus.REJECTED,id);
+            isChanged = searchApplicationService.updateSearchApplicationStatus(status,id);
 
             if (isChanged) {
                 router.setPagePath(page);
@@ -36,7 +39,7 @@ public class ChangeApplicationStatusToRejectedCommand implements Command {
                 session.setAttribute(ParameterAndAttribute.MESSAGE_FOR_USER, Message.UNSUCCESSFUL);
             }
         } catch (ServiceException e) {
-            logger.error( "ServiceException in method execute ChangeApplicationStatusToRejectedCommand" + e);
+            logger.error( "ServiceException in method execute UpdateApplicationStatus" + e);
             request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
             request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e);
             router.setPagePath(PagePath.ERROR_404);

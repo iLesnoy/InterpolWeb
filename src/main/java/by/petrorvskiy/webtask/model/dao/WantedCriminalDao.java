@@ -14,9 +14,9 @@ public interface WantedCriminalDao {
     boolean deleteWantedCriminal(long criminalId) throws DaoException;
     boolean updateWantedCriminalById(WantedCriminal wantedCriminal,long crimId) throws DaoException;
 
-    Optional<WantedCriminal> findAllCriminalsByName(String name) throws DaoException;
-    List<SearchApplication> findUserSearchApplicationsByUserId(long userId) throws DaoException;
+    List<WantedCriminal> findAllWantedCriminals() throws DaoException;
 
+    Optional<WantedCriminal> findAllCriminalsByName(String name) throws DaoException;
     Optional<WantedCriminal> takeWantedCriminalById(long criminalId) throws DaoException;
     Optional<BigDecimal> findCriminalRewardById(long criminalId) throws DaoException;
 

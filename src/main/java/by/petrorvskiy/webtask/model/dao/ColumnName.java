@@ -29,6 +29,7 @@ public final class ColumnName {
     public static final String NEWS_ARTICLE= "news_article";
     public static final String ARTICLE_ID= "article_id";
     public static final String IMAGE = "image";
+    public static final String PHOTO = "photo";
     public static final String TITLE = "title";
 
 

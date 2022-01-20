@@ -1,13 +1,4 @@
-/* ==============================================
 
-Distributor: http://bootstraptema.ru/
-
-================================================ */
-
-
-/* ------------------
-    General setting
--------------------- */
 *{
     font-family: 'Raleway', Helvetica, Arial, sans-serif;
     font-weight: 300;
@@ -15,10 +6,10 @@ Distributor: http://bootstraptema.ru/
 html{
     height: 100%;
 }
-body{
+body {
     position: relative;
     height: 100%;
-    background-color: #000c2f;
+    background-color: #ffffff!important;
 }
 
 h1, h2, h3, h5, h6{
@@ -65,14 +56,14 @@ img{
     color: #ffffff;
     border: 0px solid;
     border-bottom: 2px solid;
-    border-color: #ec9228;
+    border-color: #3002a1;
     padding: 10px 41px;
     border-radius: 5px;
     background: none;
     text-transform: uppercase;
     display: inline-block;
     margin: 10px 20px 10px 0;
-    background-color: #ffad32;
+    background-color: #3002a1;
     -webkit-transition: all 0.5s ease-in-out;
     -moz-transition: all 0.5s ease-in-out;
     -ms-transition: all 0.5s ease-in-out;
@@ -82,16 +73,16 @@ img{
     cursor: pointer;
 }
 .btn:hover{
-    background: #ec9228;
+    background: #3002a1;
     color: #ffffff;
     text-decoration: none;
 }
 .btn-brown{
-    border-color: #ec5900;
-    background-color: #ff7000;
+    border-color: #3002a1;
+    background-color: #3002a1;
 }
 .btn-brown:hover{
-    background: #ec5900;
+    background: #3002a1;
 }
 
 /* ------------------
@@ -110,9 +101,7 @@ img{
     display: none;
     visibility: hidden;
 }
-body.light{
-    background-color: #f0ff79;
-}
+
 body.light #light{
     display: block;
     visibility: visible;
@@ -136,7 +125,7 @@ body.light #dark{
     font-size: 16px;
     line-height: 24px;
     font-weight: 300;
-    color: #1b334d;
+    color: #ffffff;
     margin: 30px 0;
 }
 #light .info img{
@@ -178,7 +167,6 @@ body.light #dark{
     -ms-transition: all .2s;
 }
 .switcher .sw_btn {
-    background: url('../css/images/btn.png') 0% 0% no-repeat;
     width: 42px;
     height: 45px;
     display: block;
@@ -188,7 +176,7 @@ body.light #dark{
     top: 22px;
     left: 65px;
 }
-.switcher .bg { background: url('../css/images/bg_btn.png') 0% 0% no-repeat; }
+
 .switcher input.switcher-value { display: none; }
 .switcher .bg {
     width: 100%;
@@ -206,9 +194,7 @@ body.light #dark{
     left: -24px;
     top: 21px;
 }
-.light .switcher .text{
-    color: #343f69;
-}
+
 
 
 /* ------------------
@@ -230,7 +216,6 @@ body.light #dark{
     margin: -100px 0 0 -100px;
     width: 200px;
     height: 200px;
-    background-image: url("../css/images/ajax-loader.gif");
     background-position: center;
     background-repeat: no-repeat;
 }

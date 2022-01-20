@@ -12,6 +12,7 @@ public class WantedCriminal {
     private LocalDate crimeDOB;
     private BigDecimal reward;
     private CrimType crimeType;
+    private String photo;
 
 
     public WantedCriminal() {
@@ -87,6 +88,13 @@ public class WantedCriminal {
         this.crimeType = crimeType;
     }
 
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -107,27 +115,32 @@ public class WantedCriminal {
             return false;
         if(reward != null ? reward.equals(criminal.reward) : criminal.reward != null)
             return false;
-        return crimeType != null ? crimeType.equals(criminal.crimeType) : criminal.crimeType == null;
+        if(crimeType != null ? crimeType.equals(criminal.crimeType) : criminal.crimeType == null){
+            return false;
+        }
+        return photo != null ? photo.equals(criminal.photo) : criminal.photo == null;
     }
 
     @Override
     public int hashCode() {
+        final int prime = 31;
         int result = 1;
-        result = result * 31 + Long.hashCode(guiltyId);
-        result = result * 31 + (firstName != null ? firstName.hashCode() : 0);
-        result = result * 31 + (lastName != null ? lastName.hashCode() : 0);
-        result = result * 31 + (crimeCity != null ? crimeCity.hashCode() : 0);
-        result = result * 31 + (crimeAddress != null ? crimeAddress.hashCode() : 0);
-        result = result * 31 + crimeDOB.hashCode();
-        result = result * 31 + (reward != null ? reward.hashCode() : 0);
-        result = result * 31 + (crimeType != null ? crimeType.hashCode() : 0);
+        result = result * prime+ Long.hashCode(guiltyId);
+        result = result * prime+ (firstName != null ? firstName.hashCode() : 0);
+        result = result * prime + (lastName != null ? lastName.hashCode() : 0);
+        result = result * prime + (crimeCity != null ? crimeCity.hashCode() : 0);
+        result = result * prime + (crimeAddress != null ? crimeAddress.hashCode() : 0);
+        result = result * prime + crimeDOB.hashCode();
+        result = result * prime + (reward != null ? reward.hashCode() : 0);
+        result = result * prime + (crimeType != null ? crimeType.hashCode() : 0);
+        result = result * prime + ((photo == null) ? 0 : photo.hashCode());
         return result;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("WantedCriminal{");
+        sb.append("wantedCriminal{");
         sb.append("guiltyId=").append(guiltyId);
         sb.append(", firstName=").append(firstName);
         sb.append(", lastName=").append(lastName);
@@ -136,6 +149,7 @@ public class WantedCriminal {
         sb.append(", crimeDOB=").append(crimeDOB);
         sb.append(", reward=").append(reward);
         sb.append(", crimeType=").append(crimeType).append("}");
+        /*sb.append(", photo=").append(photo).append("}");*/
         return sb.toString();
     }
 
@@ -184,6 +198,11 @@ public class WantedCriminal {
 
         public WantedCriminalBuilder setCrimType(CrimType type) {
             wantedCriminal.setCrimeType(type);
+            return this;
+        }
+
+        public WantedCriminalBuilder setPhoto(String photo) {
+            wantedCriminal.setPhoto(photo);
             return this;
         }
 

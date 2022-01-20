@@ -2,7 +2,6 @@ package by.petrorvskiy.webtask.model.dao.impl;
 
 import by.petrorvskiy.webtask.model.dao.ColumnName;
 import by.petrorvskiy.webtask.model.dao.WantedCriminalDao;
-import by.petrorvskiy.webtask.entity.SearchApplication;
 import by.petrorvskiy.webtask.model.connection.ConnectionPool;
 import by.petrorvskiy.webtask.entity.WantedCriminal;
 import by.petrorvskiy.webtask.entity.WantedCriminal.CrimType;
@@ -11,21 +10,27 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
+
+import static by.petrorvskiy.webtask.model.dao.ColumnName.PHOTO;
 
 public class WantedCriminalDaoImpl implements WantedCriminalDao {
 
     private static final Logger logger = LogManager.getLogger();
-    private static final String SQL_TAKE_CRIMINAL_BY_ID = "SELECT guilty_id,first_name,last_name,crim_city,crim_address,crim_DOB,reward,crime_type FROM wanted_criminals WHERE guilty_id=?";
-    private static final String SQL_FIND_CRIMINAL_BY_NAME = "SELECT guilty_id,first_name,last_name,crim_city,crim_address,crim_DOB,reward,crime_type FROM wanted_criminals WHERE first_name=?";
+    private static final String SQL_TAKE_CRIMINAL_BY_ID = "SELECT guilty_id,first_name,last_name,crim_city,crim_address,crim_DOB,reward,crime_type,photo FROM wanted_criminals WHERE guilty_id=?";
+    private static final String SQL_FIND_CRIMINAL_BY_NAME = "SELECT guilty_id,first_name,last_name,crim_city,crim_address,crim_DOB,reward,crime_type,photo FROM wanted_criminals WHERE first_name=?";
     private static final String SQL_FIND_CRIMINAL_REWARD_BY_ID = "SELECT reward FROM wanted_criminals WHERE guilty_id=?";
     private static final String SQL_DELETE_CRIMINAL_BY_ID = "DELETE FROM wanted_criminals WHERE guilty_id =?";
-    private static final String SQL_UPDATE_WANTED_CRIMINAL_BY_ID = "UPDATE wanted_criminals SET first_name=?,last_name=?,crim_city=?,crim_address=?,crim_DOB=?,reward=?,crime_type=? WHERE guilty_id=? ";
+    private static final String SQL_UPDATE_WANTED_CRIMINAL_BY_ID = "UPDATE wanted_criminals SET first_name=?,last_name=?,crim_city=?,crim_address=?,crim_DOB=?,reward=?,crime_type=?,photo=? WHERE guilty_id=? ";
+    private static final String SQL_FIND_ALL_CRIMINALS = "SELECT guilty_id,first_name,last_name,crim_city,crim_address,crim_DOB,reward,crime_type,photo FROM wanted_criminals";
 
-    private static final String SQL_ADD_CRIMINAL = "INSERT INTO wanted_criminals (first_name,last_name,crim_city,crim_address,crim_DOB,reward,crime_type) values(?,?,?,?,?,?,?)";
+    private static final String SQL_ADD_CRIMINAL = "INSERT INTO wanted_criminals (first_name,last_name,crim_city,crim_address,crim_DOB,reward,crime_type,photo) values(?,?,?,?,?,?,?,?)";
     private final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
     private static final WantedCriminalDaoImpl INSTANCE = new WantedCriminalDaoImpl();
@@ -49,7 +54,9 @@ public class WantedCriminalDaoImpl implements WantedCriminalDao {
             statement.setString(4, criminal.getCrimeAddress());
             statement.setDate(5, Date.valueOf(criminal.getCrimeDOB()));
             statement.setBigDecimal(6, criminal.getReward());
+            statement.setBigDecimal(7, criminal.getReward());
             statement.setString(7, type.name());
+            statement.setString(8, criminal.getPhoto());
             int rowCount = statement.executeUpdate();
             if (rowCount != 0) {
                 articleAdded = true;
@@ -97,7 +104,8 @@ public class WantedCriminalDaoImpl implements WantedCriminalDao {
             statement.setDate(5, Date.valueOf(wantedCriminal.getCrimeDOB()));
             statement.setBigDecimal(6, wantedCriminal.getReward());
             statement.setString(7, wantedCriminal.getCrimeType().name());
-            statement.setLong(8, crimId);
+            statement.setString(8, wantedCriminal.getPhoto());
+            statement.setLong(9, crimId);
 
             int rowCount = statement.executeUpdate();
             if (rowCount != 0) {
@@ -114,11 +122,29 @@ public class WantedCriminalDaoImpl implements WantedCriminalDao {
     }
 
     @Override
+    public List<WantedCriminal> findAllWantedCriminals() throws DaoException {
+        List<WantedCriminal>wantedCriminals = new ArrayList<>();
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL_CRIMINALS)) {
+
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                wantedCriminals.add(createCriminal(resultSet));
+            }
+
+        } catch (SQLException e) {
+            logger.error("SQLException in method takeWantedCriminalById " + e.getMessage());
+            throw new DaoException("Dao exception in method findAllWantedCriminals", e);
+        }
+        return wantedCriminals;
+    }
+
+    @Override
     public Optional<WantedCriminal> takeWantedCriminalById(long criminalId) throws DaoException {
         Optional<WantedCriminal> optionalCriminal;
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_TAKE_CRIMINAL_BY_ID)) {
-            logger.debug("in try block");
+
             statement.setLong(1, criminalId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -158,10 +184,6 @@ public class WantedCriminalDaoImpl implements WantedCriminalDao {
         return optionalCriminals;
     }
 
-    @Override
-    public List<SearchApplication> findUserSearchApplicationsByUserId(long userId) throws DaoException {
-        return null;
-    }
 
     @Override
     public Optional<BigDecimal> findCriminalRewardById(long criminalId) throws DaoException {
@@ -198,6 +220,9 @@ public class WantedCriminalDaoImpl implements WantedCriminalDao {
             LocalDate DOB = resultSet.getDate(ColumnName.CRIM_DOB).toLocalDate();
             BigDecimal reward = resultSet.getBigDecimal(ColumnName.REWARD);
             CrimType crimeType = CrimType.valueOf(resultSet.getString(ColumnName.CRIM_TYPE));
+            byte[] photo = resultSet.getBytes(PHOTO);
+            byte[] encodeImageBytes = Base64.getEncoder().encode(photo);
+            String base64Encoded  = new String(encodeImageBytes, StandardCharsets.UTF_8);
             WantedCriminal wantedCriminal = new WantedCriminal.WantedCriminalBuilder()
                     .setGuiltyId(guiltyId)
                     .setFirstName(firstName)
@@ -206,9 +231,9 @@ public class WantedCriminalDaoImpl implements WantedCriminalDao {
                     .setCrimAdress(address)
                     .setDOB(DOB)
                     .setReward(reward)
-                    .setCrimType(crimeType).build();
-            logger.info("criminalCreated " + wantedCriminal);
-
+                    .setCrimType(crimeType)
+                    .setPhoto(base64Encoded).build();
+            logger.info(wantedCriminal);
             return wantedCriminal;
         }
     }

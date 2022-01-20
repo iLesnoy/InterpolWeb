@@ -72,13 +72,13 @@ public class SearchApplicationDaoImpl implements SearchApplicationDao {
             int rowCount = statement.executeUpdate();
             if (rowCount != 0) {
                 updateSearchApplication = true;
-                logger.info("application by id-" + applicationId + " status changed"  );
+                logger.info("application by id-" + applicationId + " status changed to " +status);
             } else {
                 logger.error( "application by id-" + applicationId + " not changed");
             }
         } catch (SQLException e) {
             logger.error( "SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
-            throw new DaoException("Dao epam.task.web.exception in method updateSearchApplicationStatus", e);
+            throw new DaoException("Dao exception in method updateSearchApplicationStatus", e);
         }
         return updateSearchApplication;
     }

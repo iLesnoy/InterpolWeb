@@ -69,7 +69,16 @@ public class NewsFeed {
         return result;
     }
 
-
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("NewsFeed{");
+        sb.append("articleId=").append(articleId);
+        sb.append(", title=").append(title);
+        sb.append(", newsArticle=").append(newsArticle);
+        sb.append(", image=").append(image).append("}");
+        return sb.toString();
+    }
 
     public static class NewsFeedBuilder {
         private final NewsFeed newsFeed;
@@ -92,8 +101,8 @@ public class NewsFeed {
             return this;
         }
 
-        public NewsFeed.NewsFeedBuilder setImage(String picture) {
-            newsFeed.setImage(picture);
+        public NewsFeed.NewsFeedBuilder setImage(String image) {
+            newsFeed.setImage(image);
             return this;
         }
 

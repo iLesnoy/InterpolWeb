@@ -37,35 +37,11 @@ public class LogInCommand implements Command {
             optionalUser = userService.findUserByEmailAndPassword(email,password);
 
             if(optionalUser.isPresent()){
-                switch (optionalUser.get().getRole()){
-                    case  USER:
                         user = optionalUser.get();
                         session.setAttribute(ParameterAndAttribute.USER,user);
                         session.setAttribute(ParameterAndAttribute.USER_PASSWORD,password);
                         router.setPagePath(PagePath.MAIN);
                         logger.info("USER");
-                        break;
-
-                    case ADMIN:
-                        user = optionalUser.get();
-                        session.setAttribute(ParameterAndAttribute.USER, user);
-                        session.setAttribute(ParameterAndAttribute.USER_PASSWORD,password);
-                        router.setPagePath(PagePath.MAIN);
-                        logger.info("ADMIN");
-                        break;
-
-                    case AGENT:
-                        user = optionalUser.get();
-                        session.setAttribute(ParameterAndAttribute.USER, user);
-                        session.setAttribute(ParameterAndAttribute.USER_PASSWORD,password);
-                        router.setPagePath(PagePath.MAIN);
-                        logger.info("AGENT");
-                        break;
-
-                    default:
-                    logger.info("Неверный пароль или почта");
-
-                }
 
             } else {
                 router.setPagePath(PagePath.MAIN);

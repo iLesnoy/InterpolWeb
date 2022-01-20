@@ -159,8 +159,8 @@
                         </div>
 
                     </td>
-                        <c:if test="${elem.status=='ACTIVE'}">
-                            <td>
+                    <c:if test="${elem.status=='ACTIVE'}">
+                        <td>
                             <form action="controller" method="POST">
                                 <button type="submit" class="btn btn-danger btn-sm">
                                     <fmt:message key="label.block_user"/>
@@ -168,11 +168,11 @@
                                 <input type="hidden" name="userId" value="${elem.userId}">
                                 <input type="hidden" name="command" value="block_user">
                             </form>
-                            </td>
-                        </c:if>
+                        </td>
+                    </c:if>
 
-                        <c:if test="${elem.status=='BLOCKED'}">
-                            <td>
+                    <c:if test="${elem.status=='BLOCKED'}">
+                        <td>
                             <form action="controller" method="POST">
                                 <button type="submit" class="btn btn-success btn-sm">
                                     <fmt:message key="label.unblock_user"/>
@@ -180,8 +180,8 @@
                                 <input type="hidden" name="userId" value="${elem.userId}">
                                 <input type="hidden" name="command" value="unblock_user">
                             </form>
-                            </td>
-                        </c:if>
+                        </td>
+                    </c:if>
                 </tr>
             </c:forEach>
 
@@ -192,17 +192,17 @@
                         <li class="page-item">
                             <form action="controller" method="POST">
                                 <div>
-                                <button  type="submit" class="page-item disabled" value="${i - 1}">
-                                    <fmt:message key="label.Previous"/>
-                                </button>
+                                    <button type="submit" class="page-item disabled" value="${i - 1}">
+                                        <fmt:message key="label.Previous"/>
+                                    </button>
 
-                                <button type="submit" class="page-item disabled" value="${i }">
-                                    <c:out value="${i }"/>
-                                </button>
+                                    <button type="submit" class="page-item disabled" value="${i }">
+                                        <c:out value="${i }"/>
+                                    </button>
 
-                                <button  type="submit" class="page-item disabled" value="${i + 1}">
-                                    <fmt:message key="label.Next"/>
-                                </button>
+                                    <button type="submit" class="page-item disabled" value="${i + 1}">
+                                        <fmt:message key="label.Next"/>
+                                    </button>
                                 </div>
                                 <input type="hidden" name="start_from" value="${i}"> <input
                                     type="hidden" name="command" value="find_users_by_name_pagination">
@@ -272,31 +272,23 @@
                                 aria-expanded="false">
                             <fmt:message key="label.update_status"/>
                         </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <button type="submit" class="dropdown-item" name="command"
-                                    value="update_application_status_to_active">
-                                <fmt:message key="label.update_application_status_to_active"/>
-                            </button>
 
+
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <c:forEach var="status" items="${application_status}">
                             <button type="submit" class="dropdown-item" name="command"
-                                    value="update_application_status_to_rejected">
-                                <fmt:message key="label.update_application_status_to_rejected"/>
+                                    value="update_application_status">
+                                <input  name="application_status" value="${status}">
                             </button>
-                            <button type="submit" class="dropdown-item" name="command"
-                                    value="update_application_status_to_expired">
-                                <fmt:message key="label.update_application_status_to_expired"/>
-                            </button>
-                            <button type="submit" class="dropdown-item" name="command"
-                                    value="update_application_status_to_closed">
-                                <fmt:message key="label.update_application_status_to_closed"/>
-                            </button>
+                        </c:forEach>
+
                             <input type="hidden" name="searchApplicationId" value="${elem.searchApplicationId}">
                         </div>
                     </form>
                 </div>
             </td>
         </tr>
-        </tbody>
+    </tbody>
         </c:forEach>
         </c:if>
     </table>
