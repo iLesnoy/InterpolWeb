@@ -17,7 +17,7 @@ import java.util.Optional;
 
 public class FindNewsCommand implements Command {
 
-    private NewsFeedService newsFeedService = new NewsFeedServiceImpl(new NewsFeedDaoImpl());
+    private NewsFeedService newsFeedService = new NewsFeedServiceImpl();
 
 
     @Override

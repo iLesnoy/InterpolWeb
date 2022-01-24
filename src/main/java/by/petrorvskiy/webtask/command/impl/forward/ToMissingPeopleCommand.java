@@ -28,7 +28,7 @@ public class ToMissingPeopleCommand implements Command {
         try {
             List<MissingPeople> missingPeople = missingPeopleService.findAllMissingPeople();
             logger.info(missingPeople);
-            session.setAttribute(ParameterAndAttribute.MISSING_PEOPLE, missingPeople);
+            request.setAttribute(ParameterAndAttribute.MISSING_PEOPLE, missingPeople);
             session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.TO_MISSING_PAGE);
             router.setPagePath(PagePath.MISSING_PEOPLE);
 

@@ -2,21 +2,19 @@
          pageEncoding="utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<fmt:setLocale value="en_US" scope="session" />
+<fmt:setLocale value="${locale}" scope="session"/>
 <fmt:setBundle basename="pagecontent"/>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
 
 
-<header>
-   <c:import url="main.jsp" />
-</header>
 
+<header><c:import url="header.jsp"/></header>
 <div class="container">
     <div class="row main-form">
         <form action="${pageContext.request.contextPath}/controller" method="post">
+            <p>${message}</p>
             <input type="hidden" name="command" value="sign_up">
 
             <div class="form-group">
@@ -24,8 +22,10 @@
                 <div class="cols-sm-10">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-                        <input type="text" class="form-control" name="email" pattern="[a-zA-Z0-9_\.\+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-\.]+"
-                               required id="email" placeholder="Enter your Email"/>
+                        <input type="text" class="form-control" name="email"
+                               pattern="[a-zA-Z0-9_\.\+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-\.]+"
+                               required oninvalid="this.setCustomValidity(${pass_valid})"
+                               id="email" placeholder="Enter your Email"/>
                     </div>
                 </div>
             </div>
@@ -57,11 +57,11 @@
                 <div class="cols-sm-10">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                        <input type="text" class="form-control" name="name" pattern=".*[^<>]" required id="name" placeholder="Enter your Name"/>
+                        <input type="text" class="form-control" name="name" pattern=".*[^<>]" required id="name"
+                               placeholder="Enter your Name"/>
                     </div>
                 </div>
             </div>
-
 
 
             <div class="form-group">

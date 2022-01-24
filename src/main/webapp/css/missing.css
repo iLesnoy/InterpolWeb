@@ -1,4 +1,3 @@
-
 .post-slide {
     margin: 0 15px;
     border-bottom: 1px solid #dadada;
@@ -52,6 +51,9 @@
 
 .post-slide .post-title {
     margin: 0;
+}
+.content{
+    background-color: white;
 }
 
 .post-slide .post-title a {

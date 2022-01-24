@@ -3,6 +3,7 @@ package by.petrorvskiy.webtask.model.service.impl;
 import by.petrorvskiy.webtask.entity.NewsFeed;
 import by.petrorvskiy.webtask.exception.DaoException;
 import by.petrorvskiy.webtask.model.dao.NewsFeedDao;
+import by.petrorvskiy.webtask.model.dao.impl.UserDaoImpl;
 import com.google.protobuf.ServiceException;
 import by.petrorvskiy.webtask.command.ParameterAndAttribute;
 import by.petrorvskiy.webtask.model.dao.impl.NewsFeedDaoImpl;
@@ -10,6 +11,7 @@ import by.petrorvskiy.webtask.model.service.NewsFeedService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -18,23 +20,19 @@ import java.util.Optional;
 public class NewsFeedServiceImpl implements NewsFeedService {
 
     private static final Logger logger = LogManager.getLogger();
-    private final NewsFeedDao newsFeedDao;
+    private final NewsFeedDao newsFeedDao = new NewsFeedDaoImpl();
 
-    public NewsFeedServiceImpl(NewsFeedDaoImpl newsFeedDao) {
-        this.newsFeedDao = newsFeedDao;
-    }
 
     @Override
-    public boolean addArticle(Map<String, String> newsDate) throws ServiceException {
+    public boolean addArticle(Map<String, String> newsDate, InputStream stream) throws ServiceException {
         boolean articleAdded;
 
         NewsFeed newsFeed = new NewsFeed.NewsFeedBuilder()
                 .setTitle(newsDate.get(ParameterAndAttribute.TITLE))
                 .setArticle(newsDate.get(ParameterAndAttribute.NEWS_ARTICLE))
-                .setImage(newsDate.get(ParameterAndAttribute.IMAGE))
                 .build();
         try {
-            articleAdded = newsFeedDao.addArticle(newsFeed);
+            articleAdded = newsFeedDao.addArticle(newsFeed,stream);
 
         } catch (DaoException e) {
             logger.error("dao exception in method add, when we try to add addArticle:" + newsFeed + ". " + e);

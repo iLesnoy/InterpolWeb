@@ -38,25 +38,24 @@ public class SignUpCommand implements Command {
         userData.put(ParameterAndAttribute.USER_PASSWORD, password);
         userData.put(ParameterAndAttribute.USER_NAME, name);
         userData.put(ParameterAndAttribute.USER_SURNAME, surname);
+        request.setAttribute(ParameterAndAttribute.PASSWORD_VALID, Message.PASSWORD_RULES);
 
         if (password.equals(confirmedPassword)) {
             try {
-                if (userService.findUserIdByEmail(email).isEmpty()) {
+                if (userService.findUserByEmail(email).isEmpty()) {
                     if (userService.addUser(userData)) {
+
                         String page = request.getContextPath();
                         router.setPagePath(page);
                         router.setType(Router.Type.REDIRECT);
+                        session.setAttribute(ParameterAndAttribute.MESSAGE, Message.SUCCESSFUL);
 
-                        /*session.setAttribute(ParameterAndAttribute.USER, userData);
-                        logger.debug("user "+ userData + " registr");
-                        logger.debug("  "+ userData);
-                        router.setPagePath(TO_MAIN_PAGE);    */                   /*save user in session -> Change ToAccount*/
                     } else {
                         router.setPagePath(PagePath.SIGN_UP);
                         request.setAttribute(ParameterAndAttribute.MESSAGE, Message.USER_NOT_ADDED);
                     }
                 } else {
-                    router.setPagePath(PagePath.LOG_IN);
+                    router.setPagePath(PagePath.SIGN_UP);
                     request.setAttribute(ParameterAndAttribute.MESSAGE, Message.USER_ALREADY_EXIST);
                 }
             } catch (ServiceException e) {
@@ -67,9 +66,8 @@ public class SignUpCommand implements Command {
             }
         }else {
             router.setPagePath(PagePath.SIGN_UP);
-            request.setAttribute(ParameterAndAttribute.MESSAGE,"password and confirmed password don't match");
+            request.setAttribute(ParameterAndAttribute.MESSAGE,Message.NOT_MATCHES);
         }
-
             return router;
         }
     }

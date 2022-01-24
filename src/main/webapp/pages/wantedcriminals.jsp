@@ -3,14 +3,15 @@
 <fmt:setLocale value="${locale}" scope="session"/>
 <fmt:setBundle basename="pagecontent"/>
 
+
 <link href="css/style.css" rel="stylesheet"/>
 <link href="css/missing.css" rel="stylesheet"/>
+<link href="css/datePicker.css" rel="stylesheet"/>
+<link href="css/header.css" rel="stylesheet"/>
 
-<script src="https://bootstraptema.ru/plugins/jquery/jquery-1.11.3.min.js"></script>
-<script src="https://bootstraptema.ru/plugins/jquery/jquery-1.11.3.min.js"></script>
-<script src="https://bootstraptema.ru/plugins/2015/b-v3-3-6/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/3.3.1/masonry.pkgd.min.js"></script>
+<c:import url="header.jsp"/>
 
+<header><p>${message}</p></header>
 <body>
 <div class="wrapper">
     <div class="container">
@@ -20,20 +21,38 @@
                     <div class="post-slide">
                         <div class="post-img">
                             <img alt="img" src="data:image/jpeg;base64,${elem.photo}"/>
-                            <div class="category"><fmt:message key="label.reward"/>${elem.reward} </div>
+                            <div class="category"><fmt:message key="label.reward"/>: ${elem.reward} </div>
                         </div>
 
                         <div class="content">
                             <h3 class="post-title"><a href="#"> ${elem.firstName} ${elem.lastName}</a></h3>
                             <p class="post-description">
-                            <h4 class="name"><fmt:message key="label.name"/> ${elem.firstName}</h4>
-                            <h4 class="surname"><fmt:message key="label.surname"/>${elem.lastName}</h4>
-                            <h4 class="text"><fmt:message key="label.crimeCity"/> ${elem.crimeCity}</h4>
-                            <h4 class="text"><fmt:message key="label.crimeAddress"/> ${elem.crimeAddress}</h4>
-                            <h4 class="text"><fmt:message key="label.crimeDOB"/> ${elem.crimeDOB}</h4>
-                            <h4 class="text"><fmt:message key="label.crimeType"/> ${elem.crimeType}</h4>
-                            <button class="btn"><fmt:message key="label.takeApplication"/></button>
+                            <h4 class="name"><fmt:message key="label.name"/>: ${elem.firstName}</h4>
+                            <h4 class="surname"><fmt:message key="label.surname"/>: ${elem.lastName}</h4>
+                            <h4 class="text"><fmt:message key="label.crimeCity"/>: ${elem.crimeCity}</h4>
+                            <h4 class="text"><fmt:message key="label.crimeAddress"/>: ${elem.crimeAddress}</h4>
+                            <h4 class="text"><fmt:message key="label.crimeDOB"/>: ${elem.crimeDOB}</h4>
+                            <h4 class="text"><fmt:message key="label.crimeType"/>: ${elem.crimeType}</h4>
                             </p>
+
+                            <form action="controller" method="post">
+                                <button class="btn" type="submit">
+                                    <fmt:message key="label.takeApplication"/>
+                                    <input type="hidden" name="command" value="accept_wanted_application">
+                                </button>
+
+                                <div class="row">
+                                    <p><fmt:message key="label.dateChose"/></p>
+                                    <br/>
+                                    <div class="controls">
+                                        Date: <input class="datepicker form-control" type="date"
+                                                     name="lead_time" required/>
+                                    </div>
+                                </div>
+
+                                <input type="hidden" name="lead_time" value="selectedDtaeVal">
+                                <input type="hidden" name="guiltyId" value="${elem.guiltyId}">
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -42,6 +61,26 @@
     </div>
 </div>
 </body>
+
+<%--<script>
+    $('.datepicker').datepicker({
+        weekStart:1,
+        color: 'red'
+    });
+</script>--%>
+<script>
+    $(function () {
+        $('.datepicker').setDefaults({
+            weekStart: 1,
+            color: 'red',
+            onClose: function (date, inst) {
+                $("#selectedDtaeVal").html(date);
+            }
+        });
+
+        $("#datepicker").datepicker();
+    });
+</script>
 
 
 

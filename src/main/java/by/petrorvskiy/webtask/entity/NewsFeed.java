@@ -1,5 +1,7 @@
 package by.petrorvskiy.webtask.entity;
 
+import java.sql.Blob;
+
 public class NewsFeed {
 
     private int articleId;
@@ -42,6 +44,7 @@ public class NewsFeed {
     public void setImage(String image) {
         this.image = image;
     }
+
 
 
     @Override

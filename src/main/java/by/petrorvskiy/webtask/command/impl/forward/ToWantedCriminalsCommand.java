@@ -26,7 +26,7 @@ public class ToWantedCriminalsCommand implements Command {
         HttpSession session = request.getSession();
         try {
             List<WantedCriminal> wantedCriminals = wantedCriminalService.findAllWantedCriminals();
-            session.setAttribute(ParameterAndAttribute.WANTED_CRIMINAL, wantedCriminals);
+            request.setAttribute(ParameterAndAttribute.WANTED_CRIMINAL, wantedCriminals);
             session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.TO_WANTED_CRIMINALS_PAGE);
             router.setPagePath(PagePath.WANTED_CRIMINALS);
 

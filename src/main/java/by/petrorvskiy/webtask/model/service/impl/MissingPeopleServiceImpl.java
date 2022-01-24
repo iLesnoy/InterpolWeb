@@ -1,5 +1,6 @@
 package by.petrorvskiy.webtask.model.service.impl;
 
+import by.petrorvskiy.webtask.command.ParameterAndAttribute;
 import by.petrorvskiy.webtask.entity.MissingPeople;
 import by.petrorvskiy.webtask.exception.DaoException;
 import by.petrorvskiy.webtask.model.dao.impl.MissingPeopleDaoImpl;
@@ -9,7 +10,10 @@ import by.petrorvskiy.webtask.model.service.MissingPeopleService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.InputStream;
+import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class MissingPeopleServiceImpl implements MissingPeopleService {
@@ -18,10 +22,16 @@ public class MissingPeopleServiceImpl implements MissingPeopleService {
     private final MissingPeopleDao missingPeopleDao = MissingPeopleDaoImpl.getInstance();
 
     @Override
-    public boolean addMissedPeople(MissingPeople people) throws ServiceException {
+    public boolean addMissedPeople(Map<String, String> missingPeopleDate, InputStream stream) throws ServiceException {
          boolean addMissedPeople;
+         MissingPeople people = new MissingPeople.MissingPeopleBuilder()
+                 .setName(missingPeopleDate.get(ParameterAndAttribute.USER_NAME))
+                 .setSurname(missingPeopleDate.get(ParameterAndAttribute.USER_SURNAME))
+                 .setDisappearanceDate(Date.valueOf(missingPeopleDate.get(ParameterAndAttribute.DISAPPEARANCE_DATE)))
+                 .build();
+
         try {
-            missingPeopleDao.addMissedPeople(people);
+            missingPeopleDao.addMissedPeople(people,stream);
             addMissedPeople = true;
         } catch (DaoException e) {
             logger.info("DaoException in method addMissedPeople" + e);

@@ -49,7 +49,7 @@ public class LogInCommand implements Command {
             }
 
         } catch (ServiceException e) {
-            logger.error("UserServiceException in method execute" + e);
+            logger.error("UserServiceException in LogInCommand" + e.getMessage());
             request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
             request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e);
             router.setPagePath(PagePath.ERROR_404);

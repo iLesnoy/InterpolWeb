@@ -18,7 +18,7 @@ import java.util.List;
 
 public class ToNewsFeedCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
-    NewsFeedService newsFeedServices = new NewsFeedServiceImpl(new NewsFeedDaoImpl());
+    NewsFeedService newsFeedServices = new NewsFeedServiceImpl();
 
     @Override
     public Router execute(HttpServletRequest request) {

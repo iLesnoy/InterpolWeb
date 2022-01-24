@@ -26,7 +26,6 @@ public class UnblockUserCommand implements Command {
 
         long id = Long.parseLong(request.getParameter(USER_ID));
 
-        System.out.println(id);
         try {
             String page = request.getContextPath() + PagePath.TO_ACCOUNT_PAGE;
             isBlocked = userService.updateUserStatusById(id,ACTIVE);

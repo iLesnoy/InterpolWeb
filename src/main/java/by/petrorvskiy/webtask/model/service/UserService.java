@@ -1,7 +1,6 @@
 package by.petrorvskiy.webtask.model.service;
 
 import by.petrorvskiy.webtask.entity.User;
-import by.petrorvskiy.webtask.exception.DaoException;
 import com.google.protobuf.ServiceException;
 
 import java.util.List;
@@ -19,7 +18,7 @@ public interface UserService {
     List<User>findAllUsers() throws ServiceException;
     int findNumberOfPages() throws ServiceException;
 
-    Optional<User> findUserIdByEmail(String userEmail) throws ServiceException;
+    long findUserIdByEmail(String userEmail) throws ServiceException;
     Optional<User> findUserByEmail(String email)throws ServiceException;
     Optional<User> findUserPasswordByEmail(String userEmail) throws ServiceException;
     Optional<User> findUserByEmailAndPassword(String email, String password) throws ServiceException;

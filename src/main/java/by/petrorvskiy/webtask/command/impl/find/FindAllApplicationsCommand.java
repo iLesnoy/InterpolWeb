@@ -14,7 +14,7 @@ import java.util.List;
 
 public class FindAllApplicationsCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
-    private SearchApplicationServiceImpl searchApplicationService = new SearchApplicationServiceImpl();
+    private final SearchApplicationServiceImpl searchApplicationService = new SearchApplicationServiceImpl();
     @Override
     public Router execute(HttpServletRequest request) {
         List<SearchApplication>searchApplications;
@@ -26,9 +26,6 @@ public class FindAllApplicationsCommand implements Command {
 
         try {
             searchApplications = searchApplicationService.findAllSearchApplications();
-/*
-            List<SearchApplication.ApplicationStatus> applicationStatusList = Arrays.asList(SearchApplication.ApplicationStatus.values());
-*/
             router.setPagePath(path);
 
             if(searchApplications.size() > 0){

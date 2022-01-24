@@ -8,6 +8,7 @@ import by.petrorvskiy.webtask.exception.DaoException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.ArrayList;
@@ -40,14 +41,14 @@ public class MissingPeopleDaoImpl implements MissingPeopleDao {
 
 
     @Override
-    public boolean addMissedPeople(MissingPeople people) throws DaoException {
+    public boolean addMissedPeople(MissingPeople people, InputStream stream) throws DaoException {
         boolean missingPeopleAdded = false;
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_ADD_MISSING_PEOPLE)) {
             statement.setString(1, people.getName());
             statement.setString(2, people.getSurname());
             statement.setDate(3, people.getDisappearanceDate());
-            statement.setString(4, people.getPhoto());
+            statement.setBlob(4, stream);
             int rowCount = statement.executeUpdate();
             if (rowCount != 0) {
                 missingPeopleAdded = true;

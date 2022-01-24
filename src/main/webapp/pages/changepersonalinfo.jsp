@@ -1,7 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<fmt:setLocale value="en_US" scope="session"/>
+<fmt:setLocale value="${locale}" scope="session"/>
 <fmt:setBundle basename="pagecontent"/>
 
+<link href="css/style.css" rel="stylesheet"/>
 
 <html>
 <head>
@@ -18,12 +19,10 @@
         <div class="col-md-1">
             <input type="text" class="form-control" name="surname" value="${user.surname }" pattern=".*[^<>]">
         </div>
-        <div class="col-md-1">
             <input type="hidden" name="command" value="change_personal_info">
-            <button type="submit" class="btn btn-info" >
+            <button type="submit" class="btn" >
                 <fmt:message key="label.submit" />
             </button>
-        </div>
     </form>
 </div>
 </body>

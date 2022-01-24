@@ -140,20 +140,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findUserIdByEmail(String userEmail) throws ServiceException {
+    public long findUserIdByEmail(String userEmail) throws ServiceException {
         logger.debug( "findUserIdByEmail, email:" + userEmail);
-        Optional<User> user;
+        long userId = 0;
         try {
             if (UserValidator.isValidEmail(userEmail)) {
-                user = userDao.findUserIdByEmail(userEmail);
-            } else {
-                user = Optional.empty();
+                userId = userDao.findUserIdByEmail(userEmail);
             }
+
         } catch (DaoException e) {
             logger.error("dao exception in method findUserIdByEmail" + e);
             throw new ServiceException(e);
         }
-        return user;
+        return userId;
     }
 
     @Override

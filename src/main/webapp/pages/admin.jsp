@@ -2,26 +2,38 @@
          pageEncoding="utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<fmt:setLocale value="en_US" scope="session"/>
+<fmt:setLocale value="${locale}" scope="session"/>
 <fmt:setBundle basename="pagecontent"/>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+<%--<c:import url="header.jsp"/>--%>
 <html>
-
-
-<title>AdminPage</title>
-
+<header><p>${message}</p></header>
+<title>AdminAccount</title>
 <body>
 <div class="container mt-3">
     <div class="col">
         <div class="button">
             <form action="controller" method="GET">
-                <input type="text" type="hidden" name="name" value="" width="13%"
+                <input type="text" type="hidden" name="name" value="" pattern=".*[^<>]"
                        placeholder=<fmt:message key="label.name"/>> <input
                     type="hidden" name="command" value="find_users_by_name">
+                <button type="submit" class="btn btn-primary">
+                    <fmt:message key="label.findUser"/>
+                </button>
+            </form>
+        </div>
+        <br/>
+    </div>
+    <div class="col">
+        <div class="button">
+            <form action="controller" method="GET">
+                <input type="text" type="hidden" name="full_name" value="" pattern=".*[^<>]"
+                       placeholder=<fmt:message key="label.name_and_surname"/>> <input
+                    type="hidden" name="command" value="find_by_name_and_surname">
                 <button type="submit" class="btn btn-primary">
                     <fmt:message key="label.findUser"/>
                 </button>
@@ -33,7 +45,7 @@
     <div class="col">
         <div class="button">
             <form action="controller" method="GET">
-                <input type="text" type="hidden" name="name" value="" width="13%"
+                <input type="text" type="hidden" name="name" value="" pattern=".*[^<>]"
                        placeholder=<fmt:message key="label.firstName"/>> <input
                     type="hidden" name="command" value="find_wanted_criminals">
                 <button type="submit" class="btn btn-primary">
@@ -66,6 +78,13 @@
                 <input type="hidden" name="command" value="find_all_users">
             </form>
         </div>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbar-collapse-2">
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="${pageContext.request.contextPath}/controller?command=to_add"
+                   class="button"><fmt:message key="label.add"/></a></li>
+        </ul>
     </div>
 
     <div class="col">
@@ -139,26 +158,19 @@
                                     <fmt:message key="label.change_role"/>
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <button type="submit" class="dropdown-item" name="command"
-                                            value="change_user_role_to_user">
-                                        <fmt:message key="label.change_role_to_user"/>
-                                    </button>
-
-                                    <button type="submit" class="dropdown-item" name="command"
-                                            value="change_user_role_to_agent">
-                                        <fmt:message key="label.change_role_to_agent"/>
-                                    </button>
-
-                                    <button type="submit" class="dropdown-item" name="command"
-                                            value="change_user_role_to_admin">
-                                        <fmt:message key="label.change_role_to_admin"/>
-                                    </button>
-                                    <input type="hidden" name="userId" value="${elem.userId}">
+                                    <c:forEach var="role" items="${user_role}">
+                                        <button type="submit" class="dropdown-item"
+                                                name="user_role" value="${role}">
+                                            <c:out value="${role}"/>
+                                            <input type="hidden" name="command" value="update_user_role">
+                                        </button>
+                                    </c:forEach>
+                                    <input type="hidden" name="user_role" value="${role}">
                                 </div>
                             </form>
                         </div>
-
                     </td>
+
                     <c:if test="${elem.status=='ACTIVE'}">
                         <td>
                             <form action="controller" method="POST">
@@ -191,19 +203,15 @@
                     <c:forEach begin="1" end="${number_of_pages }" var="i">
                         <li class="page-item">
                             <form action="controller" method="POST">
-                                <div>
-                                    <button type="submit" class="page-item disabled" value="${i - 1}">
+                                    <%--<button type="submit" class="page-item disabled" value="${i - 1}">
                                         <fmt:message key="label.Previous"/>
-                                    </button>
-
-                                    <button type="submit" class="page-item disabled" value="${i }">
+                                    </button>--%>
+                                    <button type="submit" class="page-link" value="${i}">
                                         <c:out value="${i }"/>
                                     </button>
-
-                                    <button type="submit" class="page-item disabled" value="${i + 1}">
+                                    <%--<button type="submit" class="page-item disabled" value="${i + 1}">
                                         <fmt:message key="label.Next"/>
-                                    </button>
-                                </div>
+                                    </button>--%>
                                 <input type="hidden" name="start_from" value="${i}"> <input
                                     type="hidden" name="command" value="find_users_by_name_pagination">
                             </form>
@@ -264,8 +272,16 @@
             <td><c:out value="${elem.leadTime }"/></td>
             <td><c:out value="${elem.userId }"/></td>
             <td><c:out value="${elem.status }"/></td>
+            <td><form action="controller" method="POST">
+                <button type="submit" class="btn btn-danger btn-sm">
+                    <fmt:message key="label.moreInformation"/>
+                </button>
+                <input type="hidden" name="searchApplicationId" value="${elem.searchApplicationId}">
+                <input type="hidden" name="command" value="find_application_information_by_id">
+            </form>
+            </td>
             <td>
-                <div class="dropdown">
+                <div class="nav-item dropdown">
                     <form action="controller" method="post">
                         <button class="btn btn-danger btn-sm dropdown-toggle" type="button"
                                 id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true"
@@ -273,23 +289,76 @@
                             <fmt:message key="label.update_status"/>
                         </button>
 
-
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <c:forEach var="status" items="${application_status}">
-                            <button type="submit" class="dropdown-item" name="command"
-                                    value="update_application_status">
-                                <input  name="application_status" value="${status}">
-                            </button>
-                        </c:forEach>
-
+                            <c:forEach var="stat" items="${application_status}">
+                                <button type="submit" class="dropdown-item"
+                                        name="application_status" value="${stat}">
+                                    <c:out value="${stat}"/>
+                                    <input type="hidden" name="command" value="update_application_status">
+                                </button>
+                            </c:forEach>
+                            <input type="hidden" name="application_status" value="${stat}">
                             <input type="hidden" name="searchApplicationId" value="${elem.searchApplicationId}">
                         </div>
                     </form>
                 </div>
             </td>
         </tr>
-    </tbody>
+        </tbody>
         </c:forEach>
+        </c:if>
+    </table>
+    <table class="table">
+        <thead class="thead-dark">
+        <c:if test="${wantedCriminals ne null}">
+        <tr>
+            <th><fmt:message key="label.guiltyId"/></th>
+            <th><fmt:message key="label.firstName"/></th>
+            <th><fmt:message key="label.lastName"/></th>
+            <th><fmt:message key="label.crimeCity"/></th>
+            <th><fmt:message key="label.crimeAddress"/></th>
+            <th><fmt:message key="label.crimeDOB"/></th>
+            <th><fmt:message key="label.reward"/></th>
+            <th><fmt:message key="label.crimeType"/></th>
+            <th><fmt:message key="label.photo"/></th>
+        </tr>
+        <tbody>
+        <c:forEach var="elem" items="${wantedCriminals}" varStatus="status">
+            <tr>
+                <td><c:out value="${elem.guiltyId }"/></td>
+                <td><c:out value="${elem.firstName }"/></td>
+                <td><c:out value="${elem.lastName }"/></td>
+                <td><c:out value="${elem.crimeCity }"/></td>
+                <td><c:out value="${elem.crimeAddress }"/></td>
+                <td><c:out value="${elem.crimeDOB }"/></td>
+                <td><c:out value="${elem.reward }"/></td>
+                <td><c:out value="${elem.crimeType }"/></td>
+                <td><c:out value="${elem.photo }"/></td>
+            </tr>
+        </c:forEach>
+        </tbody>
+        </c:if>
+    </table>
+    <table class="table">
+        <thead class="thead-dark">
+        <c:if test="${missing ne null}">
+        <tr>
+            <th><fmt:message key="label.name"/></th>
+            <th><fmt:message key="label.surname"/></th>
+            <th><fmt:message key="label.disappearanceDate"/></th>
+            <th><fmt:message key="label.photo"/></th>
+
+        </tr>
+        <tbody>
+        <c:forEach var="elem" items="${missing}" varStatus="status">
+            <tr>
+                <td><c:out value="${elem.name }"/></td>
+                <td><c:out value="${elem.surname }"/></td>
+                <td><c:out value="${elem.disappearanceDate}"/></td>
+                <td><img alt="img" src="data:image/jpeg;base64,${elem.photo}"/></td>
+            </tr>
+        </c:forEach>
+        </tbody>
         </c:if>
     </table>
 

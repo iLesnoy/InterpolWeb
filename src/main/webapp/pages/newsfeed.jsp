@@ -1,37 +1,22 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${locale}" scope="session"/>
+<fmt:setBundle basename="pagecontent"/>
 
-<link rel="stylesheet" href="https://bootstraptema.ru/plugins/2015/bootstrap3/bootstrap.min.css"/>
-<link rel="stylesheet" href="https://bootstraptema.ru/plugins/font-awesome/4-4-0/font-awesome.min.css"/>
-<link rel="stylesheet" href="https://bootstraptema.ru/snippets/font/2016/pe-icon-stroke/Pe-icon-7-stroke.css">
+
 <link href="https://bootstraptema.ru/_sf/3/391.css" rel="stylesheet"/>
 <link href="css/style.css" rel="stylesheet"/>
-
-<script src="https://bootstraptema.ru/plugins/jquery/jquery-1.11.3.min.js"></script>
-<script src="https://bootstraptema.ru/plugins/2015/b-v3-3-6/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/3.3.1/masonry.pkgd.min.js"></script>
+<link href="css/header.css" rel="stylesheet"/>
 
 
-
-
-
-            <title>NesFeed</title>
-            <%--
-                        <div>
-                            <form action="controller" method="GET">
-                                <button type="submit" class="btn btn-primary btn-block">
-                                    <fmt:message key="label.add_article"/>
-                                </button>
-                                <input type="hidden" name="command" value="add_article">
-                            </form>
-                        </div>--%>
-
+<c:import url="header.jsp"/>
+<title>NesFeed</title>
 <body>
 <div class="wrapper">
     <div class="container">
         <div class="masonry-container">
 
-            <c:forEach items="${news}" var="elem" varStatus="status" >
+            <c:forEach items="${news}" var="elem" varStatus="status">
                 <div class="card">
                     <div class="header">
                         <img alt="img" src="data:image/jpeg;base64,${elem.image}"/>

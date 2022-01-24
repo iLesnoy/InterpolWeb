@@ -8,6 +8,7 @@ import by.petrorvskiy.webtask.model.connection.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.ArrayList;
@@ -18,32 +19,42 @@ import java.util.Optional;
 public class NewsFeedDaoImpl implements NewsFeedDao {
 
     private static final Logger logger = LogManager.getLogger();
-    private static final String SQL_ARTICLE_ADD = "INSERT INTO news_feed (article_id,title,news_article,image) values(?,?,?,?)";
+    private static final String SQL_ARTICLE_ADD = "INSERT INTO news_feed (title,news_article,image) values(?,?,?)";
     private static final String SQL_FIND_ALL_NEWS ="SELECT article_id,title,news_article,image FROM news_feed";
     private static final String SQL_DELETE_ARTICLE_BY_ID ="DELETE FROM news_feed WHERE article_id =?";
     private static final String SQL_TAKE_ARTICLE_BY_ID ="SELECT article_id,title,news_article,image FROM news_feed WHERE article_id =?";
     private static final String SQL_UPDATE_ARTICLE_BY_ID ="UPDATE news_feed SET article_id,title,news_article,image WHERE article_id =?";
+
+    private static final NewsFeedDaoImpl INSTANCE = new NewsFeedDaoImpl();
+
+    public NewsFeedDaoImpl() {
+    }
+
+    public NewsFeedDaoImpl getInstance() {
+        return INSTANCE;
+    }
+
     private final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
+
     @Override
-    public boolean addArticle(NewsFeed article) throws DaoException {
+    public boolean addArticle(NewsFeed article, InputStream stream) throws DaoException {
         boolean articleAdded = false;
         try (Connection connection = connectionPool.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_ARTICLE_ADD)) {
-            statement.setInt(1, article.getArticleId());
-            statement.setString(2, article.getTitle());
-            statement.setString(3, article.getNewsArticle());
-            statement.setString(4, article.getImage());
+            statement.setString(1, article.getTitle());
+            statement.setString(2, article.getNewsArticle());
+            statement.setBlob(3, stream);
             int rowCount = statement.executeUpdate();
             if (rowCount != 0) {
                 articleAdded = true;
-                logger.info( "article added" + article);
+                logger.info( "article added " + article);
             } else {
                 logger.error( "article was not added");
             }
         } catch (SQLException e) {
             logger.error( "SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
-            throw new DaoException("Dao exception in method addArticle, when we try to add user:" + article, e);
+            throw new DaoException("Dao exception in method addArticle " + e);
         }
         return articleAdded;
     }
@@ -81,7 +92,6 @@ public class NewsFeedDaoImpl implements NewsFeedDao {
             while (resultSet.next()) {
                 news.add(createArticle(resultSet));
             }
-            logger.info(news);
 
         } catch (SQLException e) {
             logger.error( "SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
@@ -150,7 +160,7 @@ public class NewsFeedDaoImpl implements NewsFeedDao {
                 .setTitle(title)
                 .setArticle(article)
                 .setImage(base64Encoded).build();
-        logger.info(newsFeed);
+        /*logger.info(newsFeed);*/
         return newsFeed;
     }
 }

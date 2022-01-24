@@ -9,11 +9,11 @@ public class SearchApplication {
     private long searchApplicationId;
     private LocalDate leadTime;
     private long userId;
-    ApplicationStatus status;
+    private ApplicationStatus status;
 
 
     public enum ApplicationStatus {
-        ACTIVE, REJECTED, EXPIRED, CLOSED
+        ACTIVE, REJECTED, EXPIRED, CLOSED, PROCESS
     }
 
     public SearchApplication() {

@@ -2,7 +2,6 @@ package by.petrorvskiy.webtask.command.impl.find;
 
 import by.petrorvskiy.webtask.command.*;
 import by.petrorvskiy.webtask.entity.User;
-import by.petrorvskiy.webtask.exception.DaoException;
 import by.petrorvskiy.webtask.model.service.impl.UserServiceImpl;
 import com.google.protobuf.ServiceException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,6 +29,7 @@ public class FindAllUsersCommand implements Command {
             users = userService.findUsersFromRow(startRow);
             numberOfPages = userService.findNumberOfPages();
             router.setPagePath(page);
+            request.setAttribute(ParameterAndAttribute.USER_ROLE,User.Role.values());
             request.setAttribute(ParameterAndAttribute.LIST, users);
             session.setAttribute(ParameterAndAttribute.NUMBER_OF_PAGES, numberOfPages);
             session.setAttribute(ParameterAndAttribute.MESSAGE_FOR_USER, Message.SUCCESSFUL);

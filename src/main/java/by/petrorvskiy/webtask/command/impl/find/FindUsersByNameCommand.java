@@ -1,7 +1,6 @@
 package by.petrorvskiy.webtask.command.impl.find;
 
 import by.petrorvskiy.webtask.entity.User;
-import by.petrorvskiy.webtask.model.dao.impl.UserDaoImpl;
 import com.google.protobuf.ServiceException;
 import by.petrorvskiy.webtask.command.Command;
 import by.petrorvskiy.webtask.command.PagePath;
@@ -31,23 +30,23 @@ public class FindUsersByNameCommand implements Command {
         String page = (String) session.getAttribute(ParameterAndAttribute.CURRENT_PAGE);
         String userName = request.getParameter(ParameterAndAttribute.USER_NAME);
 
-        logger.debug( "find user by name: " + userName);
+        logger.debug("find user by name: " + userName);
         List<User> users;
-        try{
+        try {
 
             users = userService.findUsersByName(userName);
             router.setPagePath(page);
 
-            if(users.size() > 0){
-
-                request.setAttribute(ParameterAndAttribute.LIST,users);
+            if (users.size() > 0) {
+                request.setAttribute(ParameterAndAttribute.USER_ROLE, User.Role.values());
+                request.setAttribute(ParameterAndAttribute.LIST, users);
                 logger.debug(request.getAttribute(LIST));
 
             } else {
                 session.setAttribute(ParameterAndAttribute.MESSAGE, Message.ERROR_MESSAGE);
             }
 
-        }catch (ServiceException e) {
+        } catch (ServiceException e) {
             logger.error("UserServiceException in method execute");
             request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
             request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e);

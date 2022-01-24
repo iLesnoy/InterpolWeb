@@ -20,7 +20,7 @@ public interface UserDao {
     List<User>findUsersByRole(Role userRole)throws DaoException;
 
     Optional<String> findUserPasswordByEmail(String userEmail) throws DaoException;
-    Optional<User> findUserIdByEmail(String userEmail) throws DaoException;
+    long findUserIdByEmail(String userEmail) throws DaoException;
 
     boolean addUser(User user, String password) throws DaoException;
     boolean changeUserRole(long userId,Role role) throws DaoException;

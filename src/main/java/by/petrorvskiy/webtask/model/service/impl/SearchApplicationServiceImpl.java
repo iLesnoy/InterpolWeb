@@ -70,14 +70,36 @@ public class SearchApplicationServiceImpl implements SearchApplicationService {
     }
 
     @Override
-    public boolean deleteSearchApplicationByUserId(long userId) throws ServiceException {
+    public boolean deleteSearchApplicationByUserId(long userId,long applicationId) throws ServiceException {
         boolean searchApplication;
         try {
-            searchApplication = searchApplicationDao.deleteSearchApplicationByUserId(userId);
+            searchApplication = searchApplicationDao.deleteSearchApplicationByUserId(applicationId,userId);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
         return searchApplication;
+    }
+
+    @Override
+    public boolean addWantedCriminalApplication(long applicationId, long guiltyId) throws ServiceException {
+        boolean addWantedCriminalApplication;
+        try {
+            addWantedCriminalApplication = searchApplicationDao.addWantedCriminalApplication(applicationId, guiltyId);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return addWantedCriminalApplication;
+    }
+
+    @Override
+    public boolean addMissingCriminalApplication(long applicationId, long missingId) throws ServiceException {
+        boolean addMissingCriminalApplication;
+        try {
+            addMissingCriminalApplication = searchApplicationDao.addMissingCriminalApplication(applicationId, missingId);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return addMissingCriminalApplication;
     }
 
     @Override
@@ -89,6 +111,17 @@ public class SearchApplicationServiceImpl implements SearchApplicationService {
             throw new ServiceException(e);
         }
         return criminalGuiltyId;
+    }
+
+    @Override
+    public Optional<Long> findApplicationIdByUserId(long userId) throws ServiceException {
+        Optional<Long> findApplicationIdByUserId;
+        try {
+            findApplicationIdByUserId = searchApplicationDao.findApplicationIdByUserId(userId);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return findApplicationIdByUserId;
     }
 
     @Override
@@ -119,6 +152,40 @@ public class SearchApplicationServiceImpl implements SearchApplicationService {
             throw new ServiceException(e);
         }
         return searchApplication;
+    }
+
+    @Override
+    public Optional<SearchApplication> findApplicationByUserIdAndWantedId(long applicationId, long guiltyId) throws ServiceException {
+        Optional<SearchApplication> findApplicationByUserIdAndWantedId;
+        try {
+            findApplicationByUserIdAndWantedId = searchApplicationDao.findApplicationByUserIdAndWantedId(applicationId, guiltyId);
+            if (findApplicationByUserIdAndWantedId.isPresent()) {
+                logger.debug("searchApplication " + findApplicationByUserIdAndWantedId);
+            } else {
+                findApplicationByUserIdAndWantedId = Optional.empty();
+            }
+
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return findApplicationByUserIdAndWantedId;
+    }
+
+    @Override
+    public Optional<SearchApplication> findApplicationByUserIdAndMissingId(long applicationId, long missingId) throws ServiceException {
+        Optional<SearchApplication> findApplicationByUserIdAndMissingId;
+        try {
+            findApplicationByUserIdAndMissingId = searchApplicationDao.findApplicationByUserIdAndMissingId(applicationId, missingId);
+            if (findApplicationByUserIdAndMissingId.isPresent()) {
+                logger.debug("searchApplication " + findApplicationByUserIdAndMissingId);
+            } else {
+                findApplicationByUserIdAndMissingId = Optional.empty();
+            }
+
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return findApplicationByUserIdAndMissingId;
     }
 
     @Override

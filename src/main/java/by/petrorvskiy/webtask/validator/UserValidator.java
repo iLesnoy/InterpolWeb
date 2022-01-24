@@ -14,7 +14,7 @@ public class UserValidator {
 
     public static boolean isValidEmail(String email) {
         logger.debug( "email: " + email);
-        boolean isValid = true;
+        boolean isValid;
         if (!email.isEmpty()) {
             Pattern pattern = Pattern.compile(EMAIL_REGEX);
             Matcher matcher = pattern.matcher(email);
@@ -33,10 +33,10 @@ public class UserValidator {
         return password.matches(PASSWORD_REGEX);
     }
 
-    public static boolean isValidName(String text) {
-        if(text==null||text.isBlank()) {
+    public static boolean isValidName(String name) {
+        if(name==null||name.isBlank()) {
             return false;
         }
-        return text.matches(NAME_REGEX);
+        return name.matches(NAME_REGEX);
     }
 }

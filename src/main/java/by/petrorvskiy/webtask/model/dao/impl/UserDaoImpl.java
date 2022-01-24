@@ -21,8 +21,8 @@ import static by.petrorvskiy.webtask.entity.User.Status.BLOCKED;
 public class UserDaoImpl implements UserDao {
 
     private static final Logger logger = LogManager.getLogger();
-    private static final String SQL_FIND_USERS_BY_NAME_AND_SURNAME = "SELECT user_id,email,password,user_status,user_role FROM users WHERE name=? AND surname=?";
-    private static final String SQL_FIND_USERS_BY_STATUS = "SELECT user_id,email,password,name,surname,user_role FROM users WHERE user_status=?";
+    private static final String SQL_FIND_USERS_BY_NAME_AND_SURNAME = "SELECT user_id,email,password,name,surname,user_status,user_role FROM users WHERE name=? AND surname=?";
+    private static final String SQL_FIND_USERS_BY_STATUS = "SELECT user_id,email,password,name,surname,user_status,user_role FROM users WHERE user_status=?";
     private static final String SQL_FIND_USERS_BY_ROLE = "SELECT user_id,email,password,name,surname,user_status,user_role FROM users WHERE user_role=?";
     private static final String SQL_FIND_USERS_BY_EMAIL_AND_PASSWORD = "SELECT user_id,email,password,name,surname,user_status,user_role FROM users WHERE email=? AND password=?";
     private static final String SQL_FIND_USER_ID_BY_EMAIL = "SELECT user_id FROM users WHERE email=?";
@@ -39,7 +39,7 @@ public class UserDaoImpl implements UserDao {
     private final ConnectionPool connectionPool = ConnectionPool.getInstance();
     private static final UserDaoImpl INSTANCE = new UserDaoImpl();
 
-    private UserDaoImpl(){
+    public UserDaoImpl(){
     }
 
     public static UserDaoImpl getInstance(){
@@ -98,7 +98,7 @@ public class UserDaoImpl implements UserDao {
             statement.setString(1, userName);
             statement.setString(2, userSurname);
             ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
+            if (resultSet.next()) {
                 users.add(createUser(resultSet));
             }
         } catch (SQLException e) {
@@ -172,25 +172,22 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Optional<User> findUserIdByEmail(String userEmail) throws DaoException {
-        Optional<User> optionalUser;                                           /*//должен возвращать только паротль String ИЗМЕНИТЬ//*/
+    public long findUserIdByEmail(String userEmail) throws DaoException {
+        long userId = 0;
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_FIND_USER_ID_BY_EMAIL)) {
             statement.setString(1, userEmail);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                User user = createUser(resultSet);
-                optionalUser = Optional.of(user);
-                logger.info("founded user Id by email " +optionalUser );
-            } else {
-                logger.info("didn't find user with login:" + userEmail);
-                optionalUser = Optional.empty();
-            }
+                userId = resultSet.getLong(1);
+                logger.info("founded user Id by email " +userId );
+            } 
+            
         } catch (SQLException e) {
             logger.error("SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
-            throw new DaoException("exception in method findUserByEmail", e);
+            throw new DaoException("exception in method findUserIdByEmail", e);
         }
-        return optionalUser;
+        return userId;
     }
 
 
@@ -226,7 +223,7 @@ public class UserDaoImpl implements UserDao {
             statement.setString(2, password);
             statement.setString(3, user.getName());
             statement.setString(4, user.getSurname());
-            statement.setString(5, String.valueOf(user.getStatus()).toUpperCase());
+            statement.setString(5, String.valueOf(user.getStatus()));
             statement.setString(6, String.valueOf(user.getRole()));
             int rowCount = statement.executeUpdate();
             if (rowCount != 0) {

@@ -1,12 +1,18 @@
 package by.petrorvskiy.webtask.command;
 
 import by.petrorvskiy.webtask.command.impl.*;
+import by.petrorvskiy.webtask.command.impl.add.AddMissingCommand;
+import by.petrorvskiy.webtask.command.impl.add.AddNewsCommand;
 import by.petrorvskiy.webtask.command.impl.common.ChangeLocaleCommand;
+import by.petrorvskiy.webtask.command.impl.common.DeleteSearchApplicationByUserIdCommand;
 import by.petrorvskiy.webtask.command.impl.find.*;
 import by.petrorvskiy.webtask.command.impl.forward.*;
 import by.petrorvskiy.webtask.command.impl.signin.LogOutCommand;
 import by.petrorvskiy.webtask.command.impl.signin.LogInCommand;
 import by.petrorvskiy.webtask.command.impl.signin.SignUpCommand;
+import by.petrorvskiy.webtask.command.impl.update.ChangeUserInfoCommand;
+import by.petrorvskiy.webtask.command.impl.update.UpdateApplicationStatusCommand;
+import by.petrorvskiy.webtask.command.impl.update.UpdateUserRoleCommand;
 
 
 public enum CommandType {
@@ -18,17 +24,19 @@ public enum CommandType {
 
     DEFAULT(new DefaultCommand()),
     FIND_NEWS(new FindNewsCommand()),
-    ADD_ARTICLE(new AddNewsCommand()),
-    FIND_BY_NAME_AND_SURNAME(new FindUsersByNameAndSurnameCommand()),
+    ADD_NEWS(new AddNewsCommand()),
+    ADD_MISSING(new AddMissingCommand()),
+    TO_ADD(new ToAddCommand()),
+    FIND_BY_NAME_AND_SURNAME(new FindUserByNameAndSurnameCommand()),
     FIND_USERS_BY_NAME(new FindUsersByNameCommand()),
     CHANGE_USER_INFO(new ChangeUserInfoCommand()),
-    CHANGE_USER_ROLE_TO_USER(new ChangeUserRoleToUserCommand()),
-    CHANGE_USER_ROLE_TO_AGENT(new ChangeUserRoleToAgentCommand()),
-    CHANGE_USER_ROLE_TO_ADMIN(new ChangeUserRoleToAdminCommand()),
+    UPDATE_USER_ROLE(new UpdateUserRoleCommand()),
     UPDATE_APPLICATION_STATUS(new UpdateApplicationStatusCommand()),
     FIND_USERS_BY_NAME_PAGINATION(new FindUsersPaginationCommand()),
     FIND_ALL_USERS(new FindAllUsersCommand()),
-
+    ACCEPT_WANTED_APPLICATION(new AcceptWantedSearchApplicationByIdCommand()),
+    ACCEPT_MISSING_APPLICATION(new AcceptMissingSearchApplicationByIdCommand()),
+    DELETE_APPLICATION(new DeleteSearchApplicationByUserIdCommand()),
     TO_MAIN(new ToMainCommand()),
     TO_WANTED(new ToWantedCriminalsCommand()),
     TO_ACCOUNT(new ToAccountCommand()),
@@ -42,7 +50,7 @@ public enum CommandType {
     FIND_SEARCH_APPLICATIONS_BY_USER_ID(new FindAllSearchApplicationByUserIdCommand()),
     FIND_APPLICATION_INFORMATION_BY_ID(new FindApplicationInformationByIdCommand()),
     CHANGE_LOCALE(new ChangeLocaleCommand()),
-    TO_MISSING(new ToMissingPeopleCommand());
+    TO_MISSING_PEOPLE(new ToMissingPeopleCommand());
 
 
     Command command;

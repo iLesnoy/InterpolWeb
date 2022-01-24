@@ -2,6 +2,7 @@ package by.petrorvskiy.webtask.command;
 
 public class ParameterAndAttribute {
     public static final String USER_NAME = "name";
+    public static final String USER_FULLNAME= "full_name";
     public static final String FIRST_NAME = "first_name";
     public static final String USER_SURNAME = "surname";
     public static final String USER_EMAIL = "email";
@@ -15,6 +16,7 @@ public class ParameterAndAttribute {
     public static final String ADMIN = "admin";
     public static final String AGENT = "agent";
     public static final String MESSAGE = "message";
+    public static final String PASSWORD_VALID = "pass_valid";
 
     public static final String EXCEPTION = "EXCEPTION";
     public static final String ERROR_MESSAGE = "error_message";
@@ -48,10 +50,16 @@ public class ParameterAndAttribute {
     public static final String APPLICATIONS = "applications";
     public static final String APPLICATION_ID = "searchApplicationId";
     public static final String APPLICATION_GUILTY_ID = "application_guilty_id";
+    public static final String GUILTY_ID = "guiltyId";
+    public static final String MISSING_ID = "missingId";
+    public static final String LEAD_TIME = "lead_time";
+    public static final String CRIME_TYPE = "crimeType";
     public static final String APPLICATION_MISSING_PEOPLE_ID = "application_missing_people_id";
     public static final String START_FROM = "start_from";
     public static final String NUMBER_OF_PAGES = "number_of_pages";
     public static final String ENCODED_PASSWORD = "encoded_password";
     public static final String APPLICATION_STATUS = "application_status";
+    public static final String DISAPPEARANCE_DATE = "disappearance_date";
+    public static final String PHOTO = "photo";
 
 }

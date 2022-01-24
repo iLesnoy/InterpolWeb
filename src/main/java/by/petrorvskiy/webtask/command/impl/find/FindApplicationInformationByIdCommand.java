@@ -37,7 +37,6 @@ public class FindApplicationInformationByIdCommand implements Command {
         String page = (String) session.getAttribute(ParameterAndAttribute.CURRENT_PAGE);
 
         long applicationId = Long.parseLong(request.getParameter(ParameterAndAttribute.APPLICATION_ID));
-        System.out.println(applicationId);
 
         try {
 
@@ -55,18 +54,15 @@ public class FindApplicationInformationByIdCommand implements Command {
 
                 request.setAttribute(ParameterAndAttribute.WANTED_CRIMINAL, wantedCriminal);
                 request.setAttribute(ParameterAndAttribute.MISSING_PEOPLE, missingPeople);
-                System.out.println(wantedCriminal);
-                System.out.println(missingPeople);
+
 
             } else if (optionalWantedCriminal.isPresent()) {
                 wantedCriminal = optionalWantedCriminal.stream().toList();
                 request.setAttribute(ParameterAndAttribute.WANTED_CRIMINAL, wantedCriminal);
-                System.out.println(wantedCriminal);
 
             } else if (optionalMissingPeople.isPresent()) {
                 missingPeople = optionalMissingPeople.stream().toList();
                 request.setAttribute(ParameterAndAttribute.MISSING_PEOPLE, missingPeople);
-                System.out.println(missingPeople);
             } else {
                 session.setAttribute(ParameterAndAttribute.MESSAGE, Message.ERROR_MESSAGE);
             }
