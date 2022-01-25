@@ -13,8 +13,6 @@ import org.apache.logging.log4j.Logger;
 import java.util.Arrays;
 import java.util.List;
 
-import java.util.stream.Stream;
-
 import static by.petrorvskiy.webtask.command.ParameterAndAttribute.LIST;
 
 public class FindUserByNameAndSurnameCommand implements Command {
@@ -48,7 +46,7 @@ public class FindUserByNameAndSurnameCommand implements Command {
         } catch (ServiceException e) {
             logger.error("UserServiceException in method execute");
             request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
-            request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e);
+            request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getMessage());
             router.setPagePath(PagePath.ERROR_404);
         }
         return router;
