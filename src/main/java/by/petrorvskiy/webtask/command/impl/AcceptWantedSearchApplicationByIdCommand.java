@@ -54,7 +54,7 @@ public class AcceptWantedSearchApplicationByIdCommand implements Command {
                 } catch (ServiceException e) {
                     logger.error("ServiceException in method FindAllSearchApplicationByUserIdCommand " + e.getMessage());
                     request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
-                    request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e);
+                    request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getMessage());
                     router.setPagePath(PagePath.ERROR_500);
                 }
             } else {

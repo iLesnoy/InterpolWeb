@@ -31,7 +31,6 @@ public class AcceptMissingSearchApplicationByIdCommand implements Command {
         } else {
 
             String page = (String) session.getAttribute(ParameterAndAttribute.CURRENT_PAGE);
-            System.out.println(page+" current page");
             long userId = user.getUserId();
             long missingId = Long.parseLong(request.getParameter(ParameterAndAttribute.MISSING_ID));
             Optional<Long> applicationId;
@@ -54,7 +53,7 @@ public class AcceptMissingSearchApplicationByIdCommand implements Command {
                 } catch (ServiceException e) {
                     logger.error("ServiceException in method AcceptMissingSearchApplicationByIdCommand " + e.getMessage());
                     request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
-                    request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e);
+                    request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getMessage());
                     router.setPagePath(PagePath.ERROR_500);
                 }
             } else {
@@ -73,7 +72,6 @@ public class AcceptMissingSearchApplicationByIdCommand implements Command {
             applicationIdByUserId = applicationService.findApplicationIdByUserId(userId);
             if (applicationIdByUserId.isPresent()) {
                 missingApplicationId = Optional.of(applicationService.findMissingPeopleId(applicationIdByUserId.get()));
-                System.out.println(missingApplicationId);
             }
 
         } catch (ServiceException e) {
