@@ -4,19 +4,16 @@
 <fmt:setBundle basename="pagecontent"/>
 
 
-
-
 <link href="css/style.css" rel="stylesheet"/>
 <link href="css/missing.css" rel="stylesheet"/>
-<link href="css/datePicker.css" rel="stylesheet"/>
 <link href="css/header.css" rel="stylesheet"/>
-
-
-
 
 
 <script src="https://bootstraptema.ru/plugins/jquery/jquery-1.11.3.min.js"></script>
 <link rel="stylesheet" href="https://bootstraptema.ru/plugins/2015/bootstrap3/bootstrap.min.css"/>
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
 
 <header><c:import url="header.jsp"/></header>
 <p>${message}</p>
@@ -29,7 +26,7 @@
                     <div class="post-slide">
                         <div class="post-img">
                             <img alt="img" src="data:image/jpeg;base64,${elem.photo}"/>
-                            <%--<div class="category">Reward:</div>--%>
+                                <%--<div class="category">Reward:</div>--%>
                         </div>
 
                         <div class="content">
@@ -41,7 +38,8 @@
                             </p>
 
                             <form action="controller" method="post">
-                                <button class="btn" type="submit">
+                                <button class="btn" type="submit"
+                                        onclick="return confirm('Are you sure that you want to accept an Search Application?')">
                                     <fmt:message key="label.takeApplication"/>
                                     <input type="hidden" name="command" value="accept_missing_application">
                                 </button>
@@ -50,7 +48,7 @@
                                     <p><fmt:message key="label.dateChose"/></p>
                                     <br/>
                                     <div class="controls">
-                                        Date: <input class="datepicker form-control" type="date"
+                                        Date: <input class="datepicker form-control" id="datepicker form-control" type="date"
                                                      name="lead_time" required/>
                                     </div>
                                 </div>
@@ -67,5 +65,9 @@
 </div>
 </body>
 
-
+<script type="text/javascript">
+    $(function() {
+        $("#datepicker form-control").datepicker({ dateFormat: "yy-mm-dd" }).val()
+    });
+</script>
 

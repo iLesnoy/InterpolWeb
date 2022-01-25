@@ -19,7 +19,7 @@ import static by.petrorvskiy.webtask.command.ParameterAndAttribute.LIST;
 
 public class FindUserByNameAndSurnameCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
-    private UserService userService = new UserServiceImpl();
+    private final UserService userService = new UserServiceImpl();
 
     @Override
     public Router execute(HttpServletRequest request) {
@@ -28,7 +28,7 @@ public class FindUserByNameAndSurnameCommand implements Command {
 
         String page = (String) session.getAttribute(ParameterAndAttribute.CURRENT_PAGE);
         String fullName = request.getParameter(ParameterAndAttribute.USER_FULLNAME);
-        List<String> nameAndSurname = Stream.of(fullName.split("\\s")).toList();
+        List<String> nameAndSurname = Arrays.asList(fullName.split("\\s"));
         List<User> users;
         try {
 

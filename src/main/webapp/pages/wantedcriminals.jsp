@@ -36,7 +36,8 @@
                             </p>
 
                             <form action="controller" method="post">
-                                <button class="btn" type="submit">
+                                <button class="btn" type="submit"
+                                        onclick="return confirm('Are you sure that you want to accept an application?')">
                                     <fmt:message key="label.takeApplication"/>
                                     <input type="hidden" name="command" value="accept_wanted_application">
                                 </button>
@@ -45,7 +46,7 @@
                                     <p><fmt:message key="label.dateChose"/></p>
                                     <br/>
                                     <div class="controls">
-                                        Date: <input class="datepicker form-control" type="date"
+                                        Date: <input class="datepicker form-control" min="2022-01-20" type="date"
                                                      name="lead_time" required/>
                                     </div>
                                 </div>
@@ -62,23 +63,9 @@
 </div>
 </body>
 
-<%--<script>
-    $('.datepicker').datepicker({
-        weekStart:1,
-        color: 'red'
-    });
-</script>--%>
-<script>
-    $(function () {
-        $('.datepicker').setDefaults({
-            weekStart: 1,
-            color: 'red',
-            onClose: function (date, inst) {
-                $("#selectedDtaeVal").html(date);
-            }
-        });
-
-        $("#datepicker").datepicker();
+<script type="text/javascript">
+    $(function() {
+        $("#datepicker").datepicker({ dateFormat: "yy-mm-dd" }).val()
     });
 </script>
 
