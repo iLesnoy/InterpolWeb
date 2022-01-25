@@ -59,8 +59,6 @@ public class AcceptWantedSearchApplicationByIdCommand implements Command {
                 }
             } else {
                 request.setAttribute(ParameterAndAttribute.MESSAGE, Message.APPLICATION_ALREADY_ADDED);
-                System.out.println("else сраюотал текущий путь " + page );
-
                 router.setPagePath(page);
             }
         }
