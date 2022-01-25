@@ -66,7 +66,7 @@ public class AcceptMissingSearchApplicationByIdCommand implements Command {
         return router;
     }
 
-    public static Optional<Long> duplicateApplicationCheck(long userId) {
+    private Optional<Long> duplicateApplicationCheck(long userId) {
         Optional<Long> missingApplicationId = Optional.empty();
         Optional<Long> applicationIdByUserId;
         try {

@@ -68,7 +68,7 @@ public class AcceptWantedSearchApplicationByIdCommand implements Command {
         return router;
     }
 
-    public static Optional<Long> duplicateApplicationCheck(long userId) {
+    private Optional<Long> duplicateApplicationCheck(long userId) {
 
         Optional<Long> wantedApplicationId = Optional.empty();
         Optional<Long> applicationIdByUserId;
