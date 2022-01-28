@@ -1,7 +1,7 @@
 package by.petrorvskiy.webtask.command.impl.find;
 
 import by.petrorvskiy.webtask.entity.User;
-import com.google.protobuf.ServiceException;
+import by.petrorvskiy.webtask.exception.ServiceException;
 import by.petrorvskiy.webtask.command.Command;
 import by.petrorvskiy.webtask.command.PagePath;
 import by.petrorvskiy.webtask.command.ParameterAndAttribute;

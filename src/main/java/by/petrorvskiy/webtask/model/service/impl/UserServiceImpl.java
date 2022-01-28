@@ -8,7 +8,7 @@ import by.petrorvskiy.webtask.model.dao.UserDao;
 import by.petrorvskiy.webtask.model.dao.impl.UserDaoImpl;
 import by.petrorvskiy.webtask.util.PasswordEncoder;
 import by.petrorvskiy.webtask.validator.UserValidator;
-import com.google.protobuf.ServiceException;
+import by.petrorvskiy.webtask.exception.ServiceException;
 import by.petrorvskiy.webtask.model.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

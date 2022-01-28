@@ -2,16 +2,17 @@ package by.petrorvskiy.webtask.model.service;
 
 import by.petrorvskiy.webtask.entity.SearchApplication;
 import by.petrorvskiy.webtask.entity.WantedCriminal;
-import by.petrorvskiy.webtask.exception.DaoException;
-import com.google.protobuf.ServiceException;
+import by.petrorvskiy.webtask.exception.ServiceException;
 
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface WantedCriminalService {
 
-    boolean addWantedCriminal(WantedCriminal criminal, WantedCriminal.CrimType type) throws ServiceException;
+    boolean addWantedCriminal(Map<String,String> wantedData, InputStream photoStream) throws ServiceException;
     boolean deleteWantedCriminal(long criminalId) throws ServiceException;
     boolean updateWantedCriminalById(WantedCriminal wantedCriminal,long crimId) throws ServiceException;
 

@@ -2,12 +2,11 @@ package by.petrorvskiy.webtask.command.impl.find;
 
 import by.petrorvskiy.webtask.command.*;
 import by.petrorvskiy.webtask.entity.MissingPeople;
-import by.petrorvskiy.webtask.entity.SearchApplication;
 import by.petrorvskiy.webtask.entity.WantedCriminal;
 import by.petrorvskiy.webtask.model.service.impl.MissingPeopleServiceImpl;
 import by.petrorvskiy.webtask.model.service.impl.SearchApplicationServiceImpl;
 import by.petrorvskiy.webtask.model.service.impl.WantedCriminalServiceImpl;
-import com.google.protobuf.ServiceException;
+import by.petrorvskiy.webtask.exception.ServiceException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;

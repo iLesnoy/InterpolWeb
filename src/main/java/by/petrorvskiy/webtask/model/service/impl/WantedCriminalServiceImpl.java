@@ -1,17 +1,21 @@
 package by.petrorvskiy.webtask.model.service.impl;
 
+import by.petrorvskiy.webtask.command.ParameterAndAttribute;
 import by.petrorvskiy.webtask.entity.SearchApplication;
 import by.petrorvskiy.webtask.entity.WantedCriminal;
 import by.petrorvskiy.webtask.exception.DaoException;
 import by.petrorvskiy.webtask.model.dao.WantedCriminalDao;
 import by.petrorvskiy.webtask.model.dao.impl.WantedCriminalDaoImpl;
-import com.google.protobuf.ServiceException;
+import by.petrorvskiy.webtask.exception.ServiceException;
 import by.petrorvskiy.webtask.model.service.WantedCriminalService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.InputStream;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class WantedCriminalServiceImpl implements WantedCriminalService {
@@ -21,10 +25,19 @@ public class WantedCriminalServiceImpl implements WantedCriminalService {
 
 
     @Override
-    public boolean addWantedCriminal(WantedCriminal criminal, WantedCriminal.CrimType type) throws ServiceException {
+    public boolean addWantedCriminal(Map<String, String> criminalData, InputStream photoStream) throws ServiceException {
         boolean addWantedCriminal;
+        WantedCriminal criminal = new WantedCriminal.WantedCriminalBuilder()
+                .setFirstName(criminalData.get(ParameterAndAttribute.USER_NAME))
+                .setLastName(criminalData.get(ParameterAndAttribute.USER_SURNAME))
+                .setCrimCity(criminalData.get(ParameterAndAttribute.CRIME_CITY))
+                .setDOB(LocalDate.parse(criminalData.get(ParameterAndAttribute.DATE_OF_BIRTH)))
+                .setReward(new BigDecimal(criminalData.get(ParameterAndAttribute.REWARD)))
+                .setCrimType(WantedCriminal.CrimeType.valueOf(criminalData.get(ParameterAndAttribute.CRIME_TYPE)))
+                .setPhoto(criminalData.get(ParameterAndAttribute.PHOTO))
+                .setCrimAdress(ParameterAndAttribute.CRIME_ADDRESS).build();
         try {
-            wantedCriminalDao.addWantedCriminal(criminal, type);
+            wantedCriminalDao.addWantedCriminal(criminal,photoStream);
             addWantedCriminal = true;
         } catch (DaoException e) {
             logger.info("DaoException in method " + e);

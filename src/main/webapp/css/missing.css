@@ -1,13 +1,13 @@
 .post-slide {
     margin: 0 15px;
-    border-bottom: 1px solid #dadada;
-    box-shadow: 0 0 5px rgba(167, 197, 167, 0.8);
+    box-shadow: 0 0 5px navy;
     transition: all 0.4s ease-in-out 0s;
 }
 
 .post-slide .post-img {
     position: relative;
     overflow: hidden;
+    height: 160px;
 }
 
 .post-slide .post-img:before {
@@ -51,9 +51,11 @@
 
 .post-slide .post-title {
     margin: 0;
+    cursor: pointer;
 }
 .content{
     background-color: white;
+    margin-top: -33px!important;
 }
 
 .post-slide .post-title a {
@@ -97,4 +99,27 @@
 .post-bar span a:hover {
     text-decoration: none;
     color: #3002a1;
+}
+.row{
+display: inline;
+}
+
+.masonry-container{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    grid-column-gap: 20px;
+    grid-row-gap: 45px;
+}
+.card{
+    width:100%;
+    max-height: 430px;
+    margin:0!important;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #4c17e7;
+    border-color: #2e6da4;
+    left: 50px!important;
+    position: relative;
 }

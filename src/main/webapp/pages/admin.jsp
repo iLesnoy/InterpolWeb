@@ -5,14 +5,20 @@
 <fmt:setLocale value="${locale}" scope="session"/>
 <fmt:setBundle basename="pagecontent"/>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-<%--<c:import url="header.jsp"/>--%>
 <html>
-<header><p>${message}</p></header>
-<title>AdminAccount</title>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin.css">
+    <title>AdminAccount</title>
+</head>
+
+<header><c:import url="header.jsp"/></header>
+<p>${message}</p>
 <body>
 <div class="container mt-3">
     <div class="col">
@@ -111,20 +117,6 @@
         </form>
     </div>
 
-    <%--<div class="row">
-        <div class="even-row-color">
-            <div>
-                <form action="controller" method="GET">
-                    <button type="submit" class="btn btn-primary btn-block">
-                        <fmt:message key="label.find_all_users" />
-                    </button>
-                    <input type="hidden" name="command" value="find_all_users">
-                </form>
-            </div>
-        </div>
-    </div>--%>
-
-
     <table class="table table-striped">
         <c:if test="${list ne null}">
             <tr>
@@ -196,29 +188,6 @@
                     </c:if>
                 </tr>
             </c:forEach>
-
-
-            <nav aria-label="Page navigation example">
-                <ul class="pagination">
-                    <c:forEach begin="1" end="${number_of_pages }" var="i">
-                        <li class="page-item">
-                            <form action="controller" method="POST">
-                                    <%--<button type="submit" class="page-item disabled" value="${i - 1}">
-                                        <fmt:message key="label.Previous"/>
-                                    </button>--%>
-                                    <button type="submit" class="page-link" value="${i}">
-                                        <c:out value="${i }"/>
-                                    </button>
-                                    <%--<button type="submit" class="page-item disabled" value="${i + 1}">
-                                        <fmt:message key="label.Next"/>
-                                    </button>--%>
-                                <input type="hidden" name="start_from" value="${i}"> <input
-                                    type="hidden" name="command" value="find_users_by_name_pagination">
-                            </form>
-                        </li>
-                    </c:forEach>
-                </ul>
-            </nav>
         </c:if>
     </table>
 
@@ -301,6 +270,15 @@
                             <input type="hidden" name="searchApplicationId" value="${elem.searchApplicationId}">
                         </div>
                     </form>
+                    <form action="controller" method="post">
+                        <button type="submit" class="btn btn-danger btn-sm">
+                            <fmt:message key="label.delete_application"/>
+                        </button>
+                        <input type="hidden" name="userId" value="${elem.userId }">
+                        <input type="hidden" name="searchApplicationId" value="${elem.searchApplicationId }">
+                        <input type="hidden" name="command" value="delete_application">
+                    </form>
+
                 </div>
             </td>
         </tr>
@@ -361,6 +339,22 @@
         </tbody>
         </c:if>
     </table>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <c:forEach begin="1" end="${number_of_pages }" var="i">
+                <li class="page-item">
+                    <form action="controller" method="POST">
+                        <button type="submit" class="page-link" value="${i}">
+                            <c:out value="${i }"/>
+                        </button>
+                        <input type="hidden" name="start_from" value="${i}"> <input
+                            type="hidden" name="command" value="find_users_by_name_pagination">
+                    </form>
+                </li>
+            </c:forEach>
+        </ul>
+    </nav>
+</div>
 
 
 </body>

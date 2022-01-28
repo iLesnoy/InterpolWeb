@@ -1,7 +1,6 @@
 package by.petrorvskiy.webtask.command.impl.common;
 
 import by.petrorvskiy.webtask.command.Command;
-import by.petrorvskiy.webtask.command.ParameterAndAttribute;
 import by.petrorvskiy.webtask.command.Router;
 import by.petrorvskiy.webtask.validator.LocaleValidator;
 import jakarta.servlet.http.HttpServletRequest;

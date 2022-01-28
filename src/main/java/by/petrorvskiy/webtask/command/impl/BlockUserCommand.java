@@ -2,8 +2,7 @@ package by.petrorvskiy.webtask.command.impl;
 
 import by.petrorvskiy.webtask.command.*;
 import by.petrorvskiy.webtask.entity.User;
-import by.petrorvskiy.webtask.model.dao.impl.UserDaoImpl;
-import com.google.protobuf.ServiceException;
+import by.petrorvskiy.webtask.exception.ServiceException;
 import by.petrorvskiy.webtask.model.service.UserService;
 import by.petrorvskiy.webtask.model.service.impl.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;

@@ -3,58 +3,68 @@
 <fmt:setLocale value="${locale}" scope="session"/>
 <fmt:setBundle basename="pagecontent"/>
 
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/missing.css">
+    <title>Missing People</title>
+</head>
+<body>
 
-<link href="css/style.css" rel="stylesheet"/>
-<link href="css/missing.css" rel="stylesheet"/>
-<link href="css/header.css" rel="stylesheet"/>
-
-
-<script src="https://bootstraptema.ru/plugins/jquery/jquery-1.11.3.min.js"></script>
-<link rel="stylesheet" href="https://bootstraptema.ru/plugins/2015/bootstrap3/bootstrap.min.css"/>
-<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
 
 <header><c:import url="header.jsp"/></header>
 <p>${message}</p>
-<body>
+
 <div class="wrapper">
     <div class="container">
         <div class="masonry-container">
             <c:forEach items="${missing}" var="elem" varStatus="status">
                 <div class="card">
+                    <c:if test="${user_role == 'ADMIN'}">
+                        <form action="controller" method="get">
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                <fmt:message key="label.edit"/>
+                            </button>
+                            <input type="hidden" name="missingId" value="${elem.missingPeopleId}">
+                            <input type="hidden" name="command" value="to_update_missing">
+                        </form>
+                        <form action="controller" method="get">
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                <fmt:message key="label.delete"/>
+                            </button>
+                            <input type="hidden" name="missingId" value="${elem.missingPeopleId}">
+                            <input type="hidden" name="command" value="delete_missing">
+                        </form>
+                    </c:if>
                     <div class="post-slide">
                         <div class="post-img">
                             <img alt="img" src="data:image/jpeg;base64,${elem.photo}"/>
-                                <%--<div class="category">Reward:</div>--%>
                         </div>
-
                         <div class="content">
-                            <h3 class="post-title"><a href="#"> ${elem.name} ${elem.surname}</a></h3>
-                            <p class="post-description">
-                            <h4 class="name"><fmt:message key="label.name"/>${elem.name}</h4>
-                            <h4 class="surname"><fmt:message key="label.surname"/> ${elem.surname}</h4>
-                            <h4><fmt:message key="label.disappearanceDate"/>${elem.disappearanceDate}</h4>
-                            </p>
-
+                            <h3 class="post-title">${elem.name} ${elem.surname}</h3>
+                            <p class="name"><fmt:message key="label.name"/> ${elem.name}</p>
+                            <p class="surname"><fmt:message key="label.surname"/> ${elem.surname}</p>
+                            <p><fmt:message key="label.disappearanceDate"/> ${elem.disappearanceDate}</p>
                             <form action="controller" method="post">
-                                <button class="btn" type="submit"
+                                <button class="btn-primary" type="submit"
                                         onclick="return confirm('Are you sure that you want to accept an Search Application?')">
                                     <fmt:message key="label.takeApplication"/>
                                     <input type="hidden" name="command" value="accept_missing_application">
                                 </button>
-
-                                <div class="row">
-                                    <p><fmt:message key="label.dateChose"/></p>
-                                    <br/>
-                                    <div class="controls">
-                                        Date: <input class="datepicker form-control" id="datepicker form-control" type="date"
-                                                     name="lead_time" required/>
-                                    </div>
+                                <p><fmt:message key="label.dateChose"/></p>
+                                <br/>
+                                <div class="controls">
+                                    Date: <input class="datepicker form-control" id="datepicker form-control"
+                                                 pattern="(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[012])\.(19|20)\d\d" type="date"
+                                                 name="lead_time" required/>
                                 </div>
-
                                 <input type="hidden" name="lead_time" value="selectedDtaeVal">
-                                <input type="hidden" name="missingId" value="${elem.missingPeopleId}">
+                                <input type="hidden" name="missingId" value="<c:out value="${elem.missingPeopleId }"/>">
                             </form>
                         </div>
                     </div>
@@ -66,8 +76,9 @@
 </body>
 
 <script type="text/javascript">
-    $(function() {
-        $("#datepicker form-control").datepicker({ dateFormat: "yy-mm-dd" }).val()
+    jQuery(document).ready(function($) {
+        $("#datepicker form-control").datepicker({ dateFormat: "yy.mm.dd" }).val()
     });
 </script>
+</html>
 

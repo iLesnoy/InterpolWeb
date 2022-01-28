@@ -5,22 +5,6 @@
 <fmt:setLocale value="${locale}" scope="session"/>
 <fmt:setBundle basename="pagecontent"/>
 
-
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<%--<link rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
-      integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
-      crossorigin="anonymous">--%>
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="css/header.css">
-<html>
-<head>
-    <title>Interpol</title>
-
-
     <!-- Second navbar for sign in -->
     <nav class="navbar navbar-default">
         <div class="container">
@@ -41,23 +25,6 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="navbar-collapse-2">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><li><form action="controller" method="post">
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                            <fmt:message key="label.language"/>
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <button class="dropdown-item" type="submit" name="language"
-                                    value="en_US">English
-                            </button>
-                            <button class="dropdown-item" type="submit" name="language"
-                                    value="ru_RU">Russian
-                            </button>
-                            <input type="hidden" name="command" value="change_locale">
-                        </div>
-                    </div>
-                </form></li></li>
                     <li><a href="#">Who we are?</a></li>
                     <li><a href="${pageContext.request.contextPath}/controller?command=to_news_feed"
                            class="button"><fmt:message key="label.news_feed"/></a></li>
@@ -67,17 +34,36 @@
                             key="label.wanted_criminals"/></a></li>
                     <li><a href="${pageContext.request.contextPath}/controller?command=to_account"
                            class="button"><fmt:message key="label.account"/></a></li>
+                    <li class="lang-btn">
+                        <form action="controller" method="post">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                    <fmt:message key="label.language"/>
+                                </button>
+                                <div class="dropdown-menu lang-dd" aria-labelledby="dropdownMenuButton">
+                                    <button class="dropdown-item" type="submit" name="language"
+                                            value="en_US">English
+                                    </button>
+                                    <button class="dropdown-item" type="submit" name="language"
+                                            value="ru_RU">Russian
+                                    </button>
+                                    <input type="hidden" name="command" value="change_locale">
+                                </div>
+                            </div>
+                        </form>
+                    </li>
                     <c:choose>
                         <c:when test="${user == null}">
                             <li>
-                                <a class="btn btn-default btn-outline btn-circle" data-toggle="collapse"
+                                <a class="btn sign-in-btn btn-default btn-outline btn-circle" data-toggle="collapse"
                                    href="#nav-collapse2" aria-expanded="false"
                                    aria-controls="nav-collapse2"><fmt:message key="label.sign_in"/></a>
                             </li>
                         </c:when>
                         <c:otherwise>
                             <li>
-                                <a class="btn btn-default btn-outline btn-circle" data-toggle="collapse"
+                                <a class="btn sign-in-btn btn-default btn-outline btn-circle" data-toggle="collapse"
                                    href="#nav-collapse2" aria-expanded="false"
                                    aria-controls="nav-collapse2"><fmt:message key="label.logOut"/></a>
                             </li>
@@ -130,7 +116,7 @@
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container -->
     </nav><!-- /.navbar -->
-</head>
+
 
 
 

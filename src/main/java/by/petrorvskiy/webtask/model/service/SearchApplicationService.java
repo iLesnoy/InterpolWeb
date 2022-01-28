@@ -1,8 +1,7 @@
 package by.petrorvskiy.webtask.model.service;
 
 import by.petrorvskiy.webtask.entity.SearchApplication;
-import com.google.protobuf.ServiceException;
-
+import by.petrorvskiy.webtask.exception.ServiceException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;

@@ -1,9 +1,7 @@
 package by.petrorvskiy.webtask.command.impl.signin;
 
 import by.petrorvskiy.webtask.entity.User;
-import by.petrorvskiy.webtask.model.dao.impl.UserDaoImpl;
-import by.petrorvskiy.webtask.util.PasswordEncoder;
-import com.google.protobuf.ServiceException;
+import by.petrorvskiy.webtask.exception.ServiceException;
 import by.petrorvskiy.webtask.command.Command;
 import by.petrorvskiy.webtask.command.Message;
 import by.petrorvskiy.webtask.command.PagePath;

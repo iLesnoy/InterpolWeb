@@ -4,7 +4,7 @@ import by.petrorvskiy.webtask.entity.SearchApplication;
 import by.petrorvskiy.webtask.exception.DaoException;
 import by.petrorvskiy.webtask.model.dao.impl.SearchApplicationDaoImpl;
 import by.petrorvskiy.webtask.model.service.SearchApplicationService;
-import com.google.protobuf.ServiceException;
+import by.petrorvskiy.webtask.exception.ServiceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

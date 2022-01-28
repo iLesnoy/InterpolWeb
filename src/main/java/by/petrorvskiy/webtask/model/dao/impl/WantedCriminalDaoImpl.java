@@ -4,11 +4,12 @@ import by.petrorvskiy.webtask.model.dao.ColumnName;
 import by.petrorvskiy.webtask.model.dao.WantedCriminalDao;
 import by.petrorvskiy.webtask.model.connection.ConnectionPool;
 import by.petrorvskiy.webtask.entity.WantedCriminal;
-import by.petrorvskiy.webtask.entity.WantedCriminal.CrimType;
+import by.petrorvskiy.webtask.entity.WantedCriminal.CrimeType;
 import by.petrorvskiy.webtask.exception.DaoException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
@@ -44,7 +45,7 @@ public class WantedCriminalDaoImpl implements WantedCriminalDao {
 
 
     @Override
-    public boolean addWantedCriminal(WantedCriminal criminal, CrimType type) throws DaoException {
+    public boolean addWantedCriminal(WantedCriminal criminal, InputStream photoStream) throws DaoException {
         boolean articleAdded = false;
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_ADD_CRIMINAL)) {
@@ -54,9 +55,8 @@ public class WantedCriminalDaoImpl implements WantedCriminalDao {
             statement.setString(4, criminal.getCrimeAddress());
             statement.setDate(5, Date.valueOf(criminal.getCrimeDOB()));
             statement.setBigDecimal(6, criminal.getReward());
-            statement.setBigDecimal(7, criminal.getReward());
-            statement.setString(7, type.name());
-            statement.setString(8, criminal.getPhoto());
+            statement.setString(7, String.valueOf(criminal.getCrimeType()));
+            statement.setBlob(8, photoStream);
             int rowCount = statement.executeUpdate();
             if (rowCount != 0) {
                 articleAdded = true;
@@ -219,7 +219,7 @@ public class WantedCriminalDaoImpl implements WantedCriminalDao {
             String address = resultSet.getString(ColumnName.ADDRESS);
             LocalDate DOB = resultSet.getDate(ColumnName.CRIM_DOB).toLocalDate();
             BigDecimal reward = resultSet.getBigDecimal(ColumnName.REWARD);
-            CrimType crimeType = CrimType.valueOf(resultSet.getString(ColumnName.CRIM_TYPE));
+            CrimeType crimeType = CrimeType.valueOf(resultSet.getString(ColumnName.CRIM_TYPE));
             byte[] photo = resultSet.getBytes(PHOTO);
             byte[] encodeImageBytes = Base64.getEncoder().encode(photo);
             String base64Encoded  = new String(encodeImageBytes, StandardCharsets.UTF_8);

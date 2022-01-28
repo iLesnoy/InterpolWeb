@@ -1,24 +1,18 @@
 package by.petrorvskiy.webtask.entity;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 
 public class BankCard {
     private long cardNumber;
     private int cvvNumber;
-    private Date replenishmentDate;
+    private LocalDate replenishmentDate;
     private long userId;
     private BigDecimal paymentAmount;
 
-    public BankCard(long cardNumber, int cvvNumber,
-                    Date replenishmentDate, long userId,
-                    BigDecimal paymentAmount) {
-        this.cardNumber = cardNumber;
-        this.cvvNumber = cvvNumber;
-        this.replenishmentDate = replenishmentDate;
-        this.userId = userId;
-        this.paymentAmount = paymentAmount;
-    }
+    public BankCard(){}
+
 
     public long getCardNumber() {
         return cardNumber;
@@ -36,11 +30,11 @@ public class BankCard {
         this.cvvNumber = cvvNumber;
     }
 
-    public Date getReplenishmentDate() {
+    public LocalDate getReplenishmentDate() {
         return replenishmentDate;
     }
 
-    public void setReplenishmentDate(Date replenishmentDate) {
+    public void setReplenishmentDate(LocalDate replenishmentDate) {
         this.replenishmentDate = replenishmentDate;
     }
 
@@ -81,7 +75,7 @@ public class BankCard {
     @Override
     public int hashCode() {
         int result = 1;
-        result = result * 31 + Long.hashCode(cardNumber);
+        result = result * 31 + (int) (cvvNumber - (cardNumber >>> 32));
         result = result * 31 + cvvNumber;
         result = result * 31 + replenishmentDate.hashCode();
         result = result * 31 + Long.hashCode(cvvNumber);

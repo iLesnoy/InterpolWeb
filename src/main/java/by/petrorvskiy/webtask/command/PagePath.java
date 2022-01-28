@@ -15,6 +15,8 @@ public class PagePath {
     public static final String USER_PERSONAL_INFO_CHANGE = "pages/changepersonalinfo.jsp";
     public static final String WANTED_CRIMINALS = "pages/wantedcriminals.jsp";
     public static final String ADD = "pages/add.jsp";
+    public static final String UPDATE_PAGE = "pages/updatepage.jsp";
+
 
 
     public static final String TO_MAIN_PAGE="/controller?command=to_main";
@@ -28,7 +30,10 @@ public class PagePath {
     public static final String TO_SIGN_UP_PAGE="/controller?command=to_sign_up";
     public static final String TO_MISSING_PAGE = "/controller?command=to_missing_people";
     public static final String TO_PERSONAL_INFO_CHANGE = "/controller?command=to_personal_info_change";
-    public static final Object TO_WANTED_CRIMINALS_PAGE = "/controller?command=to_wanted";;
+    public static final Object TO_WANTED_CRIMINALS_PAGE = "/controller?command=to_wanted";
+    public static final Object TO_UPDATE_ARTICLE = "/controller?command=to_update_article";
+    public static final Object TO_UPDATE_MISSING = "/controller?command=to_update_missing";
+    public static final Object TO_UPDATE_WANTED = "/controller?command=to_update_wanted";
 
     private PagePath(){
     }

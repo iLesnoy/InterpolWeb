@@ -36,9 +36,10 @@ public class MissingPeopleApplication {
 
     @Override
     public int hashCode() {
+        final int prime = 31;
         int result = 1;
-        result = result * 31 + Long.hashCode(searchApplicationId);
-        result = result * 31 + Long.hashCode(missingPeopleId);
+        result  = prime * result + (int) (searchApplicationId -(searchApplicationId >>> 32));
+        result = prime * result + (int) (missingPeopleId - (missingPeopleId >>>32));
         return result;
 
     }

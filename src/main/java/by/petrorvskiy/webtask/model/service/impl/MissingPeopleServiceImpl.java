@@ -4,14 +4,14 @@ import by.petrorvskiy.webtask.command.ParameterAndAttribute;
 import by.petrorvskiy.webtask.entity.MissingPeople;
 import by.petrorvskiy.webtask.exception.DaoException;
 import by.petrorvskiy.webtask.model.dao.impl.MissingPeopleDaoImpl;
-import com.google.protobuf.ServiceException;
+import by.petrorvskiy.webtask.exception.ServiceException;
 import by.petrorvskiy.webtask.model.dao.MissingPeopleDao;
 import by.petrorvskiy.webtask.model.service.MissingPeopleService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.InputStream;
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -27,8 +27,9 @@ public class MissingPeopleServiceImpl implements MissingPeopleService {
          MissingPeople people = new MissingPeople.MissingPeopleBuilder()
                  .setName(missingPeopleDate.get(ParameterAndAttribute.USER_NAME))
                  .setSurname(missingPeopleDate.get(ParameterAndAttribute.USER_SURNAME))
-                 .setDisappearanceDate(Date.valueOf(missingPeopleDate.get(ParameterAndAttribute.DISAPPEARANCE_DATE)))
+                 .setDisappearanceDate(LocalDate.parse(missingPeopleDate.get(ParameterAndAttribute.DISAPPEARANCE_DATE)))
                  .build();
+
 
         try {
             missingPeopleDao.addMissedPeople(people,stream);
@@ -41,10 +42,17 @@ public class MissingPeopleServiceImpl implements MissingPeopleService {
     }
 
     @Override
-    public boolean updateMissingPeopleById(MissingPeople missingPeople, long id) throws ServiceException {
+    public boolean updateMissingPeopleById(Map<String,String> missingData, InputStream stream) throws ServiceException {
         boolean updateMissingPeopleById;
+        MissingPeople people = new MissingPeople.MissingPeopleBuilder()
+                .setPeopleId(Long.parseLong(missingData.get(ParameterAndAttribute.MISSING_ID)))
+                .setName(missingData.get(ParameterAndAttribute.FIRST_NAME))
+                .setSurname(missingData.get(ParameterAndAttribute.LAST_NAME))
+                .setDisappearanceDate(LocalDate.parse(missingData.get(ParameterAndAttribute.DISAPPEARANCE_DATE)))
+                .build();
+
         try {
-            missingPeopleDao.updateMissingPeopleById(missingPeople,id);
+            missingPeopleDao.updateMissingPeopleById(people,stream);
             updateMissingPeopleById = true;
         } catch (DaoException e) {
             logger.info("DaoException in method " + e);

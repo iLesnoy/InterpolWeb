@@ -1,12 +1,12 @@
 package by.petrorvskiy.webtask.entity;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 public class MissingPeople {
     private long missingPeopleId;
     private String name;
     private String surname;
-    private Date disappearanceDate;
+    private LocalDate disappearanceDate;
     private String photo;
 
     public MissingPeople() {
@@ -28,11 +28,11 @@ public class MissingPeople {
         this.surname = surname;
     }
 
-    public Date getDisappearanceDate() {
+    public LocalDate getDisappearanceDate() {
         return disappearanceDate;
     }
 
-    public void setDisappearanceDate(Date disappearance_date) {
+    public void setDisappearanceDate(LocalDate disappearance_date) {
         this.disappearanceDate = disappearance_date;
     }
 
@@ -92,7 +92,6 @@ public class MissingPeople {
         builder.append(", name=").append(name);
         builder.append(", surname=") .append(surname);
         builder.append(", disappearanceDate=") .append(disappearanceDate).append("}");
-        /*builder.append(", photo=") .append(photo).append("}");*/
         return builder.toString();
     }
 
@@ -118,7 +117,7 @@ public class MissingPeople {
             return this;
         }
 
-        public MissingPeople.MissingPeopleBuilder setDisappearanceDate(Date disappearanceDate){
+        public MissingPeople.MissingPeopleBuilder setDisappearanceDate(LocalDate disappearanceDate){
             missingPeople.setDisappearanceDate(disappearanceDate);
             return this;
         }
@@ -127,7 +126,6 @@ public class MissingPeople {
             missingPeople.setPhoto(photo);
             return this;
         }
-
 
         public MissingPeople build(){
             return missingPeople;

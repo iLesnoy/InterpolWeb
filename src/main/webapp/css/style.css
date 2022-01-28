@@ -221,14 +221,3 @@ body.light #dark{
     background-repeat: no-repeat;
 }
 
-.masonry-container{
-    display: grid;
-    grid-template-columns: repeat(4,1fr);
-    grid-column-gap: 20px;
-    grid-row-gap: 20px;
-}
-.card{
-    width:100%;
-    height:400px;
-    margin:0!important;
-}

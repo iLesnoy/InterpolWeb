@@ -1,5 +1,6 @@
 package by.petrorvskiy.webtask.model.dao.impl;
 
+import by.petrorvskiy.webtask.entity.NewsFeed;
 import by.petrorvskiy.webtask.model.connection.ConnectionPool;
 import by.petrorvskiy.webtask.model.dao.ColumnName;
 import by.petrorvskiy.webtask.model.dao.MissingPeopleDao;
@@ -11,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -41,14 +43,14 @@ public class MissingPeopleDaoImpl implements MissingPeopleDao {
 
 
     @Override
-    public boolean addMissedPeople(MissingPeople people, InputStream stream) throws DaoException {
+    public boolean addMissedPeople(MissingPeople people, InputStream photoStream) throws DaoException {
         boolean missingPeopleAdded = false;
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_ADD_MISSING_PEOPLE)) {
             statement.setString(1, people.getName());
             statement.setString(2, people.getSurname());
-            statement.setDate(3, people.getDisappearanceDate());
-            statement.setBlob(4, stream);
+            statement.setDate(3, Date.valueOf(people.getDisappearanceDate()));
+            statement.setBlob(4, photoStream);
             int rowCount = statement.executeUpdate();
             if (rowCount != 0) {
                 missingPeopleAdded = true;
@@ -64,15 +66,15 @@ public class MissingPeopleDaoImpl implements MissingPeopleDao {
     }
 
     @Override
-    public boolean updateMissingPeopleById(MissingPeople missingPeople, long id) throws DaoException {
+    public boolean updateMissingPeopleById(MissingPeople missingPeople,InputStream stream) throws DaoException {
         boolean missingPeopleUpdate = false;
         try (Connection connection = connectionPool.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_MISSING_PEOPLE)) {
+            PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_MISSING_PEOPLE)) {
             statement.setString(1, missingPeople.getName());
             statement.setString(2, missingPeople.getSurname());
-            statement.setDate(3, missingPeople.getDisappearanceDate());
-            statement.setString(4, missingPeople.getPhoto());
-            statement.setLong(5, id);
+            statement.setDate(3, Date.valueOf(missingPeople.getDisappearanceDate()));
+            statement.setBlob(4, stream);
+            statement.setLong(5, missingPeople.getMissingPeopleId());
             int rowCount = statement.executeUpdate();
             if (rowCount != 0) {
                 missingPeopleUpdate = true;
@@ -165,7 +167,7 @@ public class MissingPeopleDaoImpl implements MissingPeopleDao {
         Long peopleId = resultSet.getLong(MISSING_PEOPLE_ID);
         String firstName = resultSet.getString(FIRST_NAME);
         String lastName = resultSet.getString(LAST_NAME);
-        Date disappearanceDate = resultSet.getDate(DISAPPEARANCE_DATE);
+        LocalDate disappearanceDate = resultSet.getDate(DISAPPEARANCE_DATE).toLocalDate();
         byte[] photo = resultSet.getBytes(PHOTO);
         byte[] encodeImageBytes = Base64.getEncoder().encode(photo);
         String base64Encoded  = new String(encodeImageBytes, StandardCharsets.UTF_8);

@@ -1,10 +1,10 @@
 package by.petrorvskiy.webtask.command.impl.forward;
 
 import by.petrorvskiy.webtask.entity.MissingPeople;
-import by.petrorvskiy.webtask.model.dao.impl.MissingPeopleDaoImpl;
+import by.petrorvskiy.webtask.entity.User;
 import by.petrorvskiy.webtask.model.service.MissingPeopleService;
 import by.petrorvskiy.webtask.model.service.impl.MissingPeopleServiceImpl;
-import com.google.protobuf.ServiceException;
+import by.petrorvskiy.webtask.exception.ServiceException;
 import by.petrorvskiy.webtask.command.Command;
 import by.petrorvskiy.webtask.command.PagePath;
 import by.petrorvskiy.webtask.command.ParameterAndAttribute;
@@ -25,10 +25,14 @@ public class ToMissingPeopleCommand implements Command {
     public Router execute(HttpServletRequest request) {
         Router router = new Router();
         HttpSession session = request.getSession();
+        User user = (User) session.getAttribute(ParameterAndAttribute.USER);
         try {
             List<MissingPeople> missingPeople = missingPeopleService.findAllMissingPeople();
             logger.info(missingPeople);
             request.setAttribute(ParameterAndAttribute.MISSING_PEOPLE, missingPeople);
+            if(user!=null) {
+                session.setAttribute(ParameterAndAttribute.USER_ROLE, user.getRole());
+            }
             session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.TO_MISSING_PAGE);
             router.setPagePath(PagePath.MISSING_PEOPLE);
 

@@ -2,16 +2,13 @@ package by.petrorvskiy.webtask.command.impl.forward;
 
 import by.petrorvskiy.webtask.entity.SearchApplication;
 import by.petrorvskiy.webtask.model.service.impl.SearchApplicationServiceImpl;
-import com.google.protobuf.ServiceException;
+import by.petrorvskiy.webtask.exception.ServiceException;
 import by.petrorvskiy.webtask.command.Command;
 import by.petrorvskiy.webtask.command.PagePath;
 import by.petrorvskiy.webtask.command.ParameterAndAttribute;
 import by.petrorvskiy.webtask.command.Message;
 import by.petrorvskiy.webtask.command.Router;
-import by.petrorvskiy.webtask.model.dao.impl.UserDaoImpl;
 import by.petrorvskiy.webtask.entity.User;
-import by.petrorvskiy.webtask.model.service.UserService;
-import by.petrorvskiy.webtask.model.service.impl.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
@@ -24,7 +21,6 @@ import static by.petrorvskiy.webtask.entity.User.Status.BLOCKED;
 
 public class ToAccountCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
-    private UserService userService = new UserServiceImpl();
     private final SearchApplicationServiceImpl applicationService = new SearchApplicationServiceImpl();
 
     @Override
@@ -43,25 +39,25 @@ public class ToAccountCommand implements Command {
                 return router;
             }
             switch (user.getRole()) {
-                case ADMIN:
+                case ADMIN -> {
                     logger.info("ADMIN account");
                     session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.TO_ACCOUNT_PAGE);
                     router.setPagePath(PagePath.ADMIN);
-                    break;
-                case GUEST:
+                }
+                case GUEST -> {
                     logger.info("GUEST account");
                     session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, TO_SIGN_UP_PAGE);
                     router.setPagePath(SIGN_UP);
-                    break;
-                case USER:
+                }
+                case USER -> {
                     logger.info("USER account");
                     try {
-                        List<SearchApplication>searchApplications = applicationService.findApplicationsByUserId(user.getUserId());
+                        List<SearchApplication> searchApplications = applicationService.findApplicationsByUserId(user.getUserId());
                         request.setAttribute(ParameterAndAttribute.APPLICATIONS, searchApplications);
                         router.setPagePath(ACCOUNT);
 
                     } catch (ServiceException e) {
-                        logger.error( "ServiceException" + e);
+                        logger.error("ServiceException" + e);
                         request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
                         request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e);
                         session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.ERROR_404);
@@ -69,11 +65,11 @@ public class ToAccountCommand implements Command {
                     }
                     session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, TO_ACCOUNT_PAGE);
                     router.setPagePath(PagePath.USER);
-                    break;
-                default:
+                }
+                default -> {
                     session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, TO_SIGN_UP_PAGE);
                     router.setPagePath(SIGN_UP);
-                    break;
+                }
             }
 
         } else {

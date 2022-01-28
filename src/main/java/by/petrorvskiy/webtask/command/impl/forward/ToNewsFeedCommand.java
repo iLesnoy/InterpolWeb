@@ -3,9 +3,9 @@ package by.petrorvskiy.webtask.command.impl.forward;
 import by.petrorvskiy.webtask.command.PagePath;
 import by.petrorvskiy.webtask.command.ParameterAndAttribute;
 import by.petrorvskiy.webtask.entity.NewsFeed;
-import by.petrorvskiy.webtask.model.dao.impl.NewsFeedDaoImpl;
+import by.petrorvskiy.webtask.entity.User;
 import by.petrorvskiy.webtask.model.service.impl.NewsFeedServiceImpl;
-import com.google.protobuf.ServiceException;
+import by.petrorvskiy.webtask.exception.ServiceException;
 import by.petrorvskiy.webtask.command.Command;
 import by.petrorvskiy.webtask.command.Router;
 import by.petrorvskiy.webtask.model.service.NewsFeedService;
@@ -24,9 +24,13 @@ public class ToNewsFeedCommand implements Command {
     public Router execute(HttpServletRequest request) {
         Router router = new Router();
         HttpSession session = request.getSession();
+        User user = (User) session.getAttribute(ParameterAndAttribute.USER);
         try {
             List<NewsFeed> news = newsFeedServices.findAllNews();
             session.setAttribute(ParameterAndAttribute.NEWS, news);
+            if(user!=null) {
+                session.setAttribute(ParameterAndAttribute.USER_ROLE, user.getRole());
+            }
             session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.TO_NEWS_PAGE);
             router.setPagePath(PagePath.NEWS_FEED);
 

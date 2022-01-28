@@ -5,14 +5,23 @@
 <fmt:setLocale value="${locale}" scope="session"/>
 <fmt:setBundle basename="pagecontent"/>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin.css">
+    <title>Account</title>
+</head>
 
-<c:import url="header.jsp"/>
+<header><c:import url="header.jsp"/></header>
 
 <title>Account</title>
-<html>
+
+
 <p>${message}</p>
 <body>
 <div class="col">
@@ -62,20 +71,23 @@
             <td><c:out value="${status.count }"/></td>
             <td><c:out value="${elem.leadTime }"/></td>
             <td><c:out value="${elem.status }"/></td>
-            <td><form action="controller" method="POST">
-                <button type="submit" class="btn">
-                    <fmt:message key="label.moreInformation"/>
-                </button>
-                <input type="hidden" name="searchApplicationId" value="${elem.searchApplicationId}">
-                <input type="hidden" name="command" value="find_application_information_by_id">
-            </form>
-            <form action="controller" method="POST">
-                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure that you want to cancel the application?')">
-                    <fmt:message key="label.cancel"/>
-                </button>
-                <input name="command" type="hidden" class="btn" value="delete_application">
-                <input type="hidden" name="searchApplicationId" value="${elem.searchApplicationId}">
-            </form>
+            <td>
+                <form action="controller" method="POST">
+                    <button type="submit" class="btn">
+                        <fmt:message key="label.moreInformation"/>
+                    </button>
+                    <input type="hidden" name="searchApplicationId" value="${elem.searchApplicationId}">
+                    <input type="hidden" name="command" value="find_application_information_by_id">
+                </form>
+                <form action="controller" method="POST">
+                    <button type="submit" class="btn btn-danger btn-sm"
+                            onclick="return confirm('Are you sure that you want to cancel the application?')">
+                        <fmt:message key="label.cancel"/>
+                    </button>
+                    <input name="command" type="hidden" class="btn" value="delete_application">
+                    <input type="hidden" name="userId" value="${elem.userId}">
+                    <input type="hidden" name="searchApplicationId" value="${elem.searchApplicationId}">
+                </form>
             </td>
         </tr>
     </c:forEach>

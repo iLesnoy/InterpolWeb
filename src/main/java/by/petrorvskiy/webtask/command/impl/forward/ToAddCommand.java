@@ -15,11 +15,11 @@ public class ToAddCommand implements Command {
 
     @Override
     public Router execute(HttpServletRequest request) {
-        logger.debug("CommandToAddNews");
+        logger.debug("CommandToAdminAddPage");
         Router router = new Router();
         HttpSession session = request.getSession();
 
-        request.setAttribute(ParameterAndAttribute.CRIME_TYPE, WantedCriminal.CrimType.values());
+        request.setAttribute(ParameterAndAttribute.CRIME_TYPE, WantedCriminal.CrimeType.values());
         session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.TO_ADD);
         router.setPagePath(PagePath.ADD);
         return router;

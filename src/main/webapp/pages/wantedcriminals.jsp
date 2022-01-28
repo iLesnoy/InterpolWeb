@@ -4,20 +4,43 @@
 <fmt:setBundle basename="pagecontent"/>
 
 
-<link href="css/style.css" rel="stylesheet"/>
-<link href="css/missing.css" rel="stylesheet"/>
-<link href="css/datePicker.css" rel="stylesheet"/>
-<link href="css/header.css" rel="stylesheet"/>
-
-<c:import url="header.jsp"/>
-
-<header><p>${message}</p></header>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/missing.css">
+    <title>Missing People</title>
+</head>
 <body>
+
+<header><c:import url="header.jsp"/></header>
+<p>${message}</p>
+
 <div class="wrapper">
     <div class="container">
         <div class="masonry-container">
             <c:forEach items="${wantedCriminals}" var="elem">
                 <div class="card">
+                    <c:if test="${user_role == 'ADMIN'}">
+                        <form action="controller" method="get">
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                <fmt:message key="label.edit"/>
+                            </button>
+                            <input type="hidden" name="guiltyId" value="${elem.guiltyId}">
+                            <input type="hidden" name="command" value="to_update_wanted">
+                        </form>
+                        <form action="controller" method="get">
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                <fmt:message key="label.delete"/>
+                            </button>
+                            <input type="hidden" name="guiltyId" value="${elem.guiltyId}">
+                            <input type="hidden" name="command" value="delete_criminal">
+                        </form>
+                    </c:if>
                     <div class="post-slide">
                         <div class="post-img">
                             <img alt="img" src="data:image/jpeg;base64,${elem.photo}"/>
@@ -36,20 +59,20 @@
                             </p>
 
                             <form action="controller" method="post">
-                                <button class="btn" type="submit"
+                                <button class="btn-primary" type="submit"
                                         onclick="return confirm('Are you sure that you want to accept an application?')">
                                     <fmt:message key="label.takeApplication"/>
                                     <input type="hidden" name="command" value="accept_wanted_application">
                                 </button>
-
-                                <div class="row">
-                                    <p><fmt:message key="label.dateChose"/></p>
-                                    <br/>
-                                    <div class="controls">
-                                        Date: <input class="datepicker form-control" min="2022-01-20" type="date"
-                                                     name="lead_time" required/>
-                                    </div>
+                                <p><fmt:message key="label.dateChose"/></p>
+                                <br/>
+                                <div class="controls">
+                                    Date: <input class="datepicker form-control" min="2022-01-20"
+                                                 pattern="(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[012])\.(19|20)\d\d"
+                                                 type="date"
+                                                 name="lead_time" required/>
                                 </div>
+
 
                                 <input type="hidden" name="lead_time" value="selectedDtaeVal">
                                 <input type="hidden" name="guiltyId" value="${elem.guiltyId}">
@@ -64,8 +87,8 @@
 </body>
 
 <script type="text/javascript">
-    $(function() {
-        $("#datepicker").datepicker({ dateFormat: "yy-mm-dd" }).val()
+    $(function () {
+        $("#datepicker").datepicker({dateFormat: "yy.mm.dd"}).val()
     });
 </script>
 

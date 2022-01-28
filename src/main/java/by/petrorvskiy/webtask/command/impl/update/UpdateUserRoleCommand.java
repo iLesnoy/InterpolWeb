@@ -1,7 +1,7 @@
 package by.petrorvskiy.webtask.command.impl.update;
 
 import by.petrorvskiy.webtask.command.*;
-import com.google.protobuf.ServiceException;
+import by.petrorvskiy.webtask.exception.ServiceException;
 import by.petrorvskiy.webtask.entity.User;
 import by.petrorvskiy.webtask.model.service.UserService;
 import by.petrorvskiy.webtask.model.service.impl.UserServiceImpl;

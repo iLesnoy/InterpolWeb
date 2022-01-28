@@ -1,10 +1,8 @@
 package by.petrorvskiy.webtask.entity;
 
-import java.sql.Blob;
-
 public class NewsFeed {
 
-    private int articleId;
+    private long articleId;
     private String title;
     private String newsArticle;
     private String image;
@@ -13,11 +11,11 @@ public class NewsFeed {
     public NewsFeed() {
     }
 
-    public int getArticleId() {
+    public long getArticleId() {
         return articleId;
     }
 
-    public void setArticleId(int articleId) {
+    public void setArticleId(long articleId) {
         this.articleId = articleId;
     }
 
@@ -65,7 +63,8 @@ public class NewsFeed {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = articleId;
+        int result = 1;
+        result = prime * result + (int) (articleId - (articleId >>> 32));
         result = prime * result + ((title == null) ? 0 : title.hashCode());
         result = prime * result + ((newsArticle == null) ? 0 : newsArticle.hashCode());
         result = prime * result + ((image == null) ? 0 : image.hashCode());
@@ -90,7 +89,7 @@ public class NewsFeed {
             newsFeed = new NewsFeed();
         }
 
-        public NewsFeed.NewsFeedBuilder setArticleId(int articleId) {
+        public NewsFeed.NewsFeedBuilder setArticleId(long articleId) {
             newsFeed.setArticleId(articleId);
             return this;
         }

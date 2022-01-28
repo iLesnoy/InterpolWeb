@@ -1,7 +1,6 @@
 package by.petrorvskiy.webtask.command.impl.signin;
 
-import by.petrorvskiy.webtask.model.dao.impl.UserDaoImpl;
-import com.google.protobuf.ServiceException;
+import by.petrorvskiy.webtask.exception.ServiceException;
 import by.petrorvskiy.webtask.command.Command;
 import by.petrorvskiy.webtask.command.Message;
 import by.petrorvskiy.webtask.command.PagePath;
@@ -17,7 +16,6 @@ import org.apache.logging.log4j.Logger;
 import java.util.HashMap;
 import java.util.Map;
 
-import static by.petrorvskiy.webtask.command.PagePath.TO_MAIN_PAGE;
 
 public class SignUpCommand implements Command {
 

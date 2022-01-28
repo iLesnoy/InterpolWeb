@@ -2,8 +2,8 @@ package by.petrorvskiy.webtask.command.impl.common;
 
 import by.petrorvskiy.webtask.command.*;
 import by.petrorvskiy.webtask.entity.User;
+import by.petrorvskiy.webtask.exception.ServiceException;
 import by.petrorvskiy.webtask.model.service.impl.SearchApplicationServiceImpl;
-import com.google.protobuf.ServiceException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
@@ -22,13 +22,12 @@ public class DeleteSearchApplicationByUserIdCommand implements Command {
         HttpSession session = request.getSession();
         String currentPage = (String) session.getAttribute(CURRENT_PAGE);
 
-        User user = (User) session.getAttribute(ParameterAndAttribute.USER);
         long applicationId = Long.parseLong(request.getParameter(ParameterAndAttribute.APPLICATION_ID));
-
+        long userId = Long.parseLong(request.getParameter(ParameterAndAttribute.USER_ID));
 
         try {
-            searchApplicationService.deleteSearchApplicationByUserId(applicationId,user.getUserId());
-            request.setAttribute(ParameterAndAttribute.MESSAGE, Message.APPLICATION_CONCEALED);
+            searchApplicationService.deleteSearchApplicationByUserId(applicationId,userId);
+            request.setAttribute(ParameterAndAttribute.MESSAGE, Message.APPLICATION_DELETED);
             router.setPagePath(currentPage);
         } catch (ServiceException e) {
             logger.error("ServiceException in method DeleteSearchApplicationByUserIdCommand " + e.getMessage());

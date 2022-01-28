@@ -36,9 +36,10 @@ public class WantedCriminalApplication {
 
     @Override
     public int hashCode() {
+        final int prime = 31;
         int result = 1;
-        result = result * 31 + Long.hashCode(searchApplicationId);
-        result = result * 31 + Long.hashCode(guiltyId);
+        result = prime * result  + (int)(searchApplicationId - (searchApplicationId >>> 32));
+        result = prime * result + (int)(guiltyId - (guiltyId >>>32));
         return result;
 
     }

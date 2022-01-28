@@ -3,7 +3,7 @@ package by.petrorvskiy.webtask.command.impl.find;
 import by.petrorvskiy.webtask.command.*;
 import by.petrorvskiy.webtask.entity.User;
 import by.petrorvskiy.webtask.model.service.impl.UserServiceImpl;
-import com.google.protobuf.ServiceException;
+import by.petrorvskiy.webtask.exception.ServiceException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;

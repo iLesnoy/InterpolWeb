@@ -3,8 +3,7 @@ package by.petrorvskiy.webtask.model.service.impl;
 import by.petrorvskiy.webtask.entity.NewsFeed;
 import by.petrorvskiy.webtask.exception.DaoException;
 import by.petrorvskiy.webtask.model.dao.NewsFeedDao;
-import by.petrorvskiy.webtask.model.dao.impl.UserDaoImpl;
-import com.google.protobuf.ServiceException;
+import by.petrorvskiy.webtask.exception.ServiceException;
 import by.petrorvskiy.webtask.command.ParameterAndAttribute;
 import by.petrorvskiy.webtask.model.dao.impl.NewsFeedDaoImpl;
 import by.petrorvskiy.webtask.model.service.NewsFeedService;
@@ -24,12 +23,12 @@ public class NewsFeedServiceImpl implements NewsFeedService {
 
 
     @Override
-    public boolean addArticle(Map<String, String> newsDate, InputStream stream) throws ServiceException {
+    public boolean addArticle(Map<String,String> newsData, InputStream stream) throws ServiceException {
         boolean articleAdded;
 
         NewsFeed newsFeed = new NewsFeed.NewsFeedBuilder()
-                .setTitle(newsDate.get(ParameterAndAttribute.TITLE))
-                .setArticle(newsDate.get(ParameterAndAttribute.NEWS_ARTICLE))
+                .setTitle(newsData.get(ParameterAndAttribute.TITLE))
+                .setArticle(newsData.get(ParameterAndAttribute.NEWS_ARTICLE))
                 .build();
         try {
             articleAdded = newsFeedDao.addArticle(newsFeed,stream);
@@ -42,11 +41,16 @@ public class NewsFeedServiceImpl implements NewsFeedService {
     }
 
     @Override
-    public boolean updateArticle(NewsFeed article, long articleId) throws ServiceException {
+    public boolean updateArticle(Map<String,String> newsData,long articleId,InputStream stream) throws ServiceException {
         boolean updateArticle = false;
+        NewsFeed article = new NewsFeed.NewsFeedBuilder()
+                .setArticleId(Long.parseLong(newsData.get(ParameterAndAttribute.ARTICLE_ID)))
+                .setTitle(newsData.get(ParameterAndAttribute.TITLE))
+                .setArticle(newsData.get(ParameterAndAttribute.NEWS_ARTICLE))
+                .build();
 
         try {
-            newsFeedDao.updateArticle(article, articleId);
+            newsFeedDao.updateArticle(article,articleId,stream);
             updateArticle = true;
         } catch (DaoException e) {
             e.printStackTrace();
@@ -83,7 +87,7 @@ public class NewsFeedServiceImpl implements NewsFeedService {
     }
 
     @Override
-    public Optional<NewsFeed> takeArticleById(int newsId) throws ServiceException {
+    public Optional<NewsFeed> takeArticleById(long newsId) throws ServiceException {
         Optional<NewsFeed> news;
 
         try {

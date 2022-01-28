@@ -3,6 +3,7 @@ package by.petrorvskiy.webtask.command;
 import by.petrorvskiy.webtask.command.impl.*;
 import by.petrorvskiy.webtask.command.impl.add.AddMissingCommand;
 import by.petrorvskiy.webtask.command.impl.add.AddNewsCommand;
+import by.petrorvskiy.webtask.command.impl.add.AddWantedCommand;
 import by.petrorvskiy.webtask.command.impl.common.ChangeLocaleCommand;
 import by.petrorvskiy.webtask.command.impl.common.DeleteSearchApplicationByUserIdCommand;
 import by.petrorvskiy.webtask.command.impl.find.*;
@@ -10,9 +11,7 @@ import by.petrorvskiy.webtask.command.impl.forward.*;
 import by.petrorvskiy.webtask.command.impl.signin.LogOutCommand;
 import by.petrorvskiy.webtask.command.impl.signin.LogInCommand;
 import by.petrorvskiy.webtask.command.impl.signin.SignUpCommand;
-import by.petrorvskiy.webtask.command.impl.update.ChangeUserInfoCommand;
-import by.petrorvskiy.webtask.command.impl.update.UpdateApplicationStatusCommand;
-import by.petrorvskiy.webtask.command.impl.update.UpdateUserRoleCommand;
+import by.petrorvskiy.webtask.command.impl.update.*;
 
 
 public enum CommandType {
@@ -25,6 +24,7 @@ public enum CommandType {
     DEFAULT(new DefaultCommand()),
     FIND_NEWS(new FindNewsCommand()),
     ADD_NEWS(new AddNewsCommand()),
+    ADD_CRIMINAL(new AddWantedCommand()),
     ADD_MISSING(new AddMissingCommand()),
     TO_ADD(new ToAddCommand()),
     FIND_BY_NAME_AND_SURNAME(new FindUserByNameAndSurnameCommand()),
@@ -43,6 +43,14 @@ public enum CommandType {
     TO_NEWS_FEED(new ToNewsFeedCommand()),
     BLOCK_USER(new BlockUserCommand()),
     UNBLOCK_USER(new UnblockUserCommand()),
+    TO_UPDATE_ARTICLE(new ToUpdateArticleCommand()),
+    TO_UPDATE_MISSING(new ToUpdateMissingCommand()),
+    UPDATE_MISSING(new UpdateMissingCommand()),
+    DELETE_ARTICLE(new DeleteArticleCommand()),
+    DELETE_CRIMINAL
+            (new DeleteWantedCommand()),
+    DELETE_MISSING(new DeleteMissingCommand()),
+    UPDATE_ARTICLE(new UpdateArticleCommand()),
     FIND_WANTED_CRIMINALS(new FindWantedCriminalByNameCommand()),
     TO_PERSONAL_INFO_CHANGE(new ToChangeUserInfoCommand()),
     CHANGE_PERSONAL_INFO(new ChangeUserInfoCommand()),

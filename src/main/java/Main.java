@@ -10,13 +10,19 @@ import com.google.protobuf.ServiceException;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 public class Main {
 
     public static void main(String[] args) throws DaoException, ServiceException {
-        UserDaoImpl userDao =new UserDaoImpl();
-        userDao.findUsersByNameAndSurname("Heavier","Pennie");
+
+        Random random = new Random();
+        random.nextInt(100);
+        List<Long> longs = random.longs(5).boxed().collect(Collectors.toList());
+        System.out.println(longs);
 
 
     }

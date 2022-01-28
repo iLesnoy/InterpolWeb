@@ -23,7 +23,7 @@ public class NewsFeedDaoImpl implements NewsFeedDao {
     private static final String SQL_FIND_ALL_NEWS ="SELECT article_id,title,news_article,image FROM news_feed";
     private static final String SQL_DELETE_ARTICLE_BY_ID ="DELETE FROM news_feed WHERE article_id =?";
     private static final String SQL_TAKE_ARTICLE_BY_ID ="SELECT article_id,title,news_article,image FROM news_feed WHERE article_id =?";
-    private static final String SQL_UPDATE_ARTICLE_BY_ID ="UPDATE news_feed SET article_id,title,news_article,image WHERE article_id =?";
+    private static final String SQL_UPDATE_ARTICLE_BY_ID ="UPDATE news_feed SET article_id=?,title=?,news_article=?,image=? WHERE article_id =?";
 
     private static final NewsFeedDaoImpl INSTANCE = new NewsFeedDaoImpl();
 
@@ -60,25 +60,24 @@ public class NewsFeedDaoImpl implements NewsFeedDao {
     }
 
     @Override
-    public boolean updateArticle(NewsFeed article,long articleId) throws DaoException {
+    public boolean updateArticle(NewsFeed article,long articleId,InputStream stream) throws DaoException {
         boolean updArticle = false;
         try (Connection connection = connectionPool.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_ARTICLE_BY_ID)) {
-            statement.setInt(1, article.getArticleId());
+            PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_ARTICLE_BY_ID)) {
+            statement.setLong(1, articleId);
             statement.setString(2, article.getTitle());
             statement.setString(3, article.getNewsArticle());
-            statement.setString(4, article.getImage());
+            statement.setBlob(4, stream);
             statement.setLong(5, articleId);
             int rowCount = statement.executeUpdate();
             if (rowCount != 0) {
                 updArticle = true;
                 logger.info("article updated" + article);
-            } else {
-                logger.error("article not updated");
             }
+
         } catch (SQLException e) {
             logger.error("SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
-            throw new DaoException("Dao exception in method updateArticle, when we try to update article by Id" + article, e);
+            throw new DaoException("Dao exception in method updateArticle, when we try to update article by Id " + article, e);
         }
         return updArticle;
     }
@@ -123,11 +122,11 @@ public class NewsFeedDaoImpl implements NewsFeedDao {
     }
 
     @Override
-    public Optional<NewsFeed> takeArticleById(int newsId) throws DaoException {
+    public Optional<NewsFeed> takeArticleById(long newsId) throws DaoException {
         Optional<NewsFeed> optionalNewsFeed;
         try (Connection connection = connectionPool.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_TAKE_ARTICLE_BY_ID)) {
-            statement.setInt(1, newsId);
+            statement.setLong(1, newsId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 NewsFeed news = createArticle(resultSet);

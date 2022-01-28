@@ -11,7 +11,7 @@ public class WantedCriminal {
     private String crimeAddress;
     private LocalDate crimeDOB;
     private BigDecimal reward;
-    private CrimType crimeType;
+    private CrimeType crimeType;
     private String photo;
 
 
@@ -19,7 +19,7 @@ public class WantedCriminal {
     }
 
 
-    public enum CrimType {
+    public enum CrimeType {
         Murder,Burglary,Robbery
     }
 
@@ -80,11 +80,11 @@ public class WantedCriminal {
         this.reward = reward;
     }
 
-    public CrimType getCrimeType() {
+    public CrimeType getCrimeType() {
         return crimeType;
     }
 
-    public void setCrimeType(CrimType crimeType) {
+    public void setCrimeType(CrimeType crimeType) {
         this.crimeType = crimeType;
     }
 
@@ -125,15 +125,15 @@ public class WantedCriminal {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = result * prime+ Long.hashCode(guiltyId);
-        result = result * prime+ (firstName != null ? firstName.hashCode() : 0);
+        result = result * prime + (int) (guiltyId - (guiltyId >>> 32));
+        result = result * prime + (firstName != null ? firstName.hashCode() : 0);
         result = result * prime + (lastName != null ? lastName.hashCode() : 0);
         result = result * prime + (crimeCity != null ? crimeCity.hashCode() : 0);
         result = result * prime + (crimeAddress != null ? crimeAddress.hashCode() : 0);
         result = result * prime + crimeDOB.hashCode();
         result = result * prime + (reward != null ? reward.hashCode() : 0);
         result = result * prime + (crimeType != null ? crimeType.hashCode() : 0);
-        result = result * prime + ((photo == null) ? 0 : photo.hashCode());
+        result = result * prime + (photo != null ? photo.hashCode() : 0);
         return result;
     }
 
@@ -196,7 +196,7 @@ public class WantedCriminal {
             return this;
         }
 
-        public WantedCriminalBuilder setCrimType(CrimType type) {
+        public WantedCriminalBuilder setCrimType(CrimeType type) {
             wantedCriminal.setCrimeType(type);
             return this;
         }
