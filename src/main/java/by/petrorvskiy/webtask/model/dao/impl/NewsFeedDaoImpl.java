@@ -60,15 +60,15 @@ public class NewsFeedDaoImpl implements NewsFeedDao {
     }
 
     @Override
-    public boolean updateArticle(NewsFeed article,long articleId,InputStream stream) throws DaoException {
+    public boolean updateArticle(NewsFeed article,InputStream stream) throws DaoException {
         boolean updArticle = false;
         try (Connection connection = connectionPool.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_ARTICLE_BY_ID)) {
-            statement.setLong(1, articleId);
+            statement.setLong(1, article.getArticleId());
             statement.setString(2, article.getTitle());
             statement.setString(3, article.getNewsArticle());
             statement.setBlob(4, stream);
-            statement.setLong(5, articleId);
+            statement.setLong(5, article.getArticleId());
             int rowCount = statement.executeUpdate();
             if (rowCount != 0) {
                 updArticle = true;

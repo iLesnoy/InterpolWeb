@@ -28,7 +28,7 @@ public class WantedCriminalDaoImpl implements WantedCriminalDao {
     private static final String SQL_FIND_CRIMINAL_BY_NAME = "SELECT guilty_id,first_name,last_name,crim_city,crim_address,crim_DOB,reward,crime_type,photo FROM wanted_criminals WHERE first_name=?";
     private static final String SQL_FIND_CRIMINAL_REWARD_BY_ID = "SELECT reward FROM wanted_criminals WHERE guilty_id=?";
     private static final String SQL_DELETE_CRIMINAL_BY_ID = "DELETE FROM wanted_criminals WHERE guilty_id =?";
-    private static final String SQL_UPDATE_WANTED_CRIMINAL_BY_ID = "UPDATE wanted_criminals SET first_name=?,last_name=?,crim_city=?,crim_address=?,crim_DOB=?,reward=?,crime_type=?,photo=? WHERE guilty_id=? ";
+    private static final String SQL_UPDATE_WANTED_CRIMINAL_BY_ID = "UPDATE wanted_criminals SET guilty_id=?,first_name=?,last_name=?,crim_city=?,crim_address=?,crim_DOB=?,reward=?,crime_type=?,photo=? WHERE guilty_id=? ";
     private static final String SQL_FIND_ALL_CRIMINALS = "SELECT guilty_id,first_name,last_name,crim_city,crim_address,crim_DOB,reward,crime_type,photo FROM wanted_criminals";
 
     private static final String SQL_ADD_CRIMINAL = "INSERT INTO wanted_criminals (first_name,last_name,crim_city,crim_address,crim_DOB,reward,crime_type,photo) values(?,?,?,?,?,?,?,?)";
@@ -93,27 +93,28 @@ public class WantedCriminalDaoImpl implements WantedCriminalDao {
     }
 
     @Override
-    public boolean updateWantedCriminalById(WantedCriminal wantedCriminal, long crimId) throws DaoException {
+    public boolean updateWantedCriminalById(WantedCriminal wantedCriminal,InputStream photoStream) throws DaoException {
         boolean wantedCriminalUpdate = false;
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_WANTED_CRIMINAL_BY_ID)) {
-            statement.setString(1, wantedCriminal.getFirstName());
-            statement.setString(2, wantedCriminal.getLastName());
-            statement.setString(3, wantedCriminal.getCrimeCity());
-            statement.setString(4, wantedCriminal.getCrimeAddress());
-            statement.setDate(5, Date.valueOf(wantedCriminal.getCrimeDOB()));
-            statement.setBigDecimal(6, wantedCriminal.getReward());
-            statement.setString(7, wantedCriminal.getCrimeType().name());
-            statement.setString(8, wantedCriminal.getPhoto());
-            statement.setLong(9, crimId);
+            statement.setLong(1, wantedCriminal.getGuiltyId());
+            statement.setString(2, wantedCriminal.getFirstName());
+            statement.setString(3, wantedCriminal.getLastName());
+            statement.setString(4, wantedCriminal.getCrimeCity());
+            statement.setString(5, wantedCriminal.getCrimeAddress());
+            statement.setDate(6, Date.valueOf(wantedCriminal.getCrimeDOB()));
+            statement.setBigDecimal(7, wantedCriminal.getReward());
+            statement.setString(8, String.valueOf(wantedCriminal.getCrimeType()));
+            statement.setBlob(9, photoStream);
+            statement.setLong(10, wantedCriminal.getGuiltyId());
+
 
             int rowCount = statement.executeUpdate();
             if (rowCount != 0) {
                 wantedCriminalUpdate = true;
                 logger.info("criminal updated" + wantedCriminalUpdate);
-            } else {
-                logger.error("criminal not updated");
             }
+
         } catch (SQLException e) {
             logger.error("SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
             throw new DaoException("Dao exception in method updateWantedCriminalById", e);

@@ -293,9 +293,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean updateUserInfo(User user, Map<String, String> userData) throws ServiceException {
         boolean isChanged = false;
-        if (UserValidator.isValidName(userData.get(ParameterAndAttribute.USER_NAME))
-                && UserValidator.isValidName(userData.get(ParameterAndAttribute.USER_SURNAME))) {
-
+        if (UserValidator.isValidName(userData.get(ParameterAndAttribute.USER_NAME))) {
             user.setName(userData.get(ParameterAndAttribute.USER_NAME));
             user.setSurname(userData.get(ParameterAndAttribute.USER_SURNAME));
 

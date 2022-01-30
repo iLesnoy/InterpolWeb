@@ -19,6 +19,7 @@
 
 
 <header><c:import url="header.jsp"/></header>
+<p>${message}</p>
 
 <body>
 <div class="wrapper">

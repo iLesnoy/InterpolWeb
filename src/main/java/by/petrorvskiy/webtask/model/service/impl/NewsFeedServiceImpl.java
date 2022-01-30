@@ -41,7 +41,7 @@ public class NewsFeedServiceImpl implements NewsFeedService {
     }
 
     @Override
-    public boolean updateArticle(Map<String,String> newsData,long articleId,InputStream stream) throws ServiceException {
+    public boolean updateArticle(Map<String,String> newsData,InputStream stream) throws ServiceException {
         boolean updateArticle = false;
         NewsFeed article = new NewsFeed.NewsFeedBuilder()
                 .setArticleId(Long.parseLong(newsData.get(ParameterAndAttribute.ARTICLE_ID)))
@@ -50,7 +50,7 @@ public class NewsFeedServiceImpl implements NewsFeedService {
                 .build();
 
         try {
-            newsFeedDao.updateArticle(article,articleId,stream);
+            newsFeedDao.updateArticle(article,stream);
             updateArticle = true;
         } catch (DaoException e) {
             e.printStackTrace();

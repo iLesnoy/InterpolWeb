@@ -12,8 +12,7 @@ import java.util.Properties;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+
 
 public class ConnectionPool {
 
@@ -26,6 +25,7 @@ public class ConnectionPool {
     private static final String DATABASE_PASSWORD;
     private static final String DATABASE_USER;
     private static final String DATABASE_DRIVER;
+    private static final AtomicBoolean isCreated = new AtomicBoolean();
     private static ConnectionPool instance;
     private final BlockingQueue<ProxyConnection> freeConnection;
     private final BlockingQueue<ProxyConnection> givenAwayConnections;
@@ -59,10 +59,12 @@ public class ConnectionPool {
     }
 
     public static ConnectionPool getInstance() {
-        if (instance == null) {
-            instance = new ConnectionPool();
+        if (!isCreated.get()) {
+            if (instance == null) {
+                instance = new ConnectionPool();
+                isCreated.set(true);
+            }
         }
-
         return instance;
     }
 

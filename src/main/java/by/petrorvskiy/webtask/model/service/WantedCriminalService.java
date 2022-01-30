@@ -14,7 +14,7 @@ public interface WantedCriminalService {
 
     boolean addWantedCriminal(Map<String,String> wantedData, InputStream photoStream) throws ServiceException;
     boolean deleteWantedCriminal(long criminalId) throws ServiceException;
-    boolean updateWantedCriminalById(WantedCriminal wantedCriminal,long crimId) throws ServiceException;
+    boolean updateWantedCriminalById(Map<String,String> wantedData, InputStream photoStream) throws ServiceException;
 
     List<SearchApplication> findUserSearchApplicationsByUserId(long userId) throws ServiceException;
     List<WantedCriminal> findAllWantedCriminals() throws ServiceException;

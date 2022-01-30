@@ -57,7 +57,7 @@ public class AddWantedCommand implements Command {
         try {
             if (wantedCriminal.addWantedCriminal(wantedCriminalsData,stream)) {
                 String page = request.getContextPath() + PagePath.TO_ADD;
-                session.setAttribute(ParameterAndAttribute.MESSAGE, Message.MISSING_HUMAN);
+                request.setAttribute(ParameterAndAttribute.MESSAGE, Message.MISSING_HUMAN);
                 router.setPagePath(page);
                 router.setType(Router.Type.REDIRECT);
             }

@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static by.petrorvskiy.webtask.entity.User.Status.ACTIVE;
-import static by.petrorvskiy.webtask.entity.User.Status.BLOCKED;
 
 public class UserDaoImpl implements UserDao {
 
@@ -291,8 +289,6 @@ public class UserDaoImpl implements UserDao {
             if (rowCount != 0) {
                 updateUser = true;
                 logger.info("userInfo updated");
-            } else {
-                logger.error("userInfo not updated");
             }
         } catch (SQLException e) {
             logger.error("SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());

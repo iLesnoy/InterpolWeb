@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface NewsFeedService {
 
     boolean addArticle(Map<String, String> newsData, InputStream stream) throws ServiceException;
-    boolean updateArticle(Map<String,String> newsData, long articleId,InputStream stream) throws ServiceException;
+    boolean updateArticle(Map<String,String> newsData,InputStream stream) throws ServiceException;
     List<NewsFeed> findAllNews() throws ServiceException;
     boolean deleteArticleById(long articleId) throws ServiceException;
     Optional<NewsFeed>takeArticleById(long newsId) throws ServiceException;

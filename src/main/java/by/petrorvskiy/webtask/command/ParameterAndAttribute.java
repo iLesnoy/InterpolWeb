@@ -15,7 +15,6 @@ public class ParameterAndAttribute {
 
     public static final String USER = "user";
     public static final String ADMIN = "admin";
-    public static final String AGENT = "agent";
     public static final String MESSAGE = "message";
     public static final String PASSWORD_VALID = "pass_valid";
 

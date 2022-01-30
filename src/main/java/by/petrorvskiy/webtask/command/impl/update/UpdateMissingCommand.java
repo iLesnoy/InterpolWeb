@@ -3,7 +3,6 @@ package by.petrorvskiy.webtask.command.impl.update;
 import by.petrorvskiy.webtask.command.*;
 import by.petrorvskiy.webtask.exception.ServiceException;
 import by.petrorvskiy.webtask.model.service.impl.MissingPeopleServiceImpl;
-import by.petrorvskiy.webtask.model.service.impl.NewsFeedServiceImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -26,7 +25,7 @@ public class UpdateMissingCommand implements Command {
         logger.info("UpdateMissingCommand");
         Router router = new Router();
         HttpSession session = request.getSession();
-        Map<String,String> newsData = new HashMap<>();
+        Map<String,String> missingData = new HashMap<>();
 
         long missingId = Long.parseLong(request.getParameter(ParameterAndAttribute.MISSING_ID));
         String name = request.getParameter(ParameterAndAttribute.FIRST_NAME);
@@ -41,13 +40,13 @@ public class UpdateMissingCommand implements Command {
             e.printStackTrace();
         }
 
-        newsData.put(ParameterAndAttribute.MISSING_ID, String.valueOf(missingId));
-        newsData.put(ParameterAndAttribute.FIRST_NAME,name);
-        newsData.put(ParameterAndAttribute.LAST_NAME,surname);
-        newsData.put(ParameterAndAttribute.DISAPPEARANCE_DATE,disappearanceDate);
+        missingData.put(ParameterAndAttribute.MISSING_ID, String.valueOf(missingId));
+        missingData.put(ParameterAndAttribute.FIRST_NAME,name);
+        missingData.put(ParameterAndAttribute.LAST_NAME,surname);
+        missingData.put(ParameterAndAttribute.DISAPPEARANCE_DATE,disappearanceDate);
 
         try {
-            if(missingPeopleService.updateMissingPeopleById(newsData,stream)){
+            if(missingPeopleService.updateMissingPeopleById(missingData,stream)){
                 String page = request.getContextPath() + PagePath.TO_MISSING_PAGE;
                 session.setAttribute(ParameterAndAttribute.MESSAGE, Message.MISSING_HUMAN_UPDATED);
                 router.setPagePath(page);

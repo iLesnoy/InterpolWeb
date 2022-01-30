@@ -21,16 +21,14 @@ public class ChangeUserInfoCommand implements Command {
 
     @Override
     public Router execute(HttpServletRequest request) {
-        logger.debug( "execute method UpdateProcedureCommand");
+        logger.debug( "execute method ChangeUserInfoCommand");
         Router router = new Router();
         HttpSession session = request.getSession();
         Map<String, String> userData = new HashMap<>();
         User user = (User) session.getAttribute(ParameterAndAttribute.USER);
 
         String name = request.getParameter(ParameterAndAttribute.USER_NAME);
-        logger.debug( "User name=" + name);
         String surname = request.getParameter(ParameterAndAttribute.USER_SURNAME);
-        logger.debug( "User surname=" + surname);
 
         userData.put(ParameterAndAttribute.USER_NAME, name);
         userData.put(ParameterAndAttribute.USER_SURNAME, surname);

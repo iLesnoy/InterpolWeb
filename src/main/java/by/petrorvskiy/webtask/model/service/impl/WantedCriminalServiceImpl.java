@@ -28,8 +28,8 @@ public class WantedCriminalServiceImpl implements WantedCriminalService {
     public boolean addWantedCriminal(Map<String, String> criminalData, InputStream photoStream) throws ServiceException {
         boolean addWantedCriminal;
         WantedCriminal criminal = new WantedCriminal.WantedCriminalBuilder()
-                .setFirstName(criminalData.get(ParameterAndAttribute.USER_NAME))
-                .setLastName(criminalData.get(ParameterAndAttribute.USER_SURNAME))
+                .setFirstName(criminalData.get(ParameterAndAttribute.FIRST_NAME))
+                .setLastName(criminalData.get(ParameterAndAttribute.LAST_NAME))
                 .setCrimCity(criminalData.get(ParameterAndAttribute.CRIME_CITY))
                 .setDOB(LocalDate.parse(criminalData.get(ParameterAndAttribute.DATE_OF_BIRTH)))
                 .setReward(new BigDecimal(criminalData.get(ParameterAndAttribute.REWARD)))
@@ -60,13 +60,25 @@ public class WantedCriminalServiceImpl implements WantedCriminalService {
     }
 
     @Override
-    public boolean updateWantedCriminalById(WantedCriminal wantedCriminal, long crimId) throws ServiceException {
+    public boolean updateWantedCriminalById(Map<String, String> criminalData, InputStream photoStream) throws ServiceException {
         boolean updateWantedCriminalById;
+
+        WantedCriminal criminal = new WantedCriminal.WantedCriminalBuilder()
+                .setGuiltyId(Long.valueOf(criminalData.get(ParameterAndAttribute.GUILTY_ID)))
+                .setFirstName(criminalData.get(ParameterAndAttribute.FIRST_NAME))
+                .setLastName(criminalData.get(ParameterAndAttribute.LAST_NAME))
+                .setCrimCity(criminalData.get(ParameterAndAttribute.CRIME_CITY))
+                .setDOB(LocalDate.parse(criminalData.get(ParameterAndAttribute.DATE_OF_BIRTH)))
+                .setReward(new BigDecimal(criminalData.get(ParameterAndAttribute.REWARD)))
+                .setCrimType(WantedCriminal.CrimeType.valueOf(criminalData.get(ParameterAndAttribute.CRIME_TYPE)))
+                .setPhoto(criminalData.get(ParameterAndAttribute.PHOTO))
+                .setCrimAdress(ParameterAndAttribute.CRIME_ADDRESS).build();
+        System.out.println(criminal);
         try {
-            wantedCriminalDao.updateWantedCriminalById(wantedCriminal, crimId);
+            wantedCriminalDao.updateWantedCriminalById(criminal,photoStream);
             updateWantedCriminalById = true;
         } catch (DaoException e) {
-            logger.info("DaoException in method " + e);
+            logger.info("DaoException in method updateWantedCriminalById" + e);
             throw new ServiceException(e);
         }
         return updateWantedCriminalById;

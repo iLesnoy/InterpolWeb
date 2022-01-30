@@ -1,7 +1,6 @@
 package by.petrorvskiy.webtask.command.impl.update;
 
 import by.petrorvskiy.webtask.command.*;
-import by.petrorvskiy.webtask.entity.NewsFeed;
 import by.petrorvskiy.webtask.exception.ServiceException;
 import by.petrorvskiy.webtask.model.service.impl.NewsFeedServiceImpl;
 import jakarta.servlet.ServletException;
@@ -47,7 +46,7 @@ public class UpdateArticleCommand implements Command {
         newsData.put(ParameterAndAttribute.NEWS_ARTICLE,newsArticle);
 
         try {
-            if(newsFeedService.updateArticle(newsData,articleId,stream)){
+            if(newsFeedService.updateArticle(newsData,stream)){
                 String page = request.getContextPath() + PagePath.TO_NEWS_PAGE;
                 session.setAttribute(ParameterAndAttribute.MESSAGE, Message.ARTICLE_UPDATED);
                 router.setPagePath(page);

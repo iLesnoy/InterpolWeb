@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface WantedCriminalDao {
     boolean addWantedCriminal(WantedCriminal criminal, InputStream photoStream) throws DaoException;
     boolean deleteWantedCriminal(long criminalId) throws DaoException;
-    boolean updateWantedCriminalById(WantedCriminal wantedCriminal,long crimeId) throws DaoException;
+    boolean updateWantedCriminalById(WantedCriminal wantedCriminal,InputStream stream) throws DaoException;
 
     List<WantedCriminal> findAllWantedCriminals() throws DaoException;
 

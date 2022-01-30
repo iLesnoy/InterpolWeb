@@ -7,7 +7,8 @@ public class Message {
     public static final String ARTICLE_ADDED ="Article successfully added";
     public static final String ARTICLE_UPDATED ="Article successfully updated";
     public static final String MISSING_HUMAN ="Missing human successfully added";
-    public static final String MISSING_HUMAN_UPDATED ="Missing human successfully Updated";
+    public static final String MISSING_HUMAN_UPDATED ="Missing human application successfully Updated";
+    public static final String WANTED_CRIMINAL_UPDATED ="Wanted application successfully Updated";
     public static final String UNSUCCESSFUL = "unsuccessful";
     public static final String MESSAGE_FOR_USER ="";
     public static final String EXCEPTION ="exception";
