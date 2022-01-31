@@ -5,6 +5,7 @@ import by.petrorvskiy.webtask.exception.DaoException;
 import by.petrorvskiy.webtask.model.dao.ColumnName;
 import by.petrorvskiy.webtask.model.dao.NewsFeedDao;
 import by.petrorvskiy.webtask.model.connection.ConnectionPool;
+import by.petrorvskiy.webtask.util.ImageEncoder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,6 +16,9 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
+
+import static by.petrorvskiy.webtask.model.dao.ColumnName.IMAGE;
+import static by.petrorvskiy.webtask.model.dao.ColumnName.PHOTO;
 
 public class NewsFeedDaoImpl implements NewsFeedDao {
 
@@ -144,21 +148,20 @@ public class NewsFeedDaoImpl implements NewsFeedDao {
 
 
 
-    private NewsFeed createArticle(ResultSet resultSet) throws SQLException {
+    private NewsFeed createArticle(ResultSet resultSet) throws SQLException{
 
         int articleId = resultSet.getInt(ColumnName.ARTICLE_ID);
         String title = resultSet.getString(ColumnName.TITLE);
         String article = resultSet.getString(ColumnName.NEWS_ARTICLE);
-        byte[] picture = resultSet.getBytes(ColumnName.IMAGE);
-        byte[] encodeImageBytes = Base64.getEncoder().encode(picture);
-        String base64Encoded  = new String(encodeImageBytes, StandardCharsets.UTF_8);
+        byte[] byteImage = resultSet.getBytes(ColumnName.IMAGE);
+        String image = ImageEncoder.encodeBlob(byteImage);
 
 
         NewsFeed newsFeed = new NewsFeed.NewsFeedBuilder()
                 .setArticleId(articleId)
                 .setTitle(title)
                 .setArticle(article)
-                .setImage(base64Encoded).build();
+                .setImage(image).build();
         /*logger.info(newsFeed);*/
         return newsFeed;
     }

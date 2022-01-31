@@ -6,6 +6,7 @@ import by.petrorvskiy.webtask.model.connection.ConnectionPool;
 import by.petrorvskiy.webtask.entity.WantedCriminal;
 import by.petrorvskiy.webtask.entity.WantedCriminal.CrimeType;
 import by.petrorvskiy.webtask.exception.DaoException;
+import by.petrorvskiy.webtask.util.ImageEncoder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,6 +20,7 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
+import static by.petrorvskiy.webtask.model.dao.ColumnName.IMAGE;
 import static by.petrorvskiy.webtask.model.dao.ColumnName.PHOTO;
 
 public class WantedCriminalDaoImpl implements WantedCriminalDao {
@@ -212,28 +214,27 @@ public class WantedCriminalDaoImpl implements WantedCriminalDao {
         return optionalReward;
     }
 
-        private WantedCriminal createCriminal (ResultSet resultSet) throws SQLException {
+        private WantedCriminal createCriminal (ResultSet resultSet) throws SQLException{
             long guiltyId = resultSet.getLong(ColumnName.GUILTY_ID);
             String firstName = resultSet.getString(ColumnName.FIRST_NAME);
             String lastName = resultSet.getString(ColumnName.LAST_NAME);
-            String crimCity = resultSet.getString(ColumnName.CRIM_CITY);
+            String crimeCity = resultSet.getString(ColumnName.CRIM_CITY);
             String address = resultSet.getString(ColumnName.ADDRESS);
             LocalDate DOB = resultSet.getDate(ColumnName.CRIM_DOB).toLocalDate();
             BigDecimal reward = resultSet.getBigDecimal(ColumnName.REWARD);
             CrimeType crimeType = CrimeType.valueOf(resultSet.getString(ColumnName.CRIM_TYPE));
-            byte[] photo = resultSet.getBytes(PHOTO);
-            byte[] encodeImageBytes = Base64.getEncoder().encode(photo);
-            String base64Encoded  = new String(encodeImageBytes, StandardCharsets.UTF_8);
+            byte[] byteImage = resultSet.getBytes(ColumnName.PHOTO);
+            String image = ImageEncoder.encodeBlob(byteImage);
             WantedCriminal wantedCriminal = new WantedCriminal.WantedCriminalBuilder()
                     .setGuiltyId(guiltyId)
                     .setFirstName(firstName)
                     .setLastName(lastName)
-                    .setCrimCity(crimCity)
+                    .setCrimCity(crimeCity)
                     .setCrimAdress(address)
                     .setDOB(DOB)
                     .setReward(reward)
                     .setCrimType(crimeType)
-                    .setPhoto(base64Encoded).build();
+                    .setPhoto(image).build();
             logger.info(wantedCriminal);
             return wantedCriminal;
         }

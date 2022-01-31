@@ -42,20 +42,24 @@
                         <h6>${elem.title}</h6>
                         <p class="description">${elem.newsArticle}</p>
                     </div>
-                    <form action="controller" method="get">
-                        <button type="submit" class="btn btn-danger btn-sm">
-                            <fmt:message key="label.edit"/>
-                        </button>
-                        <input type="hidden" name="article_id" value="${elem.articleId}">
-                        <input type="hidden" name="command" value="to_update_article">
-                    </form>
-                    <form action="controller" method="get">
-                        <button type="submit" class="btn btn-danger btn-sm">
-                            <fmt:message key="label.delete"/>
-                        </button>
-                        <input type="hidden" name="article_id" value="${elem.articleId}">
-                        <input type="hidden" name="command" value="delete_article">
-                    </form>
+                    <c:if test="${user_role == 'ADMIN'}">
+                    <div style="display: flex; justify-content: space-around; align-items: center;">
+                        <form action="controller" method="get">
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                <fmt:message key="label.edit"/>
+                            </button>
+                            <input type="hidden" name="article_id" value="${elem.articleId}">
+                            <input type="hidden" name="command" value="to_update_article">
+                        </form>
+                        <form action="controller" method="get">
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                <fmt:message key="label.delete"/>
+                            </button>
+                            <input type="hidden" name="article_id" value="${elem.articleId}">
+                            <input type="hidden" name="command" value="delete_article">
+                        </form>
+                    </div>
+                    </c:if>
                 </div>
             </c:forEach>
         </div>

@@ -16,114 +16,97 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/missing.css">
     <title>AdminAccount</title>
 </head>
+<style>
+    .form-rows input, .form-rows textarea, .form-rows button{
+        margin-bottom: 15px !important;
+    }
+</style>
 
 <header><c:import url="header.jsp"/></header>
 <p>${message}</p>
 
 <body>
-<ul>
     <c:if test="${missing !=null }">
         <form action="controller" method="POST" class="form-container" enctype='multipart/form-data'>
             <c:forEach var="elem" items="${missing}" varStatus="status">
-                <div class="col-md-1">
-                    <input type="text" class="form-control" name="missingId" value="${elem.missingPeopleId }"
-                           pattern=".*[^<>]" required>
+                <div class="flex-form" style="display: flex; justify-content: space-around; align-items: center;">
+                    <div class="form-rows" style="flex-basis: 40%;">
+                        <input type="text" class="form-control" name="missingId" value="${elem.missingPeopleId }"
+                               pattern=".*[^<>]" required>
+                        <input type="text" class="form-control" name="first_name" value="${elem.name }" pattern=".*[^<>]"
+                               required>
+                        <input type="text" class="form-control" name="last_name" value="${elem.surname }" pattern=".*[^<>]"
+                               required>
+                        <input type="text" class="form-control" name="disappearance_date" value="${elem.disappearanceDate }"
+                               pattern=".*[^<>]" required>
+                        <input type="file" name="photo" value="${elem.photo}" pattern=".*[^<>]"  class="form-control"
+                               placeholder=<fmt:message key="label.photo"/>>
+                        <button type="submit" class="btn-brown">
+                            <fmt:message key="label.submit"/>
+                        </button>
+                    </div>
+                    <img alt="img" src="data:image/jpeg;base64,${elem.photo}"/>
                 </div>
-                <div class="col-md-1">
-                    <input type="text" class="form-control" name="first_name" value="${elem.name }" pattern=".*[^<>]"
-                           required>
-                </div>
-                <div class="col-md-1">
-                    <input type="text" class="form-control" name="last_name" value="${elem.surname }" pattern=".*[^<>]"
-                           required>
-                </div>
-                <div class="col-md-1">
-                    <input type="text" class="form-control" name="disappearance_date" value="${elem.disappearanceDate }"
-                           pattern=".*[^<>]" required>
-                </div>
-                <img alt="img" src="data:image/jpeg;base64,${elem.photo}"/>
-                <input type="file" name="photo" value="${elem.photo}" pattern=".*[^<>]"  class="form-control"
-                       placeholder=<fmt:message key="label.photo"/>>
             </c:forEach>
             <input type="hidden" name="command" value="update_missing">
-            <button type="submit" class="btn-brown">
-                <fmt:message key="label.submit"/>
-            </button>
         </form>
     </c:if>
-</ul>
 
-<ul>
     <c:if test="${wantedCriminals !=null }">
         <form action="controller" method="POST" class="form-container" enctype='multipart/form-data'>
             <c:forEach var="wanted" items="${wantedCriminals}" varStatus="status">
-                <div class="col-md-1">
-                    <input type="text" class="form-control" name="guiltyId" value="${wanted.guiltyId }"
-                           pattern=".*[^<>]" required>
+                <div class="flex-form" style="display: flex; justify-content: space-around; align-items: center;">
+                    <div class="form-rows" style="flex-basis: 40%;">
+                        <input type="text" class="form-control" name="guiltyId" value="${wanted.guiltyId }"
+                               pattern=".*[^<>]" required>
+                        <input type="text" class="form-control" name="first_name" value="${wanted.firstName }"
+                               pattern=".*[^<>]">
+                        <input type="text" class="form-control" name="last_name" value="${wanted.lastName }"
+                               pattern=".*[^<>]" required>
+                        <input type="text" class="form-control" name="crimeCity" value="${wanted.crimeCity }"
+                               pattern=".*[^<>]">
+                        <input type="text" class="form-control" name="crimeAddress" value="${wanted.crimeAddress }"
+                               pattern=".*[^<>]" required>
+                        <input type="text" class="form-control" name="DOB" value="${wanted.crimeDOB }"
+                               pattern=".*[^<>]">
+                        <input type="text" class="form-control" name="reward" value="${wanted.reward }"
+                               pattern=".*[^<>]">
+                        <input type="text" class="form-control" name="crimeType" value="${wanted.crimeType }"
+                               pattern=".*[^<>]">
+                        <input type="file" name="photo" value="${wanted.photo}" pattern=".*[^<>]"  class="form-control"
+                               placeholder=<fmt:message key="label.photo"/>>
+                        <button type="submit" class="btn-brown">
+                            <fmt:message key="label.submit"/>
+                        </button>
+                    </div>
+                    <img alt="img" src="data:image/jpeg;base64,${wanted.photo}"/>
                 </div>
-                <div class="col-md-1">
-                    <input type="text" class="form-control" name="first_name" value="${wanted.firstName }"
-                           pattern=".*[^<>]">
-                </div>
-                <div class="col-md-1">
-                    <input type="text" class="form-control" name="last_name" value="${wanted.lastName }"
-                           pattern=".*[^<>]" required>
-                </div>
-                <div class="col-md-1">
-                    <input type="text" class="form-control" name="crimeCity" value="${wanted.crimeCity }"
-                           pattern=".*[^<>]">
-                </div>
-                <div class="col-md-1">
-                    <input type="text" class="form-control" name="crimeAddress" value="${wanted.crimeAddress }"
-                           pattern=".*[^<>]" required>
-                </div>
-                <div class="col-md-1">
-                    <input type="text" class="form-control" name="DOB" value="${wanted.crimeDOB }"
-                           pattern=".*[^<>]">
-                </div>
-                <div class="col-md-1">
-                    <input type="text" class="form-control" name="reward" value="${wanted.reward }"
-                           pattern=".*[^<>]">
-                </div>
-                <div class="col-md-1">
-                    <input type="text" class="form-control" name="crimeType" value="${wanted.crimeType }"
-                           pattern=".*[^<>]">
-                </div>
-                <img alt="img" src="data:image/jpeg;base64,${wanted.photo}"/>
-                <input type="file" name="photo" value="${wanted.photo}" pattern=".*[^<>]"  class="form-control"
-                       placeholder=<fmt:message key="label.photo"/>>
             </c:forEach>
             <input type="hidden" name="command" value="update_wanted">
-            <button type="submit" class="btn-brown">
-                <fmt:message key="label.submit"/>
-            </button>
+
         </form>
     </c:if>
-</ul>
 
 
 <c:if test="${news_article !=null }">
     <form action="controller" method="POST" class="form-container" enctype='multipart/form-data'>
         <c:forEach var="elem2" items="${news_article}" varStatus="status">
-            <div class="col-md-1">
-                <input type="text" class="form-control" name="article_id" value="${elem2.articleId}" pattern=".*[^<>]">
+            <div class="flex-form" style="display: flex; justify-content: space-around; align-items: center;">
+                <div class="form-rows" style="flex-basis: 40%;">
+                    <input type="text" class="form-control" name="article_id" value="${elem2.articleId}" pattern=".*[^<>]">
+                    <input type="text" class="form-control" name="title" value="${elem2.title}"
+                           maxlength="45" pattern=".*[^<>]">
+                    <textarea type="text" class="form-control" name="news_article" maxlength="400" style="height: 200px !important;" pattern=".*[^<>]">${elem2.newsArticle}</textarea>
+                    <input type="file" name="image" value="" pattern=".*[^<>]"  class="form-control"
+                           placeholder=<fmt:message key="label.image"/>>
+                    <button type="submit" class="btn-brown">
+                        <fmt:message key="label.submit"/>
+                    </button>
+                </div>
+                <img alt="img" src="data:image/jpeg;base64,${elem2.image}"/>
             </div>
-            <div class="col-md-1">
-                <input type="text" class="form-control" name="title" value="${elem2.title}"
-                       maxlength="45" pattern=".*[^<>]" style='width:auto'>
-            </div>
-            <div class="col-lg-11">
-                <input type="text" class="form-control" name="news_article" maxlength="400" value="${elem2.newsArticle}"
-                       pattern=".*[^<>]" style='width:auto'>
-            </div>
-            <img alt="img" src="data:image/jpeg;base64,${elem2.image}"/>
-            <input type="file" name="image" value="" pattern=".*[^<>]"  class="form-control"
-                   placeholder=<fmt:message key="label.image"/>>
         </c:forEach>
         <input type="hidden" name="command" value="update_article">
-        <button type="submit" class="btn-brown">
-            <fmt:message key="label.submit"/>
-        </button>
     </form>
 </c:if>
 

@@ -20,7 +20,7 @@ public interface SearchApplicationService {
     List<SearchApplication> findApplicationsByUserId(long userId) throws ServiceException;
 
     Optional<SearchApplication> takeSearchApplicationById(long applicationId) throws ServiceException;
-    Optional<SearchApplication> findApplicationByUserIdAndWantedId(long applicationId,long guiltyId) throws ServiceException;
+    Optional<SearchApplication> findApplicationByUserIdAndWantedId(long userId) throws ServiceException;
     Optional<SearchApplication> findApplicationByUserIdAndMissingId(long applicationId,long missingId) throws ServiceException;
     long findWantedCriminalGuiltyId(long applicationId) throws ServiceException;
     Optional<Long> findApplicationIdByUserId(long userId) throws ServiceException;

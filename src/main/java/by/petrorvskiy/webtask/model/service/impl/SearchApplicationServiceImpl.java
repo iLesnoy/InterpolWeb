@@ -155,10 +155,10 @@ public class SearchApplicationServiceImpl implements SearchApplicationService {
     }
 
     @Override
-    public Optional<SearchApplication> findApplicationByUserIdAndWantedId(long applicationId, long guiltyId) throws ServiceException {
+    public Optional<SearchApplication> findApplicationByUserIdAndWantedId(long userId) throws ServiceException {
         Optional<SearchApplication> findApplicationByUserIdAndWantedId;
         try {
-            findApplicationByUserIdAndWantedId = searchApplicationDao.findApplicationByUserIdAndWantedId(applicationId, guiltyId);
+            findApplicationByUserIdAndWantedId = searchApplicationDao.findApplicationByUserIdAndWantedId(userId);
             if (findApplicationByUserIdAndWantedId.isPresent()) {
                 logger.debug("searchApplication " + findApplicationByUserIdAndWantedId);
             } else {

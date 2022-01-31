@@ -22,6 +22,7 @@ public class UserDaoImpl implements UserDao {
     private static final String SQL_FIND_USERS_BY_NAME_AND_SURNAME = "SELECT user_id,email,password,name,surname,user_status,user_role FROM users WHERE name=? AND surname=?";
     private static final String SQL_FIND_USERS_BY_STATUS = "SELECT user_id,email,password,name,surname,user_status,user_role FROM users WHERE user_status=?";
     private static final String SQL_FIND_USERS_BY_ROLE = "SELECT user_id,email,password,name,surname,user_status,user_role FROM users WHERE user_role=?";
+    private static final String SQL_FIND_USER_BY_ID = "SELECT user_id,email,password,name,surname,user_status,user_role FROM users WHERE user_id=?";
     private static final String SQL_FIND_USERS_BY_EMAIL_AND_PASSWORD = "SELECT user_id,email,password,name,surname,user_status,user_role FROM users WHERE email=? AND password=?";
     private static final String SQL_FIND_USER_ID_BY_EMAIL = "SELECT user_id FROM users WHERE email=?";
     private static final String SQL_FIND_USER_PASSWORD_BY_EMAIL = "SELECT password FROM users WHERE email=?";
@@ -84,6 +85,27 @@ public class UserDaoImpl implements UserDao {
             }
         } catch (SQLException e) {
             throw new DaoException("Dao exception in method findUserByEmail");
+        }
+        return optionalUser;
+    }
+
+    @Override
+    public Optional<User> findUserById(long userId) throws DaoException {
+        Optional<User> optionalUser;
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL_FIND_USER_BY_ID)) {
+            statement.setLong(1, userId);
+
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                User user = createUser(resultSet);
+                optionalUser = Optional.of(user);
+                logger.info("user=" + optionalUser);
+            } else {
+                optionalUser = Optional.empty();
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Dao exception in method findUserById");
         }
         return optionalUser;
     }

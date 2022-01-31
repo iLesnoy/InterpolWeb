@@ -55,8 +55,10 @@
 
 .post-slide .post-title {
     margin: 0;
+    margin-top: 35px;
     cursor: pointer;
 }
+
 .content{
     background-color: white;
     margin-top: -33px!important;
@@ -116,7 +118,6 @@ display: inline;
 }
 .card{
     width:100%;
-    max-height: 430px;
     margin:0!important;
 }
 

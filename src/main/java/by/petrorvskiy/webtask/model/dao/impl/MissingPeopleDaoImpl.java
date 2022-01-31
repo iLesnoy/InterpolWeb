@@ -6,6 +6,7 @@ import by.petrorvskiy.webtask.model.dao.ColumnName;
 import by.petrorvskiy.webtask.model.dao.MissingPeopleDao;
 import by.petrorvskiy.webtask.entity.MissingPeople;
 import by.petrorvskiy.webtask.exception.DaoException;
+import by.petrorvskiy.webtask.util.ImageEncoder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -168,15 +169,14 @@ public class MissingPeopleDaoImpl implements MissingPeopleDao {
         String firstName = resultSet.getString(FIRST_NAME);
         String lastName = resultSet.getString(LAST_NAME);
         LocalDate disappearanceDate = resultSet.getDate(DISAPPEARANCE_DATE).toLocalDate();
-        byte[] photo = resultSet.getBytes(PHOTO);
-        byte[] encodeImageBytes = Base64.getEncoder().encode(photo);
-        String base64Encoded  = new String(encodeImageBytes, StandardCharsets.UTF_8);
+        byte[] byteImage = resultSet.getBytes(ColumnName.PHOTO);
+        String image = ImageEncoder.encodeBlob(byteImage);
         MissingPeople people = new MissingPeople.MissingPeopleBuilder()
                 .setPeopleId(peopleId)
                 .setName(firstName)
                 .setSurname(lastName)
                 .setDisappearanceDate(disappearanceDate)
-                .setPhoto(base64Encoded).build();
+                .setPhoto(image).build();
         logger.info("created missed human " + people);
         return people;
 

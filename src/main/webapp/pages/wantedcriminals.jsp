@@ -25,22 +25,6 @@
         <div class="masonry-container">
             <c:forEach items="${wantedCriminals}" var="elem">
                 <div class="card">
-                    <c:if test="${user_role == 'ADMIN'}">
-                        <form action="controller" method="get">
-                            <button type="submit" class="btn btn-danger btn-sm">
-                                <fmt:message key="label.edit"/>
-                            </button>
-                            <input type="hidden" name="guiltyId" value="${elem.guiltyId}">
-                            <input type="hidden" name="command" value="to_update_wanted">
-                        </form>
-                        <form action="controller" method="get">
-                            <button type="submit" class="btn btn-danger btn-sm">
-                                <fmt:message key="label.delete"/>
-                            </button>
-                            <input type="hidden" name="guiltyId" value="${elem.guiltyId}">
-                            <input type="hidden" name="command" value="delete_criminal">
-                        </form>
-                    </c:if>
                     <div class="post-slide">
                         <div class="post-img">
                             <img alt="img" src="data:image/jpeg;base64,${elem.photo}"/>
@@ -48,7 +32,7 @@
                         </div>
 
                         <div class="content">
-                            <h3 class="post-title"><a href="#"> ${elem.firstName} ${elem.lastName}</a></h3>
+                            <%--<h3 class="post-title"><a href="#"> ${elem.firstName} ${elem.lastName}</a></h3>--%>
                             <p class="post-description">
                             <h4 class="name"><fmt:message key="label.name"/>: ${elem.firstName}</h4>
                             <h4 class="surname"><fmt:message key="label.surname"/>: ${elem.lastName}</h4>
@@ -64,7 +48,6 @@
                                     <fmt:message key="label.takeApplication"/>
                                     <input type="hidden" name="command" value="accept_wanted_application">
                                 </button>
-                                <p><fmt:message key="label.dateChose"/></p>
                                 <br/>
                                 <div class="controls">
                                     Date: <input class="datepicker form-control" min="2022-01-20"
@@ -77,6 +60,24 @@
                                 <input type="hidden" name="lead_time" value="selectedDtaeVal">
                                 <input type="hidden" name="guiltyId" value="${elem.guiltyId}">
                             </form>
+                                <c:if test="${user_role == 'ADMIN'}">
+                                    <div style="display: flex; justify-content: space-around; align-items: center;">
+                                        <form action="controller" method="get">
+                                            <button type="submit" class="btn btn-danger btn-sm">
+                                                <fmt:message key="label.edit"/>
+                                            </button>
+                                            <input type="hidden" name="guiltyId" value="${elem.guiltyId}">
+                                            <input type="hidden" name="command" value="to_update_wanted">
+                                        </form>
+                                        <form action="controller" method="get">
+                                            <button type="submit" class="btn btn-danger btn-sm">
+                                                <fmt:message key="label.delete"/>
+                                            </button>
+                                            <input type="hidden" name="guiltyId" value="${elem.guiltyId}">
+                                            <input type="hidden" name="command" value="delete_application">
+                                        </form>
+                                    </div>
+                                </c:if>
                         </div>
                     </div>
                 </div>

@@ -2,7 +2,7 @@ package by.petrorvskiy.webtask.command;
 
 public class ParameterAndAttribute {
     public static final String USER_NAME = "name";
-    public static final String USER_FULLNAME= "full_name";
+    public static final String NAME_AND_SURNAME= "nameAndSurname";
     public static final String FIRST_NAME = "first_name";
     public static final String LAST_NAME = "last_name";
     public static final String USER_SURNAME = "surname";
@@ -52,7 +52,6 @@ public class ParameterAndAttribute {
     public static final String APPLICATION_MISSING_PEOPLE_ID = "application_missing_people_id";
     public static final String START_FROM = "start_from";
     public static final String NUMBER_OF_PAGES = "number_of_pages";
-    public static final String ENCODED_PASSWORD = "encoded_password";
     public static final String APPLICATION_STATUS = "application_status";
     public static final String DISAPPEARANCE_DATE = "disappearance_date";
     public static final String DATE_OF_BIRTH = "DOB";

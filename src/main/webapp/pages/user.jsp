@@ -84,7 +84,7 @@
                             onclick="return confirm('Are you sure that you want to cancel the application?')">
                         <fmt:message key="label.cancel"/>
                     </button>
-                    <input name="command" type="hidden" class="btn" value="delete_application">
+                    <input name="command" type="hidden" class="btn" value="delete_application_by_user_id">
                     <input type="hidden" name="userId" value="${elem.userId}">
                     <input type="hidden" name="searchApplicationId" value="${elem.searchApplicationId}">
                 </form>
@@ -109,7 +109,7 @@
         <th><fmt:message key="label.crimeDOB"/></th>
         <th><fmt:message key="label.reward"/></th>
         <th><fmt:message key="label.crimeType"/></th>
-        <th><fmt:message key="label.photo"/></th>
+        <td><img alt="img" src="data:image/jpeg;base64,${elem.photo}"/></td>
     </tr>
     <tbody>
     <c:forEach var="elem" items="${wantedCriminals}" varStatus="status">
@@ -123,7 +123,7 @@
             <td><c:out value="${elem.crimeDOB }"/></td>
             <td><c:out value="${elem.reward }"/></td>
             <td><c:out value="${elem.crimeType }"/></td>
-            <td><c:out value="${elem.photo }"/></td>
+            <td><img alt="img" src="data:image/jpeg;base64,${elem.photo}"/></td>
         </tr>
     </c:forEach>
     </tbody>

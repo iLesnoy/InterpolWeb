@@ -1,6 +1,7 @@
 package by.petrorvskiy.webtask.model.service;
 
 import by.petrorvskiy.webtask.entity.User;
+import by.petrorvskiy.webtask.exception.DaoException;
 import by.petrorvskiy.webtask.exception.ServiceException;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ public interface UserService {
     List<User>findUsersByName(String userName) throws ServiceException;
     List<User> findUsersFromRow(int fromRow) throws ServiceException;
     List<User>findAllUsers() throws ServiceException;
+    Optional<User> findUserById(long userId) throws ServiceException;
     int findNumberOfPages() throws ServiceException;
 
     long findUserIdByEmail(String userEmail) throws ServiceException;

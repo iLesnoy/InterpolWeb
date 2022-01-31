@@ -25,22 +25,6 @@
         <div class="masonry-container">
             <c:forEach items="${missing}" var="elem" varStatus="status">
                 <div class="card">
-                    <c:if test="${user_role == 'ADMIN'}">
-                        <form action="controller" method="get">
-                            <button type="submit" class="btn btn-danger btn-sm">
-                                <fmt:message key="label.edit"/>
-                            </button>
-                            <input type="hidden" name="missingId" value="${elem.missingPeopleId}">
-                            <input type="hidden" name="command" value="to_update_missing">
-                        </form>
-                        <form action="controller" method="get">
-                            <button type="submit" class="btn btn-danger btn-sm">
-                                <fmt:message key="label.delete"/>
-                            </button>
-                            <input type="hidden" name="missingId" value="${elem.missingPeopleId}">
-                            <input type="hidden" name="command" value="delete_missing">
-                        </form>
-                    </c:if>
                     <div class="post-slide">
                         <div class="post-img">
                             <img alt="img" src="data:image/jpeg;base64,${elem.photo}"/>
@@ -56,7 +40,6 @@
                                     <fmt:message key="label.takeApplication"/>
                                     <input type="hidden" name="command" value="accept_missing_application">
                                 </button>
-                                <p><fmt:message key="label.dateChose"/></p>
                                 <br/>
                                 <div class="controls">
                                     Date: <input class="datepicker form-control" id="datepicker form-control"
@@ -66,6 +49,24 @@
                                 <input type="hidden" name="lead_time" value="selectedDtaeVal">
                                 <input type="hidden" name="missingId" value="<c:out value="${elem.missingPeopleId }"/>">
                             </form>
+                            <c:if test="${user_role == 'ADMIN'}">
+                                <div style="display: flex; justify-content: space-around; align-items: center;">
+                                    <form action="controller" method="get">
+                                        <button type="submit" class="btn btn-danger btn-sm">
+                                            <fmt:message key="label.edit"/>
+                                        </button>
+                                        <input type="hidden" name="missingId" value="${elem.missingPeopleId}">
+                                        <input type="hidden" name="command" value="to_update_missing">
+                                    </form>
+                                    <form action="controller" method="get">
+                                        <button type="submit" class="btn btn-danger btn-sm">
+                                            <fmt:message key="label.delete"/>
+                                        </button>
+                                        <input type="hidden" name="missingId" value="${elem.missingPeopleId}">
+                                        <input type="hidden" name="command" value="delete_application">
+                                    </form>
+                                </div>
+                            </c:if>
                         </div>
                     </div>
                 </div>

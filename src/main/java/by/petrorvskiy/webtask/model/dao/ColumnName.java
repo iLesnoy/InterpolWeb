@@ -8,7 +8,6 @@ public final class ColumnName {
     public static final String USER_NAME= "name";
     public static final String USER_SURNAME= "surname";
     public static final String USER_STATUS= "user_status";
-    public static final String CRIMINAL_FIRST_NAME= "first_name";
     public static final String USER_ROLE= "user_role";
     public static final String GUILTY_ID= "guilty_id";
     public static final String FIRST_NAME= "first_name";

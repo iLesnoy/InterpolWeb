@@ -1,27 +1,32 @@
 package by.petrorvskiy.webtask.command;
 
-import by.petrorvskiy.webtask.command.impl.*;
-import by.petrorvskiy.webtask.command.impl.add.AddMissingCommand;
-import by.petrorvskiy.webtask.command.impl.add.AddNewsCommand;
-import by.petrorvskiy.webtask.command.impl.add.AddWantedCommand;
-import by.petrorvskiy.webtask.command.impl.common.ChangeLocaleCommand;
-import by.petrorvskiy.webtask.command.impl.common.DeleteSearchApplicationByUserIdCommand;
-import by.petrorvskiy.webtask.command.impl.find.*;
-import by.petrorvskiy.webtask.command.impl.forward.*;
+import by.petrorvskiy.webtask.command.impl.admin.*;
+import by.petrorvskiy.webtask.command.impl.admin.add.AddMissingCommand;
+import by.petrorvskiy.webtask.command.impl.admin.add.AddNewsCommand;
+import by.petrorvskiy.webtask.command.impl.admin.add.AddWantedCommand;
+import by.petrorvskiy.webtask.command.impl.admin.find.*;
+import by.petrorvskiy.webtask.command.impl.admin.go.ToAddCommand;
+import by.petrorvskiy.webtask.command.impl.admin.go.ToUpdateArticleCommand;
+import by.petrorvskiy.webtask.command.impl.admin.go.ToUpdateMissingCommand;
+import by.petrorvskiy.webtask.command.impl.admin.go.ToUpdateWantedCommand;
+import by.petrorvskiy.webtask.command.impl.admin.update.*;
+import by.petrorvskiy.webtask.command.impl.common.*;
+import by.petrorvskiy.webtask.command.impl.common.find.FindAllSearchApplicationByUserIdCommand;
+import by.petrorvskiy.webtask.command.impl.common.find.FindApplicationInformationByIdCommand;
+import by.petrorvskiy.webtask.command.impl.common.find.FindNewsCommand;
+import by.petrorvskiy.webtask.command.impl.common.go.*;
 import by.petrorvskiy.webtask.command.impl.signin.LogOutCommand;
 import by.petrorvskiy.webtask.command.impl.signin.LogInCommand;
 import by.petrorvskiy.webtask.command.impl.signin.SignUpCommand;
-import by.petrorvskiy.webtask.command.impl.update.*;
 
 
 public enum CommandType {
     LOG_IN(new LogInCommand()),
     LOG_OUT(new LogOutCommand()),
-    /*TO_LOG_IN(new ToLogInCommand()),*/
-    /*TO_SIGN_UP(new ToSignUp),*/
     SIGN_UP(new SignUpCommand()),
-
     DEFAULT(new DefaultCommand()),
+
+    
     FIND_NEWS(new FindNewsCommand()),
     ADD_NEWS(new AddNewsCommand()),
     ADD_CRIMINAL(new AddWantedCommand()),
@@ -36,7 +41,7 @@ public enum CommandType {
     FIND_ALL_USERS(new FindAllUsersCommand()),
     ACCEPT_WANTED_APPLICATION(new AcceptWantedSearchApplicationByIdCommand()),
     ACCEPT_MISSING_APPLICATION(new AcceptMissingSearchApplicationByIdCommand()),
-    DELETE_APPLICATION(new DeleteSearchApplicationByUserIdCommand()),
+    DELETE_APPLICATION_BY_USER_ID(new DeleteSearchApplicationByUserIdCommand()),
     TO_MAIN(new ToMainCommand()),
     TO_WANTED(new ToWantedCriminalsCommand()),
     TO_ACCOUNT(new ToAccountCommand()),
@@ -49,15 +54,14 @@ public enum CommandType {
     UPDATE_MISSING(new UpdateMissingCommand()),
     UPDATE_WANTED(new UpdateWantedCommand()),
     UPDATE_ARTICLE(new UpdateArticleCommand()),
-    DELETE_ARTICLE(new DeleteArticleCommand()),
-    DELETE_CRIMINAL(new DeleteWantedCommand()),
-    DELETE_MISSING(new DeleteMissingCommand()),
+    DELETE_APPLICATION(new DeleteApplicationCommand()),
     FIND_WANTED_CRIMINALS(new FindWantedCriminalByNameCommand()),
     TO_PERSONAL_INFO_CHANGE(new ToChangeUserInfoCommand()),
     CHANGE_PERSONAL_INFO(new ChangeUserInfoCommand()),
     FIND_ALL_APPLICATIONS(new FindAllApplicationsCommand()),
     FIND_SEARCH_APPLICATIONS_BY_USER_ID(new FindAllSearchApplicationByUserIdCommand()),
     FIND_APPLICATION_INFORMATION_BY_ID(new FindApplicationInformationByIdCommand()),
+    FIND_USER_BY_ID(new FindUserById()),
     CHANGE_LOCALE(new ChangeLocaleCommand()),
     TO_MISSING_PEOPLE(new ToMissingPeopleCommand());
 

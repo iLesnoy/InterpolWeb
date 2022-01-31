@@ -12,6 +12,7 @@ public interface UserDao {
 
     Optional<User> findUserByEmailAndPassword(String email, String password)throws DaoException;
     Optional<User> findUserByEmail(String email)throws DaoException;
+    Optional<User> findUserById(long userId)throws DaoException;
     List<User>findUsersByNameAndSurname(String userName,String userSurname) throws DaoException;
     List<User>findUsersByName(String userName) throws DaoException;
     List<User>findAllUsers() throws DaoException;

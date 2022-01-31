@@ -37,7 +37,7 @@
     <div class="col">
         <div class="button">
             <form action="controller" method="GET">
-                <input type="text" type="hidden" name="full_name" value="" pattern=".*[^<>]"
+                <input type="text" type="hidden" name="nameAndSurname" value="" pattern=".*[^<>]"
                        placeholder=<fmt:message key="label.name_and_surname"/>> <input
                     type="hidden" name="command" value="find_by_name_and_surname">
                 <button type="submit" class="btn btn-primary">
@@ -243,11 +243,18 @@
             <td><c:out value="${elem.status }"/></td>
             <td><form action="controller" method="POST">
                 <button type="submit" class="btn btn-danger btn-sm">
-                    <fmt:message key="label.moreInformation"/>
+                    <fmt:message key="label.applicationInformation"/>
                 </button>
                 <input type="hidden" name="searchApplicationId" value="${elem.searchApplicationId}">
                 <input type="hidden" name="command" value="find_application_information_by_id">
             </form>
+                <form action="controller" method="POST">
+                    <button type="submit" class="btn btn-danger btn-sm">
+                        <fmt:message key="label.userInformation"/>
+                    </button>
+                <input type="hidden" name="userId" value="${elem.userId}">
+                <input type="hidden" name="command" value="find_user_by_id">
+                </form>
             </td>
             <td>
                 <div class="nav-item dropdown">
@@ -276,7 +283,7 @@
                         </button>
                         <input type="hidden" name="userId" value="${elem.userId }">
                         <input type="hidden" name="searchApplicationId" value="${elem.searchApplicationId }">
-                        <input type="hidden" name="command" value="delete_application">
+                        <input type="hidden" name="command" value="delete_application_by_user_id">
                     </form>
 
                 </div>
@@ -311,7 +318,7 @@
                 <td><c:out value="${elem.crimeDOB }"/></td>
                 <td><c:out value="${elem.reward }"/></td>
                 <td><c:out value="${elem.crimeType }"/></td>
-                <td><c:out value="${elem.photo }"/></td>
+                <td><img alt="img" src="data:image/jpeg;base64,${elem.photo}"/></td>
             </tr>
         </c:forEach>
         </tbody>

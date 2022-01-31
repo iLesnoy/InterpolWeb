@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 
-public interface MissingPeopleDao {
+public interface MissingPeopleDao{
 
     boolean addMissedPeople(MissingPeople people, InputStream stream) throws DaoException;
     boolean updateMissingPeopleById(MissingPeople missingPeople, InputStream stream) throws DaoException;

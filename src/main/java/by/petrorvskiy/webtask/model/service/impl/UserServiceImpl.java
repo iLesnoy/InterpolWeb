@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
             users = userDao.findUsersByNameAndSurname(userName,userSurname);
 
         } catch (DaoException e) {
-            logger.error( "dao exception in method findUsersByNameAndSurname" + e);
+            logger.error( "dao exception in method findUsersByNameAndSurname", e);
             throw new ServiceException(e);
         }
 
@@ -45,13 +45,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findUsersByUserStatus(int userStatus) throws ServiceException {
         logger.debug("findUsersByUserStatus" + userStatus);
-        List<User> users = new ArrayList<>();
+        List<User> users;
         try {
 
             users = userDao.findUsersByUserStatus(userStatus);
 
         } catch (DaoException e) {
-            logger.error("dao exception in method findUsersByUserStatus" + e);
+            logger.error("dao exception in method findUsersByUserStatus",e);
             throw new ServiceException(e);
         }
         return users;
@@ -133,10 +133,24 @@ public class UserServiceImpl implements UserService {
             foundedUsers = userDao.findAllUsers();
 
         } catch (DaoException e) {
-            logger.error("dao exception in method findUsersAllUser" + e);
+            logger.error("dao exception in method findUsersAllUser",e);
             throw new ServiceException(e);
         }
         return foundedUsers;
+    }
+
+    @Override
+    public Optional<User> findUserById(long userId) throws ServiceException {
+        Optional<User>optionalUser;
+        try {
+
+            optionalUser = userDao.findUserById(userId);
+
+        } catch (DaoException e) {
+            logger.error("dao exception in method findUserById",e);
+            throw new ServiceException(e);
+        }
+        return optionalUser;
     }
 
     @Override
@@ -149,7 +163,7 @@ public class UserServiceImpl implements UserService {
             }
 
         } catch (DaoException e) {
-            logger.error("dao exception in method findUserIdByEmail" + e);
+            logger.error("dao exception in method findUserIdByEmail", e);
             throw new ServiceException(e);
         }
         return userId;
@@ -166,7 +180,7 @@ public class UserServiceImpl implements UserService {
                 user = Optional.empty();
             }
         } catch (DaoException e) {
-            logger.error( "dao exception in method findUserByEmail" + e);
+            logger.error( "dao exception in method findUserByEmail", e);
             throw new ServiceException(e);
         }
         return user;
@@ -186,7 +200,7 @@ public class UserServiceImpl implements UserService {
                     optionalUser = Optional.empty();
                 }
             } catch (DaoException e) {
-                logger.error( "dao exception in method findUserPasswordByEmail" + e);
+                logger.error( "dao exception in method findUserPasswordByEmail", e);
                 throw new ServiceException(e);
             }
         } else {
@@ -221,7 +235,7 @@ public class UserServiceImpl implements UserService {
                 }
 
             } catch (DaoException e) {
-                logger.error( "dao exception in method findUserByEmailAndPassword" + e);
+                logger.error( "dao exception in method findUserByEmailAndPassword",e);
                 throw new ServiceException(e);
             }
 
