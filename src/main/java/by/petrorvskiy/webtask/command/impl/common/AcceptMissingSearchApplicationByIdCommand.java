@@ -1,10 +1,11 @@
-package by.petrorvskiy.webtask.command.impl.admin;
+package by.petrorvskiy.webtask.command.impl.common;
 
 import by.petrorvskiy.webtask.command.*;
 import by.petrorvskiy.webtask.entity.SearchApplication;
 import by.petrorvskiy.webtask.entity.User;
 import by.petrorvskiy.webtask.model.service.impl.SearchApplicationServiceImpl;
 import by.petrorvskiy.webtask.exception.ServiceException;
+import by.petrorvskiy.webtask.validator.DateValidator;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
@@ -17,6 +18,7 @@ public class AcceptMissingSearchApplicationByIdCommand implements Command {
 
     private static final Logger logger = LogManager.getLogger();
     private static final SearchApplicationServiceImpl applicationService = new SearchApplicationServiceImpl();
+
 
     @Override
     public Router execute(HttpServletRequest request) {
@@ -38,26 +40,33 @@ public class AcceptMissingSearchApplicationByIdCommand implements Command {
 
             logger.debug("accept search application by user " + userId);
 
-            if (duplicateApplicationCheck(userId).isEmpty()) {
-                try {
-                    SearchApplication searchApplication = new SearchApplication.ApplicationBuilder()
-                            .setLeadTime(leadTime).setStatus(SearchApplication.ApplicationStatus.PROCESS)
-                            .setUserId(userId).build();
-                    applicationService.addSearchApplication(searchApplication);
-                    applicationId = applicationService.findApplicationIdByUserId(userId);
-                    applicationService.addMissingCriminalApplication(applicationId.get(), missingId);
+            if (DateValidator.applicationDateValidator(leadTime)) {
+                if (duplicateApplicationCheck(userId).isEmpty()) {
+                    try {
+                        SearchApplication searchApplication = new SearchApplication.ApplicationBuilder()
+                                .setLeadTime(leadTime)
+                                .setStatus(SearchApplication.ApplicationStatus.PROCESS)
+                                .setUserId(userId)
+                                .build();
+                        applicationService.addSearchApplication(searchApplication);
+                        applicationId = applicationService.findApplicationIdByUserId(userId);
+                        applicationService.addMissingCriminalApplication(applicationId.get(), missingId);
 
+                        request.setAttribute(ParameterAndAttribute.MESSAGE, Message.APPLICATION_INFO);
+                        router.setPagePath(page);
+
+                    } catch (ServiceException e) {
+                        logger.error("ServiceException in method AcceptMissingSearchApplicationByIdCommand " + e.getMessage());
+                        request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
+                        request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getMessage());
+                        router.setPagePath(PagePath.ERROR_500);
+                    }
+                } else {
+                    request.setAttribute(ParameterAndAttribute.MESSAGE, Message.APPLICATION_ALREADY_ADDED);
                     router.setPagePath(page);
-                    request.setAttribute(ParameterAndAttribute.MESSAGE, Message.APPLICATION_INFO);
-
-                } catch (ServiceException e) {
-                    logger.error("ServiceException in method AcceptMissingSearchApplicationByIdCommand " + e.getMessage());
-                    request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
-                    request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getMessage());
-                    router.setPagePath(PagePath.ERROR_500);
                 }
             } else {
-                request.setAttribute(ParameterAndAttribute.MESSAGE, Message.APPLICATION_ALREADY_ADDED);
+                request.setAttribute(ParameterAndAttribute.MESSAGE, Message.APPLICATION_VALID_DATE);
                 router.setPagePath(page);
             }
         }
