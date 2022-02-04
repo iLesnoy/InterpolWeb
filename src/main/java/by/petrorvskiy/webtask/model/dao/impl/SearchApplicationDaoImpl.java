@@ -51,16 +51,16 @@ public class SearchApplicationDaoImpl implements SearchApplicationDao {
     public boolean addSearchApplication(SearchApplication application) throws DaoException {
         boolean applicationAdd = false;
         try (Connection connection = connectionPool.getConnection();
-            PreparedStatement statement = connection.prepareStatement(SQL_ADD_SEARCH_APPLICATION)) {
-            statement.setDate(1, Date.valueOf(application.getLeadTime()));
-            statement.setString(2, String.valueOf(application.getStatus()));
-            statement.setLong(3, application.getUserId());
-            int rowCount = statement.executeUpdate();
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_ADD_SEARCH_APPLICATION)) {
+            preparedStatement.setDate(1, Date.valueOf(application.getLeadTime()));
+            preparedStatement.setString(2, String.valueOf(application.getStatus()));
+            preparedStatement.setLong(3, application.getUserId());
+            int rowCount = preparedStatement.executeUpdate();
+
+
             if (rowCount != 0) {
                 applicationAdd = true;
                 logger.info( "application added" + application);
-            } else {
-                logger.error( "application was not added");
             }
         } catch (SQLException e) {
             logger.error( "SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
@@ -140,6 +140,7 @@ public class SearchApplicationDaoImpl implements SearchApplicationDao {
             PreparedStatement statement = connection.prepareStatement(SQL_FIND_APPLICATION_BY_USER_ID_AND_WANTED_ID)) {
             statement.setLong(1, userId);
             ResultSet resultSet = statement.executeQuery();
+
             if (resultSet.next()) {
                 SearchApplication application = createApplication(resultSet);
                 findApplicationByUserIdAndWantedId = Optional.of(application);

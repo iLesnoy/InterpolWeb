@@ -36,7 +36,6 @@ public class SignUpCommand implements Command {
         userData.put(ParameterAndAttribute.USER_PASSWORD, password);
         userData.put(ParameterAndAttribute.USER_NAME, name);
         userData.put(ParameterAndAttribute.USER_SURNAME, surname);
-        request.setAttribute(ParameterAndAttribute.PASSWORD_VALID, Message.PASSWORD_RULES);
 
         if (password.equals(confirmedPassword)) {
             try {
@@ -57,15 +56,15 @@ public class SignUpCommand implements Command {
                     request.setAttribute(ParameterAndAttribute.MESSAGE, Message.USER_ALREADY_EXIST);
                 }
             } catch (ServiceException e) {
-                logger.error("Registration command exception" + e);
+                logger.error("Registration command exception" + e.getMessage());
                 request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
-                request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e);
-                router.setPagePath(PagePath.ERROR_404);
+                request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getMessage());
+                router.setPagePath(PagePath.ERROR_500);
             }
-        }else {
+        } else {
             router.setPagePath(PagePath.SIGN_UP);
-            request.setAttribute(ParameterAndAttribute.MESSAGE,Message.NOT_MATCHES);
+            request.setAttribute(ParameterAndAttribute.MESSAGE, Message.NOT_MATCHES);
         }
-            return router;
-        }
+        return router;
     }
+}

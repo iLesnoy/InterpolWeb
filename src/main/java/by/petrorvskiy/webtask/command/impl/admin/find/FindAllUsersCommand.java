@@ -23,12 +23,12 @@ public class FindAllUsersCommand implements Command {
         List<User>users;
         Router router = new Router();
         HttpSession session = request.getSession();
-        String page = (String) session.getAttribute(ParameterAndAttribute.CURRENT_PAGE);
+        String currentPage = (String) session.getAttribute(ParameterAndAttribute.CURRENT_PAGE);
 
         try {
             users = userService.findUsersFromRow(startRow);
             numberOfPages = userService.findNumberOfPages();
-            router.setPagePath(page);
+            router.setPagePath(currentPage);
             request.setAttribute(ParameterAndAttribute.USER_ROLE,User.Role.values());
             request.setAttribute(ParameterAndAttribute.LIST, users);
             session.setAttribute(ParameterAndAttribute.NUMBER_OF_PAGES, numberOfPages);

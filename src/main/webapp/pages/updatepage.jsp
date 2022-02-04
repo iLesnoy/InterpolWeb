@@ -39,7 +39,7 @@
                                required>
                         <input type="text" class="form-control" name="disappearance_date" value="${elem.disappearanceDate }"
                                pattern=".*[^<>]" required>
-                        <input type="file" name="photo" value="${elem.photo}" pattern=".*[^<>]"  class="form-control"
+                        <input type="file" name="photo" value="${elem.photo}" pattern=".*[^<>]" required  class="form-control"
                                placeholder=<fmt:message key="label.photo"/>>
                         <button type="submit" class="btn-brown">
                             <fmt:message key="label.submit"/>
@@ -73,7 +73,7 @@
                                pattern=".*[^<>]">
                         <input type="text" class="form-control" name="crimeType" value="${wanted.crimeType }"
                                pattern=".*[^<>]">
-                        <input type="file" name="photo" value="${wanted.photo}" pattern=".*[^<>]"  class="form-control"
+                        <input type="file" name="photo" value="${wanted.photo}" pattern=".*[^<>]"  required class="form-control"
                                placeholder=<fmt:message key="label.photo"/>>
                         <button type="submit" class="btn-brown">
                             <fmt:message key="label.submit"/>
@@ -97,7 +97,7 @@
                     <input type="text" class="form-control" name="title" value="${elem2.title}"
                            maxlength="45" pattern=".*[^<>]">
                     <textarea type="text" class="form-control" name="news_article" maxlength="400" style="height: 200px !important;" pattern=".*[^<>]">${elem2.newsArticle}</textarea>
-                    <input type="file" name="image" value="" pattern=".*[^<>]"  class="form-control"
+                    <input type="file" name="image" value="" pattern=".*[^<>]" required class="form-control"
                            placeholder=<fmt:message key="label.image"/>>
                     <button type="submit" class="btn-brown">
                         <fmt:message key="label.submit"/>

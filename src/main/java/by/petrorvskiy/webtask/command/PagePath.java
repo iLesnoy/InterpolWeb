@@ -15,10 +15,12 @@ public class PagePath {
     public static final String WANTED_CRIMINALS = "pages/wantedcriminals.jsp";
     public static final String ADD = "pages/add.jsp";
     public static final String UPDATE_PAGE = "pages/updatepage.jsp";
+    public static final String WHO_WE_ARE = "pages/whoweare.jsp";
 
 
 
     public static final String TO_MAIN_PAGE="/controller?command=to_main";
+    public static final String TO_WHO_WE_ARE="/controller?command=to_who_we_are_page";
     public static final String TO_NEWS_PAGE="/controller?command=to_news_feed";
     public static final String TO_ACCOUNT_PAGE="/controller?command=to_account";
     public static final String TO_ADD="/controller?command=to_add";

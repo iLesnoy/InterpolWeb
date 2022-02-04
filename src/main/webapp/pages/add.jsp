@@ -23,9 +23,9 @@
 
 <div class="form-inline">
     <form action="controller" enctype='multipart/form-data' method="POST">
-        <input type="text" name="title" value="" pattern=".*[^<>]" class="form-control"
+        <input type="text" name="title" value=""  maxlength="45" pattern=".*[^<>]" class="form-control"
                placeholder=<fmt:message key="label.title"/>>
-        <input type="text" name="news_article" value="" required pattern=".*[^<>]" class="form-control"
+        <input type="text" name="news_article" value="" maxlength="400" required pattern=".*[^<>]" class="form-control"
                placeholder=<fmt:message key="label.news_article"/>>
         <input type="file" name="image" value="" pattern=".*[^<>]" required class="form-control"
                placeholder=<fmt:message key="label.image"/>>

@@ -19,13 +19,13 @@
                 </button>
                 <a class="navbar-brand"
                    href="${pageContext.request.contextPath}/controller?command=to_main">Interpol</a>
-
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="navbar-collapse-2">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">Who we are?</a></li>
+                    <li><a href="${pageContext.request.contextPath}/controller?command=to_who_we_are_page">
+                        <fmt:message key="label.who_we_are"/></a></li>
                     <li><a href="${pageContext.request.contextPath}/controller?command=to_news_feed"
                            class="button"><fmt:message key="label.news_feed"/></a></li>
                     <li><a href="${pageContext.request.contextPath}/controller?command=to_missing_people"

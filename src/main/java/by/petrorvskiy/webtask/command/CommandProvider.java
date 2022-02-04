@@ -4,7 +4,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Locale;
 
 public class CommandProvider {
     private static final Logger logger = LogManager.getLogger();
@@ -13,8 +12,8 @@ public class CommandProvider {
     }
 
     public static Command defineCommand(HttpServletRequest request) {
-
         String command = request.getParameter(ParameterAndAttribute.COMMAND);
+
 
         if (command == null) {
             logger.info( "command is empty");

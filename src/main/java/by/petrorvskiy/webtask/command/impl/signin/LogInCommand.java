@@ -18,7 +18,7 @@ import java.util.Optional;
 
 public class LogInCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
-    private UserService userService = new UserServiceImpl();
+    private final UserService userService = new UserServiceImpl();
 
 
     @Override
@@ -49,8 +49,8 @@ public class LogInCommand implements Command {
         } catch (ServiceException e) {
             logger.error("UserServiceException in LogInCommand" + e.getMessage());
             request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
-            request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e);
-            router.setPagePath(PagePath.ERROR_404);
+            request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getMessage());
+            router.setPagePath(PagePath.ERROR_500);
         }
 
         return router;

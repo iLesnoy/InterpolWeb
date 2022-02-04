@@ -7,9 +7,12 @@ import jakarta.servlet.annotation.*;
 
 import static by.petrorvskiy.webtask.command.ParameterAndAttribute.*;
 
-
+/**
+ * {@code SessionListener} class implements functional of {@link HttpSessionListener}
+ * Sets default localization parameters when session is created.
+ */
 @WebListener
-public class SessionListener implements ServletContextListener, HttpSessionListener {
+public class SessionListener implements HttpSessionListener {
 
     private static final String DEFAULT_LOCALE = "en_US";
     private static final String DEFAULT_LANGUAGE = "EN";

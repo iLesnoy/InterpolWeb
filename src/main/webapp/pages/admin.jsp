@@ -37,7 +37,7 @@
     <div class="col">
         <div class="button">
             <form action="controller" method="GET">
-                <input type="text" type="hidden" name="nameAndSurname" value="" pattern=".*[^<>]"
+                <input type="text" type="hidden" name="nameAndSurname" value="" pattern="^([a-zA-Z]{2,}\s[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}\s?([a-zA-Z]{1,})?)"
                        placeholder=<fmt:message key="label.name_and_surname"/>> <input
                     type="hidden" name="command" value="find_by_name_and_surname">
                 <button type="submit" class="btn btn-primary">
@@ -47,7 +47,6 @@
         </div>
         <br/>
     </div>
-
     <div class="col">
         <div class="button">
             <form action="controller" method="GET">
@@ -61,7 +60,6 @@
         </div>
         <br/>
     </div>
-
     <div class="col">
         <div type="button" class="btn btn-secondary">
             <form action="controller" method="GET">
@@ -74,7 +72,6 @@
         </div>
         <br/>
     </div>
-
     <div class="col">
         <div type="button" class="btn btn-secondary">
             <form action="controller" method="GET">
@@ -84,13 +81,13 @@
                 <input type="hidden" name="command" value="find_all_users">
             </form>
         </div>
-    </div>
-
-    <div class="collapse navbar-collapse" id="navbar-collapse-2">
-        <ul class="nav navbar-nav navbar-right">
-            <li><a href="${pageContext.request.contextPath}/controller?command=to_add"
-                   class="button"><fmt:message key="label.add"/></a></li>
-        </ul>
+        <div class="collapse navbar-collapse" id="navbar-collapse-2">
+                <li>
+                    <a href="${pageContext.request.contextPath}/controller?command=to_add"
+                       class="button"><fmt:message key="label.add"/>
+                    </a>
+                </li>
+        </div>
     </div>
 
     <div class="col">
@@ -157,6 +154,7 @@
                                             <input type="hidden" name="command" value="update_user_role">
                                         </button>
                                     </c:forEach>
+                                    <input type="hidden" name="userId" value="${elem.userId }">
                                     <input type="hidden" name="user_role" value="${role}">
                                 </div>
                             </form>

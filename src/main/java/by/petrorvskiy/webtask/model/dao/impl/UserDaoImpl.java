@@ -170,7 +170,7 @@ public class UserDaoImpl implements UserDao {
                 users.add(createUser(resultSet));
             }
         } catch (SQLException e) {
-            throw new DaoException("exception in method findUsersByUserStatus", e);
+            throw new DaoException("Dao exception in method findUsersByUserStatus", e);
         }
         return users;
     }
@@ -186,7 +186,7 @@ public class UserDaoImpl implements UserDao {
                 users.add(createUser(resultSet));
             }
         } catch (SQLException e) {
-            throw new DaoException("exception in method findUsersByRole", e);
+            throw new DaoException("Dao exception in method findUsersByRole", e);
         }
         return users;
     }
@@ -205,7 +205,7 @@ public class UserDaoImpl implements UserDao {
             
         } catch (SQLException e) {
             logger.error("SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
-            throw new DaoException("exception in method findUserIdByEmail", e);
+            throw new DaoException("Dao exception in method findUserIdByEmail", e);
         }
         return userId;
     }
@@ -260,25 +260,6 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public List<User> findUsersFromRow(int fromRow, int numberOfUsersInPage) throws DaoException {
-        logger.info( "findUsersFromRow");
-        List<User> users = new ArrayList<>();
-        try (Connection connection = connectionPool.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_FIND_USERS_FROM_ROW)) {
-            statement.setInt(1, fromRow);
-            statement.setInt(2, numberOfUsersInPage);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                users.add(createUser(resultSet));
-            }
-        } catch (SQLException e) {
-            logger.error( "SQLException in findUsersFromRow(): " + e.getMessage() + " : " + e.getErrorCode());
-            throw new DaoException("Dao exception", e);
-        }
-        return users;
-    }
-
-    @Override
     public boolean updateUserStatusById(long userId, Status status) throws DaoException {
         boolean updateStatus = false;
         try (Connection connection = connectionPool.getConnection();
@@ -317,6 +298,25 @@ public class UserDaoImpl implements UserDao {
             throw new DaoException("Dao exception in method updateUserInfo", e);
         }
         return updateUser;
+    }
+
+    @Override
+    public List<User> findUsersFromRow(int fromRow, int numberOfUsersInPage) throws DaoException {
+        logger.info( "findUsersFromRow");
+        List<User> users = new ArrayList<>();
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL_FIND_USERS_FROM_ROW)) {
+            statement.setInt(1, fromRow);
+            statement.setInt(2, numberOfUsersInPage);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                users.add(createUser(resultSet));
+            }
+        } catch (SQLException e) {
+            logger.error( "SQLException in findUsersFromRow(): " + e.getMessage() + " : " + e.getErrorCode());
+            throw new DaoException("Dao exception", e);
+        }
+        return users;
     }
 
     @Override

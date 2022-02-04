@@ -14,7 +14,8 @@ public class Message {
     public static final String EXCEPTION ="exception";
     public static final String ERROR_MESSAGE ="";
     public static final String APPLICATION_INFO ="Application successfully added";
-    public static final String APPLICATION_ALREADY_ADDED ="Application already added,complete the previous";
+    public static final String APPLICATION_ALREADY_ADDED ="Please complete the previous one";
+    public static final String APPLICATION_VALID_DATE="Please enter a valid date";
     public static final String APPLICATION_DELETED ="Application successfully deleted";
     public static final String ARTICLE_DELETED ="Article successfully deleted";
     public static final String PLEASE_LOG_IN ="Please log in or create a new account before take up the application!";

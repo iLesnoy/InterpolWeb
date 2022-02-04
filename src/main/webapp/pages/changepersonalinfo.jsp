@@ -24,10 +24,12 @@
 <div class="row">
     <form action="controller" method="POST" class="form-container">
         <div class="col-md-1">
-            <input type="text" class="form-control" name="name" placeholder="<fmt:message key="label.name"/>" value="<c:out value="${user.name }"/>" pattern=".*[^<>]" required>
+            <input type="text" class="form-control" name="name" placeholder="<fmt:message key="label.name"/>"
+                   value="<c:out value="${user.name }"/>" pattern=".*[^<>]" required>
         </div>
         <div class="col-md-1">
-            <input type="text" class="form-control" name="surname" placeholder="<fmt:message key="label.surname"/>" value="<c:out value="${user.surname }"/>" pattern=".*[^<>]">
+            <input type="text" class="form-control" name="surname" placeholder="<fmt:message key="label.surname"/>"
+                   value="<c:out value="${user.surname }"/>" pattern=".*[^<>]" required>
         </div>
             <input type="hidden" name="command" value="change_personal_info">
             <button type="submit" class="btn-brown" >

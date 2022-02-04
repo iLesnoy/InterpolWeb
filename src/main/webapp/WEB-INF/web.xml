@@ -18,12 +18,6 @@
         <location>/pages/error/error500.jsp</location>
     </error-page>
 
-    <!--<context-param>
-        <param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
-        <param-value>messages</param-value>
-    </context-param>-->
-
-
 </web-app>
 
 

@@ -21,7 +21,7 @@ public class ChangeUserInfoCommand implements Command {
 
     @Override
     public Router execute(HttpServletRequest request) {
-        logger.debug( "execute method ChangeUserInfoCommand");
+        logger.debug("execute method ChangeUserInfoCommand");
         Router router = new Router();
         HttpSession session = request.getSession();
         Map<String, String> userData = new HashMap<>();
@@ -43,10 +43,10 @@ public class ChangeUserInfoCommand implements Command {
                 session.setAttribute(ParameterAndAttribute.MESSAGE_FOR_USER, Message.UNSUCCESSFUL);
             }
         } catch (ServiceException e) {
-            logger.info( "ServiceException: " + e);
+            logger.info("ServiceException: " + e);
             request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
             request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e);
-            router.setPagePath(PagePath.ERROR_404);
+            router.setPagePath(PagePath.ERROR_500);
         }
         return router;
     }

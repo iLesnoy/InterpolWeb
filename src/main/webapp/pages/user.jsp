@@ -38,7 +38,6 @@
                    value="to_personal_info_change">
         </form>
     </div>
-
     <form action="controller" method="GET">
         <button type="submit" class="btn">
             <fmt:message key="label.showUserApplications"/>
@@ -46,8 +45,6 @@
         <input type="hidden" name="userId" value="${user.userId}">
         <input type="hidden" name="command" value="find_search_applications_by_user_id">
     </form>
-
-
     <form action="controller" method="post">
         <input type="hidden" name="command" value="log_out">
         <button type="submit" class="btn btn-warning">
@@ -67,6 +64,7 @@
     </tr>
     <tbody>
     <c:forEach var="elem" items="${applications}" varStatus="status">
+        <c:if test="${elem.status != 'PROCESS'}">
         <tr>
             <td><c:out value="${status.count }"/></td>
             <td><c:out value="${elem.leadTime }"/></td>
@@ -90,6 +88,7 @@
                 </form>
             </td>
         </tr>
+        </c:if>
     </c:forEach>
     </tbody>
     </c:if>

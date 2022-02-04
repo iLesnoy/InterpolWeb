@@ -13,10 +13,12 @@ import by.petrorvskiy.webtask.model.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+
 
 public class UserServiceImpl implements UserService {
 
@@ -51,7 +53,7 @@ public class UserServiceImpl implements UserService {
             users = userDao.findUsersByUserStatus(userStatus);
 
         } catch (DaoException e) {
-            logger.error("dao exception in method findUsersByUserStatus",e);
+            logger.error("DaoException in method findUsersByUserStatus",e);
             throw new ServiceException(e);
         }
         return users;
@@ -66,7 +68,7 @@ public class UserServiceImpl implements UserService {
             users = userDao.findUsersByRole(userRole);
 
         } catch (DaoException e) {
-            logger.error("dao exception in method findUsersByRole" + e);
+            logger.error("DaoException in method findUsersByRole", e);
             throw new ServiceException(e);
         }
         return users;
@@ -81,7 +83,7 @@ public class UserServiceImpl implements UserService {
             users = userDao.findUsersByName(userName);
 
         } catch (DaoException e) {
-            logger.error("dao exception in method findUsersByName" + e);
+            logger.error("DaoException in method findUsersByName", e);
             throw new ServiceException(e);
         }
         return users;
@@ -100,7 +102,7 @@ public class UserServiceImpl implements UserService {
                 numberOfPages = 1;
             }
         } catch (DaoException e) {
-            logger.error( "dao exception in method findNumberOfRows()" + e);
+            logger.error( "DaoException in method findNumberOfRows",e);
             throw new ServiceException(e);
         }
         return numberOfPages;
@@ -108,7 +110,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> findUsersFromRow(int pageNumber) throws ServiceException {
-        logger.debug( "findUsersFromRow(), page number:" + pageNumber);
+        logger.debug( "findUsersFromRow, page number:" + pageNumber);
         List<User> users;
         int fromRow;
         if (pageNumber > 1) {
@@ -119,7 +121,7 @@ public class UserServiceImpl implements UserService {
         try {
             users = userDao.findUsersFromRow(fromRow, numberOfUsersInPage);
         } catch (DaoException e) {
-            logger.error( "dao exception in method findUsersFromRow" + e);
+            logger.error( "DaoException in method findUsersFromRow", e);
             throw new ServiceException(e);
         }
         return users;
@@ -133,7 +135,7 @@ public class UserServiceImpl implements UserService {
             foundedUsers = userDao.findAllUsers();
 
         } catch (DaoException e) {
-            logger.error("dao exception in method findUsersAllUser",e);
+            logger.error("DaoException in method findUsersAllUser",e);
             throw new ServiceException(e);
         }
         return foundedUsers;
@@ -147,7 +149,7 @@ public class UserServiceImpl implements UserService {
             optionalUser = userDao.findUserById(userId);
 
         } catch (DaoException e) {
-            logger.error("dao exception in method findUserById",e);
+            logger.error("DaoException in method findUserById",e);
             throw new ServiceException(e);
         }
         return optionalUser;
@@ -163,7 +165,7 @@ public class UserServiceImpl implements UserService {
             }
 
         } catch (DaoException e) {
-            logger.error("dao exception in method findUserIdByEmail", e);
+            logger.error("DaoException in method findUserIdByEmail", e);
             throw new ServiceException(e);
         }
         return userId;
@@ -180,7 +182,7 @@ public class UserServiceImpl implements UserService {
                 user = Optional.empty();
             }
         } catch (DaoException e) {
-            logger.error( "dao exception in method findUserByEmail", e);
+            logger.error( "DaoException in method findUserByEmail", e);
             throw new ServiceException(e);
         }
         return user;
@@ -200,7 +202,7 @@ public class UserServiceImpl implements UserService {
                     optionalUser = Optional.empty();
                 }
             } catch (DaoException e) {
-                logger.error( "dao exception in method findUserPasswordByEmail", e);
+                logger.error( "DaoException in method findUserPasswordByEmail", e);
                 throw new ServiceException(e);
             }
         } else {
@@ -235,7 +237,7 @@ public class UserServiceImpl implements UserService {
                 }
 
             } catch (DaoException e) {
-                logger.error( "dao exception in method findUserByEmailAndPassword",e);
+                logger.error( "DaoException in method findUserByEmailAndPassword",e);
                 throw new ServiceException(e);
             }
 
@@ -248,9 +250,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean addUser(Map<String, String> userDate) throws ServiceException {
         logger.debug( "addUser(), userData:" + userDate);
-        boolean userAdded = false;
+        boolean userAdded;
         if (UserValidator.isValidPassword(userDate.get(ColumnName.USER_PASSWORD))
-                /*&& UserValidator.isValidName(userDate.get(ParameterAndAttribute.USER_NAME))*/
                 && UserValidator.isValidEmail(userDate.get(ParameterAndAttribute.USER_EMAIL))) {
             String encodedPassword = PasswordEncoder.encodePassword(userDate.get(ColumnName.USER_PASSWORD));
 
@@ -262,15 +263,10 @@ public class UserServiceImpl implements UserService {
                     .setStatus(User.Status.ACTIVE)
                     .setRole(User.Role.USER)
                     .build();
-            String uniqToken = PasswordEncoder.encodePassword(userDate.get(ColumnName.USER_EMAIL));
-            /*String url = userDate.get(ParameterAndAttribute.URL) + COMMAND_CONFIRM + TOKEN + uniqToken + EMAIL
-                    + user.get(ParameterAndAttribute.USER_EMAIL);                                           //////////CHECK....
-            String message = Message.WELCOM + url;*/
             try {
                 userAdded = userDao.addUser(user, encodedPassword);
-                /*MailSender.sendEmail(user.getEmail(), Message.ACCOUNT_CONFIRMATION, message);*/
             } catch (DaoException e) {
-                logger.error("dao exception in method addUser" + e);
+                logger.error("DaoException in method addUser", e);
                 throw new ServiceException(e);
             }
         } else {
@@ -286,7 +282,7 @@ public class UserServiceImpl implements UserService {
         try {
             updatedStatusById = userDao.updateUserStatusById(userId,status);
         } catch (DaoException e) {
-            logger.error("dao exception in method updateUserStatusById" + e);
+            logger.error("DaoException in method updateUserStatusById", e);
             throw new ServiceException(e);
         }
         return updatedStatusById;
@@ -298,7 +294,7 @@ public class UserServiceImpl implements UserService {
         try {
             changeUserRole = userDao.changeUserRole(userId,role);
         } catch (DaoException e) {
-            logger.error("dao exception in method changeUserRole" + e);
+            logger.error("DaoException in method changeUserRole", e);
             throw new ServiceException(e);
         }
         return changeUserRole;
@@ -314,7 +310,7 @@ public class UserServiceImpl implements UserService {
             try {
                 isChanged = userDao.updateUserInfo(user);
             } catch (DaoException e) {
-                logger.error( "dao exception in method updateUserInfo" + e);
+                logger.error( "DaoException in method updateUserInfo", e);
                 throw new ServiceException(e);
             }
         }

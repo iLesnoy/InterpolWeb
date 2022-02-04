@@ -56,7 +56,7 @@
                                 <fmt:message key="label.delete"/>
                             </button>
                             <input type="hidden" name="article_id" value="${elem.articleId}">
-                            <input type="hidden" name="command" value="delete_article">
+                            <input type="hidden" name="command" value="delete_application">
                         </form>
                     </div>
                     </c:if>

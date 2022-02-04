@@ -11,7 +11,6 @@ public class ImageEncoder {
 
     public static String encodeBlob(byte[] byteImage){
         byte[] encodeImageBytes = Base64.getEncoder().encode(byteImage);
-        String base64EDataString = new String(encodeImageBytes, StandardCharsets.UTF_8);
-        return base64EDataString;
+        return new String(encodeImageBytes, StandardCharsets.UTF_8);
     }
 }

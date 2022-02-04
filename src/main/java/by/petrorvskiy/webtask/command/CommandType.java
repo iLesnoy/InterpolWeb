@@ -21,17 +21,25 @@ import by.petrorvskiy.webtask.command.impl.signin.SignUpCommand;
 
 
 public enum CommandType {
+    TO_MAIN(new ToMainCommand()),
+    TO_WANTED(new ToWantedCriminalsCommand()),
+    TO_ACCOUNT(new ToAccountCommand()),
+    TO_MISSING_PEOPLE(new ToMissingPeopleCommand()),
+    TO_WHO_WE_ARE_PAGE(new ToWhoWePageCommand()),
+    TO_UPDATE_WANTED(new ToUpdateWantedCommand()),
+    TO_UPDATE_ARTICLE(new ToUpdateArticleCommand()),
+    TO_UPDATE_MISSING(new ToUpdateMissingCommand()),
+    TO_NEWS_FEED(new ToNewsFeedCommand()),
+    TO_PERSONAL_INFO_CHANGE(new ToChangeUserInfoCommand()),
+    TO_ADD(new ToAddCommand()),
     LOG_IN(new LogInCommand()),
     LOG_OUT(new LogOutCommand()),
     SIGN_UP(new SignUpCommand()),
     DEFAULT(new DefaultCommand()),
-
-    
     FIND_NEWS(new FindNewsCommand()),
     ADD_NEWS(new AddNewsCommand()),
     ADD_CRIMINAL(new AddWantedCommand()),
     ADD_MISSING(new AddMissingCommand()),
-    TO_ADD(new ToAddCommand()),
     FIND_BY_NAME_AND_SURNAME(new FindUserByNameAndSurnameCommand()),
     FIND_USERS_BY_NAME(new FindUsersByNameCommand()),
     CHANGE_USER_INFO(new ChangeUserInfoCommand()),
@@ -42,28 +50,19 @@ public enum CommandType {
     ACCEPT_WANTED_APPLICATION(new AcceptWantedSearchApplicationByIdCommand()),
     ACCEPT_MISSING_APPLICATION(new AcceptMissingSearchApplicationByIdCommand()),
     DELETE_APPLICATION_BY_USER_ID(new DeleteSearchApplicationByUserIdCommand()),
-    TO_MAIN(new ToMainCommand()),
-    TO_WANTED(new ToWantedCriminalsCommand()),
-    TO_ACCOUNT(new ToAccountCommand()),
-    TO_NEWS_FEED(new ToNewsFeedCommand()),
     BLOCK_USER(new BlockUserCommand()),
     UNBLOCK_USER(new UnblockUserCommand()),
-    TO_UPDATE_ARTICLE(new ToUpdateArticleCommand()),
-    TO_UPDATE_MISSING(new ToUpdateMissingCommand()),
-    TO_UPDATE_WANTED(new ToUpdateWantedCommand()),
     UPDATE_MISSING(new UpdateMissingCommand()),
     UPDATE_WANTED(new UpdateWantedCommand()),
     UPDATE_ARTICLE(new UpdateArticleCommand()),
     DELETE_APPLICATION(new DeleteApplicationCommand()),
     FIND_WANTED_CRIMINALS(new FindWantedCriminalByNameCommand()),
-    TO_PERSONAL_INFO_CHANGE(new ToChangeUserInfoCommand()),
     CHANGE_PERSONAL_INFO(new ChangeUserInfoCommand()),
     FIND_ALL_APPLICATIONS(new FindAllApplicationsCommand()),
     FIND_SEARCH_APPLICATIONS_BY_USER_ID(new FindAllSearchApplicationByUserIdCommand()),
     FIND_APPLICATION_INFORMATION_BY_ID(new FindApplicationInformationByIdCommand()),
     FIND_USER_BY_ID(new FindUserById()),
-    CHANGE_LOCALE(new ChangeLocaleCommand()),
-    TO_MISSING_PEOPLE(new ToMissingPeopleCommand());
+    CHANGE_LOCALE(new ChangeLocaleCommand());
 
 
     Command command;

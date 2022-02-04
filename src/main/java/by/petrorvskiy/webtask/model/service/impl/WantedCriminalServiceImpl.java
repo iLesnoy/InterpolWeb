@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+
+
 public class WantedCriminalServiceImpl implements WantedCriminalService {
 
     private static final Logger logger = LogManager.getLogger();
@@ -28,8 +30,8 @@ public class WantedCriminalServiceImpl implements WantedCriminalService {
     public boolean addWantedCriminal(Map<String, String> criminalData, InputStream photoStream) throws ServiceException {
         boolean addWantedCriminal;
         WantedCriminal criminal = new WantedCriminal.WantedCriminalBuilder()
-                .setFirstName(criminalData.get(ParameterAndAttribute.FIRST_NAME))
-                .setLastName(criminalData.get(ParameterAndAttribute.LAST_NAME))
+                .setFirstName(criminalData.get(ParameterAndAttribute.USER_NAME))
+                .setLastName(criminalData.get(ParameterAndAttribute.USER_SURNAME))
                 .setCrimCity(criminalData.get(ParameterAndAttribute.CRIME_CITY))
                 .setDOB(LocalDate.parse(criminalData.get(ParameterAndAttribute.DATE_OF_BIRTH)))
                 .setReward(new BigDecimal(criminalData.get(ParameterAndAttribute.REWARD)))
@@ -40,7 +42,7 @@ public class WantedCriminalServiceImpl implements WantedCriminalService {
             wantedCriminalDao.addWantedCriminal(criminal,photoStream);
             addWantedCriminal = true;
         } catch (DaoException e) {
-            logger.info("DaoException in method " + e);
+            logger.info("DaoException in method addWantedCriminal", e);
             throw new ServiceException(e);
         }
         return addWantedCriminal;
@@ -53,7 +55,7 @@ public class WantedCriminalServiceImpl implements WantedCriminalService {
             wantedCriminalDao.deleteWantedCriminal(criminalId);
             deleteWantedCriminal = true;
         } catch (DaoException e) {
-            logger.info("DaoException in method " + e);
+            logger.info("DaoException in method deleteWantedCriminal", e);
             throw new ServiceException(e);
         }
         return deleteWantedCriminal;
@@ -78,16 +80,12 @@ public class WantedCriminalServiceImpl implements WantedCriminalService {
             wantedCriminalDao.updateWantedCriminalById(criminal,photoStream);
             updateWantedCriminalById = true;
         } catch (DaoException e) {
-            logger.info("DaoException in method updateWantedCriminalById" + e);
+            logger.info("DaoException in method updateWantedCriminalById", e);
             throw new ServiceException(e);
         }
         return updateWantedCriminalById;
     }
 
-    @Override
-    public List<SearchApplication> findUserSearchApplicationsByUserId(long userId) throws ServiceException {
-        return null;
-    }
 
     @Override
     public List<WantedCriminal> findAllWantedCriminals() throws ServiceException {
@@ -95,7 +93,7 @@ public class WantedCriminalServiceImpl implements WantedCriminalService {
         try {
             wantedCriminals = wantedCriminalDao.findAllWantedCriminals();
         } catch (DaoException e) {
-            logger.info("DaoException in method findAllWantedCriminals " + e);
+            logger.info("DaoException in method findAllWantedCriminals ", e);
             throw new ServiceException(e);
         }
         return wantedCriminals;
@@ -107,23 +105,12 @@ public class WantedCriminalServiceImpl implements WantedCriminalService {
         try {
             optionalCriminal = wantedCriminalDao.findAllCriminalsByName(name);
         } catch (DaoException e) {
-            logger.info("DaoException in method findAllCriminalsByName" + e);
+            logger.info("DaoException in method findAllCriminalsByName", e);
             throw new ServiceException(e);
         }
         return optionalCriminal;
     }
 
-   /* @Override
-    public List<SearchApplication> findUserSearchApplicationsByUserId(long userId) throws ServiceException {
-        List<SearchApplication> searchApplications;
-        try {
-            searchApplications = wantedCriminalDao.findUserSearchApplicationsByUserId(userId);
-        } catch (DaoException e) {
-            logger.info("DaoException in method " + e);
-            throw new ServiceException(e);
-        }
-        return searchApplications;
-    }*/
 
     @Override
     public Optional<WantedCriminal> takeWantedCriminalById(long criminalId) throws ServiceException {
@@ -131,7 +118,7 @@ public class WantedCriminalServiceImpl implements WantedCriminalService {
         try {
             optionalWantedCriminal = wantedCriminalDao.takeWantedCriminalById(criminalId);
         } catch (DaoException e) {
-            logger.info("DaoException in method " + e);
+            logger.info("DaoException in method takeWantedCriminalById",e);
             throw new ServiceException(e);
         }
         return optionalWantedCriminal;
@@ -143,7 +130,7 @@ public class WantedCriminalServiceImpl implements WantedCriminalService {
         try {
             optionalReward = wantedCriminalDao.findCriminalRewardById(criminalId);
         } catch (DaoException e) {
-            logger.info("DaoException in method " + e);
+            logger.info("DaoException in method findCriminalRewardById",e);
             throw new ServiceException(e);
         }
         return optionalReward;

@@ -21,9 +21,9 @@ public class UpdateUserRoleCommand implements Command {
         Router router = new Router();
         HttpSession session = request.getSession();
         boolean isChanged;
-        logger.debug("execute method updateUserRole");
         long id = Long.parseLong(request.getParameter(ParameterAndAttribute.USER_ID));
         User.Role role = User.Role.valueOf(request.getParameter(ParameterAndAttribute.USER_ROLE));
+        logger.debug("execute method updateUserRole to " + role);
 
 
         try {
@@ -33,17 +33,17 @@ public class UpdateUserRoleCommand implements Command {
             if (isChanged) {
                 router.setPagePath(page);
                 router.setType(Router.Type.REDIRECT);
-                session.setAttribute(ParameterAndAttribute.MESSAGE_FOR_USER, Message.SUCCESSFUL);
+                session.setAttribute(ParameterAndAttribute.MESSAGE, Message.SUCCESSFUL);
             } else {
                 router.setPagePath(page);
                 router.setType(Router.Type.REDIRECT);
-                session.setAttribute(ParameterAndAttribute.MESSAGE_FOR_USER, Message.UNSUCCESSFUL);
+                session.setAttribute(ParameterAndAttribute.MESSAGE, Message.UNSUCCESSFUL);
             }
         } catch (ServiceException e) {
-            logger.error("UserServiceException in method execute updateUserRole" + e);
+            logger.error("UserServiceException in method execute updateUserRole" + e.getMessage());
             request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
-            request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e);
-            router.setPagePath(PagePath.ERROR_404);
+            request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getMessage());
+            router.setPagePath(PagePath.ERROR_500);
         }
         return router;
     }
