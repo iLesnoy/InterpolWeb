@@ -28,20 +28,19 @@
                     <div class="post-slide">
                         <div class="post-img">
                             <img alt="img" src="data:image/jpeg;base64,${elem.photo}"/>
-                            <div class="category"><fmt:message key="label.reward"/>: ${elem.reward} </div>
+                            <div class="category"><fmt:message key="label.reward"/>: <c:out value="${elem.reward}"/> </div>
                         </div>
 
                         <div class="content">
-                            <%--<h3 class="post-title"><a href="#"> ${elem.firstName} ${elem.lastName}</a></h3>--%>
                             <p class="post-description">
-                            <h4 class="name"><fmt:message key="label.name"/>: ${elem.firstName}</h4>
-                            <h4 class="surname"><fmt:message key="label.surname"/>: ${elem.lastName}</h4>
-                            <h4 class="text"><fmt:message key="label.crimeCity"/>: ${elem.crimeCity}</h4>
-                            <h4 class="text"><fmt:message key="label.crimeAddress"/>: ${elem.crimeAddress}</h4>
-                            <h4 class="text"><fmt:message key="label.crimeDOB"/>: ${elem.crimeDOB}</h4>
-                            <h4 class="text"><fmt:message key="label.crimeType"/>: ${elem.crimeType}</h4>
+                            <h4 class="name"><fmt:message key="label.name"/>: <c:out value="${elem.firstName}"/></h4>
+                            <h4 class="surname"><fmt:message key="label.surname"/>: <c:out value="${elem.lastName}"/></h4>
+                            <h4 class="text"><fmt:message key="label.crimeCity"/>: <c:out value="${elem.crimeCity}"/></h4>
+                            <h4 class="text"><fmt:message key="label.crimeAddress"/>: <c:out value="${elem.crimeAddress}"/></h4>
+                            <h4 class="text"><fmt:message key="label.crimeDOB"/>: <c:out value="${elem.crimeDOB}"/></h4>
+                            <h4 class="text"><fmt:message key="label.crimeType"/>: <c:out value="${elem.crimeType}"/></h4>
                             </p>
-
+                            <c:if test="${user.status != 'BLOCKED'}">
                             <form action="controller" method="post">
                                 <button class="btn-primary" type="submit"
                                         onclick="return confirm('Are you sure that you want to accept an application?')">
@@ -55,25 +54,24 @@
                                                  type="date"
                                                  name="lead_time" required/>
                                 </div>
-
-
                                 <input type="hidden" name="lead_time" value="selectedDtaeVal">
-                                <input type="hidden" name="guiltyId" value="${elem.guiltyId}">
+                                <input type="hidden" name="guiltyId" value="<c:out value="${elem.guiltyId}"/>">
                             </form>
+                            </c:if>
                                 <c:if test="${user_role == 'ADMIN'}">
                                     <div style="display: flex; justify-content: space-around; align-items: center;">
                                         <form action="controller" method="get">
                                             <button type="submit" class="btn btn-danger btn-sm">
                                                 <fmt:message key="label.edit"/>
                                             </button>
-                                            <input type="hidden" name="guiltyId" value="${elem.guiltyId}">
+                                            <input type="hidden" name="guiltyId" value="<c:out value="${elem.guiltyId}"/>">
                                             <input type="hidden" name="command" value="to_update_wanted">
                                         </form>
                                         <form action="controller" method="get">
                                             <button type="submit" class="btn btn-danger btn-sm">
                                                 <fmt:message key="label.delete"/>
                                             </button>
-                                            <input type="hidden" name="guiltyId" value="${elem.guiltyId}">
+                                            <input type="hidden" name="guiltyId" value="<c:out value="${elem.guiltyId}"/>">
                                             <input type="hidden" name="command" value="delete_application">
                                         </form>
                                     </div>
