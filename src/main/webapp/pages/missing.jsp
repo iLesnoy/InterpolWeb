@@ -18,7 +18,7 @@
 
 
 <header><c:import url="header.jsp"/></header>
-<p>${message}</p>
+<p><c:out value="${message}"/></p>
 
 <div class="wrapper">
     <div class="container">
@@ -30,10 +30,11 @@
                             <img alt="img" src="data:image/jpeg;base64,${elem.photo}"/>
                         </div>
                         <div class="content">
-                            <h3 class="post-title">${elem.name} ${elem.surname}</h3>
-                            <p class="name"><fmt:message key="label.name"/> ${elem.name}</p>
-                            <p class="surname"><fmt:message key="label.surname"/> ${elem.surname}</p>
-                            <p><fmt:message key="label.disappearanceDate"/> ${elem.disappearanceDate}</p>
+                            <h3 class="post-title"><c:out value="${elem.name}"/> <c:out value="${elem.surname}"/></h3>
+                            <p class="name"><fmt:message key="label.name"/>: <c:out value="${elem.name}"/></p>
+                            <p class="surname"><fmt:message key="label.surname"/>: <c:out value="${elem.surname}"/></p>
+                            <p><fmt:message key="label.disappearanceDate"/>: <c:out value="${elem.disappearanceDate}"/></p>
+                            <c:if test="${user.status != 'BLOCKED'}">
                             <form action="controller" method="post">
                                 <button class="btn-primary" type="submit"
                                         onclick="return confirm('Are you sure that you want to accept an Search Application?')">
@@ -42,27 +43,28 @@
                                 </button>
                                 <br/>
                                 <div class="controls">
-                                    Date: <input class="datepicker form-control" id="datepicker form-control"
+                                    <fmt:message key="label.takeApplication"/> <input class="datepicker form-control" id="datepicker form-control"
                                                  pattern="(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[012])\.(19|20)\d\d" type="date"
                                                  name="lead_time" required/>
                                 </div>
                                 <input type="hidden" name="lead_time" value="selectedDtaeVal">
                                 <input type="hidden" name="missingId" value="<c:out value="${elem.missingPeopleId }"/>">
                             </form>
+                            </c:if>
                             <c:if test="${user_role == 'ADMIN'}">
                                 <div style="display: flex; justify-content: space-around; align-items: center;">
                                     <form action="controller" method="get">
                                         <button type="submit" class="btn btn-danger btn-sm">
                                             <fmt:message key="label.edit"/>
                                         </button>
-                                        <input type="hidden" name="missingId" value="${elem.missingPeopleId}">
+                                        <input type="hidden" name="missingId" value="<c:out value="${elem.missingPeopleId}"/>">
                                         <input type="hidden" name="command" value="to_update_missing">
                                     </form>
                                     <form action="controller" method="get">
                                         <button type="submit" class="btn btn-danger btn-sm">
                                             <fmt:message key="label.delete"/>
                                         </button>
-                                        <input type="hidden" name="missingId" value="${elem.missingPeopleId}">
+                                        <input type="hidden" name="missingId" value="<c:out value="${elem.missingPeopleId}"/>">
                                         <input type="hidden" name="command" value="delete_application">
                                     </form>
                                 </div>
