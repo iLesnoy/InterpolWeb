@@ -17,7 +17,7 @@ import static by.petrorvskiy.webtask.command.ParameterAndAttribute.CRIMINALS_LIS
 
 public class FindWantedCriminalByNameCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
-    private WantedCriminalService wantedCriminalService = new WantedCriminalServiceImpl();
+    private final WantedCriminalService wantedCriminalService = new WantedCriminalServiceImpl();
 
     @Override
     public Router execute(HttpServletRequest request) {

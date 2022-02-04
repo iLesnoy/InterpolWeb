@@ -9,7 +9,6 @@ import by.petrorvskiy.webtask.command.Router;
 import by.petrorvskiy.webtask.model.service.UserService;
 import by.petrorvskiy.webtask.model.service.impl.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,7 +24,6 @@ public class SignUpCommand implements Command {
     @Override
     public Router execute(HttpServletRequest request) {
         Router router = new Router();
-        HttpSession session = request.getSession();
         Map<String, String> userData = new HashMap<>();
         String email = request.getParameter(ParameterAndAttribute.USER_EMAIL);
         String password = request.getParameter(ParameterAndAttribute.USER_PASSWORD);
@@ -45,7 +43,7 @@ public class SignUpCommand implements Command {
                         String page = request.getContextPath();
                         router.setPagePath(page);
                         router.setType(Router.Type.REDIRECT);
-                        session.setAttribute(ParameterAndAttribute.MESSAGE, Message.SUCCESSFUL);
+                        request.setAttribute(ParameterAndAttribute.MESSAGE, Message.SUCCESSFUL);
 
                     } else {
                         router.setPagePath(PagePath.SIGN_UP);
