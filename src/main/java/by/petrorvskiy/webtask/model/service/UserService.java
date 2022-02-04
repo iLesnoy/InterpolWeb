@@ -1,7 +1,6 @@
 package by.petrorvskiy.webtask.model.service;
 
 import by.petrorvskiy.webtask.entity.User;
-import by.petrorvskiy.webtask.exception.DaoException;
 import by.petrorvskiy.webtask.exception.ServiceException;
 import java.util.List;
 import java.util.Map;

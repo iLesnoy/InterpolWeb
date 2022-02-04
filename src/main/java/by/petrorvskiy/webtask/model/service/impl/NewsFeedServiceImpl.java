@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.Optional;
 
 
+
 public class NewsFeedServiceImpl implements NewsFeedService {
 
     private static final Logger logger = LogManager.getLogger();
@@ -34,7 +35,7 @@ public class NewsFeedServiceImpl implements NewsFeedService {
             articleAdded = newsFeedDao.addArticle(newsFeed,stream);
 
         } catch (DaoException e) {
-            logger.error("dao exception in method add, when we try to add addArticle:" + newsFeed + ". " + e);
+            logger.error("DaoException in method addArticle", e);
             throw new ServiceException(e);
         }
         return articleAdded;
@@ -66,7 +67,7 @@ public class NewsFeedServiceImpl implements NewsFeedService {
             news = newsFeedDao.findAllNews();
 
         } catch (DaoException e) {
-            logger.error("dao exception in method findAllNews" + e);
+            logger.error("DaoException in method findAllNews", e);
             throw new ServiceException(e);
         }
 
@@ -80,7 +81,7 @@ public class NewsFeedServiceImpl implements NewsFeedService {
         try {
             deleteArticle = newsFeedDao.deleteArticleById(articleId);
         } catch (DaoException e) {
-            logger.error("service exception in method deleteArticleById" + e);
+            logger.error("DaoException in method deleteArticleById", e);
             throw new ServiceException(e);
         }
         return deleteArticle;
@@ -94,7 +95,7 @@ public class NewsFeedServiceImpl implements NewsFeedService {
             news = newsFeedDao.takeArticleById(newsId);
 
         } catch (DaoException e) {
-            logger.error("service exception in method takeArticleById" + e);
+            logger.error("DaoException in method takeArticleById", e);
             throw new ServiceException(e);
         }
         return news;

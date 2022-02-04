@@ -42,7 +42,7 @@ public class UpdateWantedCommand implements Command {
             Part photo = request.getPart(ParameterAndAttribute.PHOTO);
             stream = photo.getInputStream();
         } catch (IOException | ServletException e) {
-            logger.error("ServiceException: " + e);
+            logger.error("ServiceException: " + e.getMessage());
             e.printStackTrace();
         }
 
@@ -65,10 +65,10 @@ public class UpdateWantedCommand implements Command {
                 router.setType(Router.Type.REDIRECT);
             }
         } catch (ServiceException e) {
-            logger.error("ServiceException: " + e);
+            logger.error("ServiceException: " + e.getMessage());
             request.setAttribute(Message.EXCEPTION, "ServiceException");
-            request.setAttribute(Message.ERROR_MESSAGE, e);
-            router.setPagePath(PagePath.ERROR_404);
+            request.setAttribute(Message.ERROR_MESSAGE, e.getMessage());
+            router.setPagePath(PagePath.ERROR_500);
         }
         return router;
     }

@@ -10,7 +10,9 @@ import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+
 import static by.petrorvskiy.webtask.command.ParameterAndAttribute.CURRENT_PAGE;
+
 
 public class DeleteApplicationCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
@@ -45,9 +47,9 @@ public class DeleteApplicationCommand implements Command {
             request.setAttribute(ParameterAndAttribute.MESSAGE, Message.APPLICATION_DELETED);
             router.setPagePath(currentPage);
         } catch (ServiceException e) {
-            logger.error("ServiceException in method DeleteArticleCommand " + e.getMessage());
+            logger.error("ServiceException  " + e.getMessage());
             request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
-            request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e);
+            request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getMessage());
             router.setPagePath(PagePath.ERROR_500);
         }
 

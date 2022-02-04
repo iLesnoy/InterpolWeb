@@ -34,18 +34,14 @@ public class FindAllSearchApplicationByUserIdCommand implements Command {
         try {
             searchApplications = applicationService.findApplicationsByUserId(userId);
             router.setPagePath(page);
-
             request.setAttribute(ParameterAndAttribute.APPLICATIONS, searchApplications);
-/*
-            session.setAttribute(ParameterAndAttribute.MESSAGE, Message.ERROR_MESSAGE);
-*/
 
 
         } catch (ServiceException e) {
-            logger.error("ServiceException in method FindAllSearchApplicationByUserIdCommand " + e.getMessage());
+            logger.error("ServiceException in method findApplicationsByUserId " + e.getMessage());
             request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
-            request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e);
-            router.setPagePath(PagePath.ERROR_404);
+            request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getMessage());
+            router.setPagePath(PagePath.ERROR_500);
         }
 
 

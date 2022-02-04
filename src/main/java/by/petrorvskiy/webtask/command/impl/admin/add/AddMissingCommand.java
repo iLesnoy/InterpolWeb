@@ -5,7 +5,6 @@ import by.petrorvskiy.webtask.model.service.impl.MissingPeopleServiceImpl;
 import by.petrorvskiy.webtask.exception.ServiceException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,7 +22,6 @@ public class AddMissingCommand implements Command {
     @Override
     public Router execute(HttpServletRequest request) {
         Router router = new Router();
-        HttpSession session = request.getSession();
         Map<String, String> missingPeopleData = new HashMap<>();
         String name = request.getParameter(ParameterAndAttribute.USER_NAME);
         String surname = request.getParameter(ParameterAndAttribute.USER_SURNAME);
@@ -35,7 +33,8 @@ public class AddMissingCommand implements Command {
             Part photo = request.getPart(ParameterAndAttribute.PHOTO);
             stream = photo.getInputStream();
         } catch (IOException | ServletException e) {
-            logger.error("ServiceException: " + e);
+            logger.error("AddMissingCommandException: " + e.getMessage());
+            e.printStackTrace();
         }
 
 
@@ -47,7 +46,7 @@ public class AddMissingCommand implements Command {
         try {
             if (missingPeopleService.addMissedPeople(missingPeopleData,stream)) {
                 String page = request.getContextPath() + PagePath.TO_ADD;
-                session.setAttribute(ParameterAndAttribute.MESSAGE, Message.MISSING_HUMAN);
+                request.setAttribute(ParameterAndAttribute.MESSAGE, Message.MISSING_HUMAN);
                 router.setPagePath(page);
                 router.setType(Router.Type.REDIRECT);
             }

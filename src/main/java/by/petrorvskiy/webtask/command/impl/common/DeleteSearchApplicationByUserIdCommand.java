@@ -1,7 +1,6 @@
 package by.petrorvskiy.webtask.command.impl.common;
 
 import by.petrorvskiy.webtask.command.*;
-import by.petrorvskiy.webtask.entity.User;
 import by.petrorvskiy.webtask.exception.ServiceException;
 import by.petrorvskiy.webtask.model.service.impl.SearchApplicationServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;

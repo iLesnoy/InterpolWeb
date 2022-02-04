@@ -5,7 +5,6 @@ import by.petrorvskiy.webtask.exception.ServiceException;
 import by.petrorvskiy.webtask.model.service.impl.WantedCriminalServiceImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,7 +22,6 @@ public class AddWantedCommand implements Command {
     @Override
     public Router execute(HttpServletRequest request) {
         Router router = new Router();
-        HttpSession session = request.getSession();
         Map<String, String> wantedCriminalsData = new HashMap<>();
         String name = request.getParameter(ParameterAndAttribute.USER_NAME);
         String surname = request.getParameter(ParameterAndAttribute.USER_SURNAME);
@@ -40,7 +38,7 @@ public class AddWantedCommand implements Command {
             Part photo = request.getPart(ParameterAndAttribute.PHOTO);
             stream = photo.getInputStream();
         } catch (IOException | ServletException e) {
-            logger.error("ServiceException: " + e);
+            logger.error("AddWantedCommandException: " + e.getMessage());
             e.printStackTrace();
         }
 

@@ -13,10 +13,9 @@ public class DefaultCommand implements Command {
 
     @Override
     public Router execute(HttpServletRequest request) {
-        System.out.println("DEFAULT");
         Router router = new Router();
         router.setPagePath(PagePath.MAIN);
-        logger.info("unknown command");
+        logger.debug("unknown command");
         return router;
     }
 }

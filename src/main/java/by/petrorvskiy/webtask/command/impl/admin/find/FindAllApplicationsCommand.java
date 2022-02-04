@@ -39,8 +39,8 @@ public class FindAllApplicationsCommand implements Command {
         } catch (ServiceException e) {
             logger.error("ServiceException in method FindAllApplicationsCommand "+ e.getMessage());
             request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
-            request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e);
-            router.setPagePath(PagePath.ERROR_404);
+            request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getMessage());
+            router.setPagePath(PagePath.ERROR_500);
         }
         return router;
     }

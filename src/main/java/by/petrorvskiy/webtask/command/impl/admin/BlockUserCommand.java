@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import static by.petrorvskiy.webtask.command.ParameterAndAttribute.USER_ID;
 
+
 public class BlockUserCommand implements Command {
 
     private static final Logger logger = LogManager.getLogger();
@@ -41,10 +42,10 @@ public class BlockUserCommand implements Command {
                 session.setAttribute(ParameterAndAttribute.MESSAGE_FOR_USER, Message.UNSUCCESSFUL);
             }
         } catch (ServiceException e) {
-            logger.error( "UserServiceException in method execute BlockUserCommand" + e);
+            logger.error( "ServiceException in method execute updateUserStatusById" + e.getMessage());
             request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
-            request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e);
-            router.setPagePath(PagePath.ERROR_404);
+            request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getMessage());
+            router.setPagePath(PagePath.ERROR_500);
         }
         return router;
     }

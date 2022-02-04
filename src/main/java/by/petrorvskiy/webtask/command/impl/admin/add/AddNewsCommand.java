@@ -9,7 +9,6 @@ import by.petrorvskiy.webtask.command.ParameterAndAttribute;
 import by.petrorvskiy.webtask.command.Router;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,7 +27,6 @@ public class AddNewsCommand implements Command {
     @Override
     public Router execute(HttpServletRequest request) {
         Router router = new Router();
-        HttpSession session = request.getSession();
         Map<String, String> newsData = new HashMap<>();
         String title = request.getParameter(ParameterAndAttribute.TITLE);
         String newsArticle = request.getParameter(ParameterAndAttribute.NEWS_ARTICLE);
@@ -38,7 +36,7 @@ public class AddNewsCommand implements Command {
             Part image = request.getPart(ParameterAndAttribute.IMAGE);
             stream = image.getInputStream();
         } catch (IOException | ServletException e) {
-            logger.error("ServiceException: " + e);
+            logger.error("AddNewsCommandException: " + e.getMessage());
             e.printStackTrace();
         }
 
@@ -49,7 +47,7 @@ public class AddNewsCommand implements Command {
         try {
             if (newsFeedService.addArticle(newsData,stream)) {
                 String page = request.getContextPath() + PagePath.TO_ADD;
-                session.setAttribute(ParameterAndAttribute.MESSAGE, Message.ARTICLE_ADDED);
+                request.setAttribute(ParameterAndAttribute.MESSAGE, Message.ARTICLE_ADDED);
                 router.setPagePath(page);
                 router.setType(Router.Type.REDIRECT);
             }

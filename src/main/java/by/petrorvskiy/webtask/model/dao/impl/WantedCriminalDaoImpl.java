@@ -12,16 +12,12 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
-import static by.petrorvskiy.webtask.model.dao.ColumnName.IMAGE;
-import static by.petrorvskiy.webtask.model.dao.ColumnName.PHOTO;
 
 public class WantedCriminalDaoImpl implements WantedCriminalDao {
 

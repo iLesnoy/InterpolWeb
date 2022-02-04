@@ -12,13 +12,14 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+
 public class SearchApplicationServiceImpl implements SearchApplicationService {
     private static final Logger logger = LogManager.getLogger();
     private static final SearchApplicationDaoImpl searchApplicationDao = SearchApplicationDaoImpl.getInstance();
 
     @Override
     public boolean addSearchApplication(SearchApplication application) throws ServiceException {
-        logger.debug("findUserPasswordByEmail");
+        logger.debug("addSearchApplication");
         boolean addSearchApplication;
 
         try {
@@ -26,7 +27,7 @@ public class SearchApplicationServiceImpl implements SearchApplicationService {
             logger.debug("addSearchApplication: " + addSearchApplication);
 
         } catch (DaoException e) {
-            logger.error("dao exception in method addSearchApplication" + e);
+            logger.error("Dao exception in method addSearchApplication", e);
             throw new ServiceException(e);
         }
 
@@ -40,6 +41,7 @@ public class SearchApplicationServiceImpl implements SearchApplicationService {
         try {
             updateSearchApplicationStatus = searchApplicationDao.updateSearchApplicationStatus(status, applicationId);
         } catch (DaoException e) {
+            logger.error("Dao exception in method updateSearchApplicationStatus", e);
             throw new ServiceException(e);
         }
         return updateSearchApplicationStatus;
@@ -47,11 +49,11 @@ public class SearchApplicationServiceImpl implements SearchApplicationService {
 
     @Override
     public boolean payForApplication(long applicationId, BigDecimal reward) throws ServiceException {
-        boolean payForApplication = false;
-
+        boolean payForApplication;
         try {
             payForApplication = searchApplicationDao.payForApplication(applicationId, reward);
         } catch (DaoException e) {
+            logger.error("Dao exception in method payForApplication", e);
             throw new ServiceException(e);
         }
         return payForApplication;
@@ -64,6 +66,7 @@ public class SearchApplicationServiceImpl implements SearchApplicationService {
         try {
             searchApplications = searchApplicationDao.findAllSearchApplications();
         } catch (DaoException e) {
+            logger.error("Dao exception in method findAllSearchApplications", e);
             throw new ServiceException(e);
         }
         return searchApplications;
@@ -75,6 +78,7 @@ public class SearchApplicationServiceImpl implements SearchApplicationService {
         try {
             searchApplication = searchApplicationDao.deleteSearchApplicationByUserId(applicationId,userId);
         } catch (DaoException e) {
+            logger.error("Dao exception in method deleteSearchApplicationByUserId", e);
             throw new ServiceException(e);
         }
         return searchApplication;
@@ -86,6 +90,7 @@ public class SearchApplicationServiceImpl implements SearchApplicationService {
         try {
             addWantedCriminalApplication = searchApplicationDao.addWantedCriminalApplication(applicationId, guiltyId);
         } catch (DaoException e) {
+            logger.error("Dao exception in method addWantedCriminalApplication", e);
             throw new ServiceException(e);
         }
         return addWantedCriminalApplication;
@@ -97,6 +102,7 @@ public class SearchApplicationServiceImpl implements SearchApplicationService {
         try {
             addMissingCriminalApplication = searchApplicationDao.addMissingCriminalApplication(applicationId, missingId);
         } catch (DaoException e) {
+            logger.error("Dao exception in method addMissingCriminalApplication",e);
             throw new ServiceException(e);
         }
         return addMissingCriminalApplication;
@@ -108,6 +114,7 @@ public class SearchApplicationServiceImpl implements SearchApplicationService {
         try {
             criminalGuiltyId = searchApplicationDao.findWantedCriminalGuiltyId(applicationId);
         } catch (DaoException e) {
+            logger.error("Dao exception in method findWantedCriminalGuiltyId", e);
             throw new ServiceException(e);
         }
         return criminalGuiltyId;
@@ -119,6 +126,7 @@ public class SearchApplicationServiceImpl implements SearchApplicationService {
         try {
             findApplicationIdByUserId = searchApplicationDao.findApplicationIdByUserId(userId);
         } catch (DaoException e) {
+            logger.error("Dao exception in method findApplicationIdByUserId",e);
             throw new ServiceException(e);
         }
         return findApplicationIdByUserId;
@@ -130,6 +138,7 @@ public class SearchApplicationServiceImpl implements SearchApplicationService {
         try {
             missingPeopleId = searchApplicationDao.findMissingPeopleId(applicationId);
         } catch (DaoException e) {
+            logger.error("Dao exception in method findMissingPeopleId", e);
             throw new ServiceException(e);
         }
         return missingPeopleId;
@@ -149,6 +158,7 @@ public class SearchApplicationServiceImpl implements SearchApplicationService {
 
 
         } catch (DaoException e) {
+            logger.error("Dao exception in method takeSearchApplicationById",e);
             throw new ServiceException(e);
         }
         return searchApplication;
@@ -166,6 +176,7 @@ public class SearchApplicationServiceImpl implements SearchApplicationService {
             }
 
         } catch (DaoException e) {
+            logger.error("Dao exception in method findApplicationByUserIdAndWantedId",e);
             throw new ServiceException(e);
         }
         return findApplicationByUserIdAndWantedId;
@@ -183,6 +194,7 @@ public class SearchApplicationServiceImpl implements SearchApplicationService {
             }
 
         } catch (DaoException e) {
+            logger.error("Dao exception in method findApplicationByUserIdAndMissingId", e);
             throw new ServiceException(e);
         }
         return findApplicationByUserIdAndMissingId;
@@ -195,6 +207,7 @@ public class SearchApplicationServiceImpl implements SearchApplicationService {
             searchApplications = searchApplicationDao.findApplicationsByUserId(userId);
 
         } catch (DaoException e) {
+            logger.error("Dao exception in method findApplicationsByUserId", e);
             throw new ServiceException(e);
         }
         return searchApplications;

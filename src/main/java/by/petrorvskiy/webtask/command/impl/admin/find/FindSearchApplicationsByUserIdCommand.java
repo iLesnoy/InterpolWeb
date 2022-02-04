@@ -36,7 +36,7 @@ public class FindSearchApplicationsByUserIdCommand implements Command {
             logger.error("ServiceException in method FindAllSearchApplicationsByUserIdCommand " + e.getMessage());
             request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
             request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e);
-            router.setPagePath(PagePath.ERROR_404);
+            router.setPagePath(PagePath.ERROR_500);
         }
 
 

@@ -1,6 +1,5 @@
 package by.petrorvskiy.webtask.model.dao.impl;
 
-import by.petrorvskiy.webtask.entity.NewsFeed;
 import by.petrorvskiy.webtask.model.connection.ConnectionPool;
 import by.petrorvskiy.webtask.model.dao.ColumnName;
 import by.petrorvskiy.webtask.model.dao.MissingPeopleDao;
@@ -11,15 +10,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
 import static by.petrorvskiy.webtask.model.dao.ColumnName.*;
+
 
 public class MissingPeopleDaoImpl implements MissingPeopleDao {
 
@@ -53,12 +51,12 @@ public class MissingPeopleDaoImpl implements MissingPeopleDao {
             statement.setDate(3, Date.valueOf(people.getDisappearanceDate()));
             statement.setBlob(4, photoStream);
             int rowCount = statement.executeUpdate();
+
             if (rowCount != 0) {
                 missingPeopleAdded = true;
                 logger.info("people added" + people);
-            } else {
-                logger.error("people was not added");
             }
+
         } catch (SQLException e) {
             logger.error("SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
             throw new DaoException("Dao exception in method addMissedPeople, when we try to add user:" + people, e);
@@ -77,12 +75,12 @@ public class MissingPeopleDaoImpl implements MissingPeopleDao {
             statement.setBlob(4, stream);
             statement.setLong(5, missingPeople.getMissingPeopleId());
             int rowCount = statement.executeUpdate();
+
             if (rowCount != 0) {
                 missingPeopleUpdate = true;
                 logger.info("people updated" + missingPeople);
-            } else {
-                logger.error("people not updated");
             }
+
         } catch (SQLException e) {
             logger.error("SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
             throw new DaoException("Dao exception in method updateMissingPeopleById" + missingPeople, e);
@@ -143,7 +141,7 @@ public class MissingPeopleDaoImpl implements MissingPeopleDao {
             }
         } catch (SQLException e) {
             logger.error("SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
-            throw new DaoException("Dao epam.task.web.exception in method takeArticleById", e);
+            throw new DaoException("Dao exception in method takeArticleById", e);
         }
         return missingPeople;
     }

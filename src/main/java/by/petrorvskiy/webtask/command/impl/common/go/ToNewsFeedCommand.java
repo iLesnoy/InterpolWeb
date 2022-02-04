@@ -22,6 +22,7 @@ public class ToNewsFeedCommand implements Command {
 
     @Override
     public Router execute(HttpServletRequest request) {
+        logger.debug("ToNewsFeedCommand");
         Router router = new Router();
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(ParameterAndAttribute.USER);
@@ -37,7 +38,7 @@ public class ToNewsFeedCommand implements Command {
         } catch (ServiceException e) {
             request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
             request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e);
-            logger.error("ServiceException in method execute FindAllNews");
+            logger.error("ServiceException in method execute findAllNews");
             session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.ERROR_404);
             router.setPagePath(PagePath.ERROR_404);
         }

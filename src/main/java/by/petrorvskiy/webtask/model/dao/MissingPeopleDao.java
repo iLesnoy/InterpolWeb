@@ -13,6 +13,6 @@ public interface MissingPeopleDao{
     boolean updateMissingPeopleById(MissingPeople missingPeople, InputStream stream) throws DaoException;
     boolean deleteMissedHumanById(long humanId) throws DaoException;
     List<MissingPeople> findAllMissingPeople() throws DaoException;
-    Optional<MissingPeople> takeMissedHumanById(long id) throws DaoException;
     List<MissingPeople> findAllMissingPeopleByName(String name) throws DaoException;
+    Optional<MissingPeople> takeMissedHumanById(long id) throws DaoException;
 }

@@ -12,13 +12,14 @@ import org.apache.logging.log4j.Logger;
 import static by.petrorvskiy.webtask.command.ParameterAndAttribute.USER_ID;
 import static by.petrorvskiy.webtask.entity.User.Status.ACTIVE;
 
+
 public class UnblockUserCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     UserService userService = new UserServiceImpl();
 
     @Override
     public Router execute(HttpServletRequest request) {
-        logger.info("UnblockUserCommand");
+        logger.debug("execute UnblockUserCommand");
         Router router = new Router();
         HttpSession session = request.getSession();
         boolean isBlocked;
@@ -40,10 +41,10 @@ public class UnblockUserCommand implements Command {
                 session.setAttribute(ParameterAndAttribute.MESSAGE_FOR_USER, Message.UNSUCCESSFUL);
             }
         } catch (ServiceException e) {
-            logger.error( "UserServiceException in method execute BlockUserCommand" + e);
+            logger.error( "ServiceException in method updateUserStatusById" + e.getMessage());
             request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
-            request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e);
-            router.setPagePath(PagePath.ERROR_404);
+            request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getMessage());
+            router.setPagePath(PagePath.ERROR_500);
         }
         return router;
     }

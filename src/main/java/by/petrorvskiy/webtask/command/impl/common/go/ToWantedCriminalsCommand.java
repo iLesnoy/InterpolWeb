@@ -23,6 +23,7 @@ public class ToWantedCriminalsCommand implements Command {
 
     @Override
     public Router execute(HttpServletRequest request) {
+        logger.debug("ToWantedCriminalsCommand");
         Router router = new Router();
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(ParameterAndAttribute.USER);
@@ -39,7 +40,7 @@ public class ToWantedCriminalsCommand implements Command {
         } catch (ServiceException e) {
             request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
             request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e);
-            logger.error("ServiceException in method execute ToWantedCriminalsCommand");
+            logger.error("ServiceException in method execute findAllWantedCriminals");
             session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.ERROR_404);
             router.setPagePath(PagePath.ERROR_404);
         }

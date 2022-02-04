@@ -44,10 +44,10 @@ public class FindUserByNameAndSurnameCommand implements Command {
             }
 
         } catch (ServiceException e) {
-            logger.error("UserServiceException in method execute");
+            logger.error("ServiceException in method execute");
             request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
             request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getMessage());
-            router.setPagePath(PagePath.ERROR_404);
+            router.setPagePath(PagePath.ERROR_500);
         }
         return router;
     }

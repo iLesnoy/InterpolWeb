@@ -10,15 +10,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
-import static by.petrorvskiy.webtask.model.dao.ColumnName.IMAGE;
-import static by.petrorvskiy.webtask.model.dao.ColumnName.PHOTO;
 
 public class NewsFeedDaoImpl implements NewsFeedDao {
 
@@ -162,7 +158,6 @@ public class NewsFeedDaoImpl implements NewsFeedDao {
                 .setTitle(title)
                 .setArticle(article)
                 .setImage(image).build();
-        /*logger.info(newsFeed);*/
         return newsFeed;
     }
 }

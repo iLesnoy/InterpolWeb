@@ -24,7 +24,6 @@ public class FindWantedCriminalByNameCommand implements Command {
         Router router = new Router();
         HttpSession session = request.getSession();
         String page = (String) session.getAttribute(ParameterAndAttribute.CURRENT_PAGE);
-        /*String criminalName = request.getParameter(ParameterAndAttribute.FIRST_NAME);*/
         String criminalName = request.getParameter(ParameterAndAttribute.USER_NAME);
 
         logger.debug( "find wantedCriminals by name: " + criminalName);
@@ -50,8 +49,8 @@ public class FindWantedCriminalByNameCommand implements Command {
         }catch (ServiceException e) {
             logger.error("ServiceException in method execute");
             request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
-            request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e);
-            router.setPagePath(PagePath.ERROR_404);
+            request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getMessage());
+            router.setPagePath(PagePath.ERROR_500);
         }
         return router;
     }

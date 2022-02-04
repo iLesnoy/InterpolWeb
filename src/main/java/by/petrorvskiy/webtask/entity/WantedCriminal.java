@@ -3,6 +3,7 @@ package by.petrorvskiy.webtask.entity;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+
 public class WantedCriminal {
     private long guiltyId;
     private String firstName;
@@ -210,6 +211,5 @@ public class WantedCriminal {
             return wantedCriminal;
         }
     }
-
 
 }
