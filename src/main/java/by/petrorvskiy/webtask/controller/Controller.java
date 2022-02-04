@@ -14,13 +14,18 @@ import jakarta.servlet.annotation.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+
+/**
+ * {@code Controller} class extends functional of {@link HttpServlet}
+ * Processes all requests after filtering.
+ */
+
 @WebServlet(name = "Controller", urlPatterns = {"/controller"})
 @MultipartConfig(maxFileSize = 16777215)
 public class Controller extends HttpServlet {
     private static final Logger logger = LogManager.getLogger();
 
     public void init() {
-
     }
 
     @Override
@@ -39,25 +44,24 @@ public class Controller extends HttpServlet {
         Router router = command.execute(request);
 
         switch (router.getType()) {
-            case FORWARD:
-
+            case FORWARD -> {
                 logger.debug("forward");
                 RequestDispatcher dispatcher = request.getRequestDispatcher(router.getPagePath());
                 dispatcher.forward(request, response);
-                break;
-
-            case REDIRECT:
-
+            }
+            case REDIRECT -> {
                 logger.debug("redirect");
                 response.sendRedirect(router.getPagePath());
-                break;
-
-            default:
+            }
+            default -> {
                 logger.error("Incorrect router type:" + router.getType());
                 response.sendRedirect(PagePath.MAIN);
+            }
         }
 
     }
+
+
 
     public void destroy() {
         ConnectionPool.getInstance().destroyPool();

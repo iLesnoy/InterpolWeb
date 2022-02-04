@@ -10,13 +10,26 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 
+/**
+ * The {@link ConnectionPool} class has private BlockingQueue in which
+ * ProxyConnections are stored.
+ * The max amount of created connections is set by POOL_SIZE or
+ * otherwise will be taken  from DEFAULT_POOL_SIZE int value.
+ * The connection can be taken from the BlockingQueue and
+ * released to it.
+ * Thread safe.
+ *
+ * @see ProxyConnection
+ */
 public class ConnectionPool {
 
     private static final Logger logger = LogManager.getLogger();
+    private static final int ONCE = 1;
     private static final String POOL_PROPERTIES_ERROR = "initialization ConnectionPool Error";
     private static final String DRIVER_LOADING_ERROR = "JDBC driver loading Error";
     private static final int DEFAULT_POOL_SIZE = 8;
@@ -25,7 +38,8 @@ public class ConnectionPool {
     private static final String DATABASE_PASSWORD;
     private static final String DATABASE_USER;
     private static final String DATABASE_DRIVER;
-    private static final AtomicBoolean isCreated = new AtomicBoolean();
+    private static final CountDownLatch initialisingLatch = new CountDownLatch(ONCE);
+    private static final AtomicBoolean isInstanceInitialized = new AtomicBoolean(false);
     private static ConnectionPool instance;
     private final BlockingQueue<ProxyConnection> freeConnection;
     private final BlockingQueue<ProxyConnection> givenAwayConnections;
@@ -59,10 +73,15 @@ public class ConnectionPool {
     }
 
     public static ConnectionPool getInstance() {
-        if (!isCreated.get()) {
-            if (instance == null) {
+        if (instance == null) {
+            while (isInstanceInitialized.compareAndSet(false, true)) {
                 instance = new ConnectionPool();
-                isCreated.set(true);
+                initialisingLatch.countDown();
+            }
+            try {
+                initialisingLatch.await();
+            } catch (InterruptedException e) {
+                logger.error( "Thread is interrupted while ConnectionPool is creating", e);
             }
         }
         return instance;
