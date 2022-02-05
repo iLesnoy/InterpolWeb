@@ -18,7 +18,7 @@ public interface SearchApplicationDao {
     boolean addMissingCriminalApplication(long applicationId,long missingId) throws DaoException;
     Optional<SearchApplication> findApplicationByUserIdAndWantedId(long userId) throws DaoException;
     Optional<SearchApplication> takeSearchApplicationById(long applicationId) throws DaoException;
-    Optional<SearchApplication> findApplicationByUserIdAndMissingId(long applicationId,long missingId) throws DaoException;
+    Optional<SearchApplication> findApplicationByUserIdAndMissingId(long userId) throws DaoException;
     Optional<Long> findApplicationIdByUserId(long userId) throws DaoException;
     List<SearchApplication> findAllSearchApplications() throws DaoException;
     List<SearchApplication> findApplicationsByUserId(long userId) throws DaoException;

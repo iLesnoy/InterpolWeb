@@ -64,6 +64,9 @@
     </tr>
     <tbody>
     <c:forEach var="elem" items="${applications}" varStatus="status">
+        <c:if test="${elem.status == 'PROCESS'}">
+            <c:out value="Your current application is being processed and will appear very soon. "/>
+        </c:if>
         <c:if test="${elem.status != 'PROCESS'}">
         <tr>
             <td><c:out value="${status.count }"/></td>

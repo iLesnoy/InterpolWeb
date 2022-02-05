@@ -157,12 +157,11 @@ public class SearchApplicationDaoImpl implements SearchApplicationDao {
     }
 
     @Override
-    public Optional<SearchApplication> findApplicationByUserIdAndMissingId(long applicationId, long missingId) throws DaoException {
+    public Optional<SearchApplication> findApplicationByUserIdAndMissingId(long userId) throws DaoException {
         Optional<SearchApplication> findApplicationByUserIdAndMissingId;
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_FIND_APPLICATION_BY_USER_ID_AND_MISSING_ID)) {
-            /*statement.setLong(1, applicationId);
-            statement.setLong(2, missingId);*/
+            statement.setLong(1,userId);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
@@ -252,7 +251,6 @@ public class SearchApplicationDaoImpl implements SearchApplicationDao {
                 SearchApplication application = createApplication(resultSet);
                 userApplications.add(application);
             }
-
 
         } catch (SQLException e) {
             logger.error( "SQLException in method findApplicationsByUserId " + e.getMessage());

@@ -183,10 +183,10 @@ public class SearchApplicationServiceImpl implements SearchApplicationService {
     }
 
     @Override
-    public Optional<SearchApplication> findApplicationByUserIdAndMissingId(long applicationId, long missingId) throws ServiceException {
+    public Optional<SearchApplication> findApplicationByUserIdAndMissingId(long userId) throws ServiceException {
         Optional<SearchApplication> findApplicationByUserIdAndMissingId;
         try {
-            findApplicationByUserIdAndMissingId = searchApplicationDao.findApplicationByUserIdAndMissingId(applicationId, missingId);
+            findApplicationByUserIdAndMissingId = searchApplicationDao.findApplicationByUserIdAndMissingId(userId);
             if (findApplicationByUserIdAndMissingId.isPresent()) {
                 logger.debug("searchApplication " + findApplicationByUserIdAndMissingId);
             } else {
@@ -205,7 +205,6 @@ public class SearchApplicationServiceImpl implements SearchApplicationService {
         List<SearchApplication> searchApplications;
         try {
             searchApplications = searchApplicationDao.findApplicationsByUserId(userId);
-
         } catch (DaoException e) {
             logger.error("Dao exception in method findApplicationsByUserId", e);
             throw new ServiceException(e);
