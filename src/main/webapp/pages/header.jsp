@@ -5,10 +5,9 @@
 <fmt:setLocale value="${locale}" scope="session"/>
 <fmt:setBundle basename="pagecontent"/>
 
-    <!-- Second navbar for sign in -->
+
     <nav class="navbar navbar-default">
         <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
                         data-target="#navbar-collapse-2">
@@ -20,8 +19,6 @@
                 <a class="navbar-brand"
                    href="${pageContext.request.contextPath}/controller?command=to_main">Interpol</a>
             </div>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="navbar-collapse-2">
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="${pageContext.request.contextPath}/controller?command=to_who_we_are_page">
@@ -113,9 +110,9 @@
                         </div>
                     </c:when>
                 </c:choose>
-            </div><!-- /.navbar-collapse -->
-        </div><!-- /.container -->
-    </nav><!-- /.navbar -->
+            </div>
+        </div>
+    </nav>
 <script>
     if ( window.history.replaceState ) {
         window.history.replaceState( null, null, window.location.href );
