@@ -34,3 +34,4 @@ User roles and functions available to them:
 -
 Database tables
 -
+![My db](https://github.com/iLesnoy/InterpolWeb/blob/master/src/main/resources/Interpol_db.png?raw=true)
