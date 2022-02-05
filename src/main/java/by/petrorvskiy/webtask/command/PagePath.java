@@ -1,5 +1,8 @@
 package by.petrorvskiy.webtask.command;
 
+/**
+ * The page paths by String.
+ */
 public class PagePath {
 
     public static final String NEWS_FEED = "pages/newsfeed.jsp";

@@ -19,7 +19,9 @@ import by.petrorvskiy.webtask.command.impl.signin.LogOutCommand;
 import by.petrorvskiy.webtask.command.impl.signin.LogInCommand;
 import by.petrorvskiy.webtask.command.impl.signin.SignUpCommand;
 
-
+/**
+ * The enum which contains constant Command type.
+ */
 public enum CommandType {
     TO_MAIN(new ToMainCommand()),
     TO_WANTED(new ToWantedCriminalsCommand()),

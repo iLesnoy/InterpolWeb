@@ -1,5 +1,8 @@
 package by.petrorvskiy.webtask.command;
 
+/**
+ * The request parameters and attributes String names.
+ */
 public class ParameterAndAttribute {
     public static final String USER = "user";
     public static final String USER_NAME = "name";

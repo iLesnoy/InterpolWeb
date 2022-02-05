@@ -1,10 +1,15 @@
 package by.petrorvskiy.webtask.command;
 
+import by.petrorvskiy.webtask.controller.Controller;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
+/**
+ * The {@link CommandProvider} class
+ * used by the {@link Controller} to identify the incoming command
+ */
 public class CommandProvider {
     private static final Logger logger = LogManager.getLogger();
 

@@ -1,5 +1,13 @@
 package by.petrorvskiy.webtask.command;
 
+/**
+ *
+ * The {@link Router} class contains two fields:
+ * pagePath
+ * routeType
+ * that are used  by controller to find out where and how
+ * request and response should be processed after the controller.
+ */
 public class Router {
 
     public enum Type{
