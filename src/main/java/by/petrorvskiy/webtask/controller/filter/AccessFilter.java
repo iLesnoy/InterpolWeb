@@ -14,8 +14,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 
+/**
+ * {@code AccessFilter} class implements functional of {@link Filter}
+ * Restricts access to the page depending on the session user's role.
+ */
 @WebFilter(filterName = "AccessFilter", dispatcherTypes = {
-        DispatcherType.FORWARD }, urlPatterns = "*.jsp")
+           DispatcherType.FORWARD }, urlPatterns = "*.jsp")
 public class AccessFilter implements Filter {
     private static final Set<String> ALLOWED_GUEST_PATH = new HashSet<>(
             Arrays.asList("/pages/main.jsp", "/pages/newsfeed.jsp", "/pages/error/error404.jsp","/pages/error/error500.jsp"
