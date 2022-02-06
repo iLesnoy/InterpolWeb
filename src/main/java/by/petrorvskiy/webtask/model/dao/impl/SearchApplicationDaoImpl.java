@@ -24,14 +24,14 @@ public class SearchApplicationDaoImpl implements SearchApplicationDao {
     private static final String SQL_UPDATE_SEARCH_APPLICATION_STATUS_BY_ID = "UPDATE search_application SET status=?  WHERE search_application_id =?";
     private static final String SQL_DELETE_SEARCH_APPLICATION_BY_ID = "DELETE FROM search_application WHERE search_application_id=? AND users_user_id=?";
     private static final String SQL_TAKE_SEARCH_APPLICATION_BY_ID = "SELECT search_application_id,lead_time,status,users_user_id FROM search_application WHERE search_application_id =?";
-    private static final String SQL_TAKE_SEARCH_APPLICATION_BY_USER_ID = "SELECT search_application_id,lead_time,status,users_user_id FROM search_application WHERE users_user_id=?";
-    private static final String SQL_TAKE_ALL_SEARCH_APPLICATION = "SELECT search_application_id,lead_time,status,users_user_id FROM search_application";
-    private static final String SQL_TAKE_MISSING_PEOPLE_ID_BY_APPLICATION_ID= "SELECT application_missing_people_id FROM missing_people_applications WHERE search_application_id=?";
-    private static final String SQL_TAKE_GUILTY_ID_BY_APPLICATION_ID= "SELECT application_guilty_id FROM wanted_criminals_applications WHERE search_application_id=?";
     private static final String SQL_FIND_APPLICATION_BY_USER_ID_AND_WANTED_ID= "SELECT a.search_application_id FROM wanted_criminals_applications AS w  JOIN search_application as a\n" +
             "ON w.search_application_id = a.search_application_id WHERE users_user_id = ?";
     private static final String SQL_FIND_APPLICATION_BY_USER_ID_AND_MISSING_ID= "SELECT a.search_application_id FROM missing_people_applications AS m JOIN search_application as a " +
             "ON m.search_application_id = a.search_application_id WHERE users_user_id = ?";
+    private static final String SQL_TAKE_SEARCH_APPLICATION_BY_USER_ID = "SELECT search_application_id,lead_time,status,users_user_id FROM search_application WHERE users_user_id=?";
+    private static final String SQL_TAKE_ALL_SEARCH_APPLICATION = "SELECT search_application_id,lead_time,status,users_user_id FROM search_application";
+    private static final String SQL_TAKE_MISSING_PEOPLE_ID_BY_APPLICATION_ID= "SELECT application_missing_people_id FROM missing_people_applications WHERE search_application_id=?";
+    private static final String SQL_TAKE_GUILTY_ID_BY_APPLICATION_ID= "SELECT application_guilty_id FROM wanted_criminals_applications WHERE search_application_id=?";
     private static final String SQL_FIND_APPLICATION_ID_BY_USER_ID= "SELECT search_application_id FROM search_application WHERE users_user_id=?";
     private static final String SQL_ADD_WANTED_CRIMINAL_APPLICATION= "INSERT INTO wanted_criminals_applications (search_application_id,application_guilty_id) VALUES (?,?)";
     private static final String SQL_ADD_MISSING_PEOPLE_APPLICATION= "INSERT INTO missing_people_applications (search_application_id,application_missing_people_id) VALUES (?,?)";

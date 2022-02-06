@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * The {@link ConnectionPool} class has private BlockingQueue in which
  * ProxyConnections are stored.
  * The max amount of created connections is set by POOL_SIZE or
- * otherwise will be taken  from DEFAULT_POOL_SIZE int value.
+ * otherwise will be taken from DEFAULT_POOL_SIZE int value.
  * The connection can be taken from the BlockingQueue and
  * released to it.
  * Thread safe.
@@ -98,7 +98,7 @@ public class ConnectionPool {
         }
         if (freeConnection.isEmpty()) {
             logger.fatal("connections poll doesn't created");
-            throw new RuntimeException("epam.task.web.connection poll is empty ");
+            throw new RuntimeException("connection poll is empty ");
         }
         logger.info("Connection pool was created " + freeConnection.size());
     }

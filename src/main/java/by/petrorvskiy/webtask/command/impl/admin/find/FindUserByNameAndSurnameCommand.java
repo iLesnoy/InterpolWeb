@@ -40,7 +40,7 @@ public class FindUserByNameAndSurnameCommand implements Command {
                 logger.debug(request.getAttribute(LIST));
 
             } else {
-                session.setAttribute(ParameterAndAttribute.MESSAGE, Message.ERROR_MESSAGE);
+                session.setAttribute(ParameterAndAttribute.MESSAGE, Message.NOT_FOUND);
             }
 
         } catch (ServiceException e) {

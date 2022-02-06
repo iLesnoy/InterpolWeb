@@ -31,7 +31,7 @@ public class FindUserById implements Command {
                 request.setAttribute(ParameterAndAttribute.LIST, user);
                 request.setAttribute(ParameterAndAttribute.USER_ROLE, User.Role.values());
             }else {
-                session.setAttribute(ParameterAndAttribute.MESSAGE, Message.ERROR_MESSAGE);
+                session.setAttribute(ParameterAndAttribute.MESSAGE, Message.NOT_FOUND);
             }
 
         } catch (ServiceException e) {

@@ -64,7 +64,7 @@ public class FindApplicationInformationByIdCommand implements Command {
                 missingPeople = optionalMissingPeople.stream().toList();
                 request.setAttribute(ParameterAndAttribute.MISSING_PEOPLE, missingPeople);
             } else {
-                session.setAttribute(ParameterAndAttribute.MESSAGE, Message.ERROR_MESSAGE);
+                session.setAttribute(ParameterAndAttribute.MESSAGE, Message.NOT_FOUND);
             }
 
 
