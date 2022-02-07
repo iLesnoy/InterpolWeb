@@ -20,7 +20,7 @@ import by.petrorvskiy.webtask.command.impl.signin.LogInCommand;
 import by.petrorvskiy.webtask.command.impl.signin.SignUpCommand;
 
 /**
- * The enum which contains constant Command type.
+ * The enum which contains constant Command types.
  */
 public enum CommandType {
     TO_MAIN(new ToMainCommand()),
@@ -73,7 +73,7 @@ public enum CommandType {
         this.command = command;
     }
 
-    public Command getCommand() {
+    Command getCommand() {
         return command;
     }
     

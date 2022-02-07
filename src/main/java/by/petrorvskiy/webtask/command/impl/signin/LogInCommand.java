@@ -39,7 +39,6 @@ public class LogInCommand implements Command {
                         session.setAttribute(ParameterAndAttribute.USER,user);
                         session.setAttribute(ParameterAndAttribute.USER_PASSWORD,password);
                         router.setPagePath(PagePath.MAIN);
-                        logger.info("USER");
 
             } else {
                 router.setPagePath(PagePath.MAIN);

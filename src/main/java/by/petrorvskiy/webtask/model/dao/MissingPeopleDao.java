@@ -11,21 +11,21 @@ import java.util.Optional;
 public interface MissingPeopleDao{
 
     /**
-     * @param people,stream which used for image
+     * @param people,stream which used for adding
      * @return true if {@link MissingPeople} added, otherwise false
      * @throws DaoException if the request to data base could not be handled
      */
     boolean addMissedPeople(MissingPeople people, InputStream stream) throws DaoException;
 
     /**
-     * @param missingPeople,stream which used for image
+     * @param missingPeople,stream which used for updating
      * @return true if {@link MissingPeople} updated, otherwise false
      * @throws DaoException if the request to data base could not be handled
      */
     boolean updateMissingPeopleById(MissingPeople missingPeople, InputStream stream) throws DaoException;
 
     /**
-     * @param humanId which used for searching
+     * @param humanId which used for deleting
      * @return true if {@link MissingPeople} deleted, otherwise false
      * @throws DaoException if the request to data base could not be handled
      */

@@ -111,7 +111,6 @@ public class MissingPeopleDaoImpl implements MissingPeopleDao {
              PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL_MISSING_PEOPLE)) {
 
             ResultSet resultSet = statement.executeQuery();
-
             while (resultSet.next()) {
                 findAllMissingPeople.add(createMissingPeople(resultSet));
             }
@@ -163,7 +162,7 @@ public class MissingPeopleDaoImpl implements MissingPeopleDao {
     }
 
     private MissingPeople createMissingPeople(ResultSet resultSet) throws SQLException {
-        Long peopleId = resultSet.getLong(MISSING_PEOPLE_ID);
+        long peopleId = resultSet.getLong(MISSING_PEOPLE_ID);
         String firstName = resultSet.getString(FIRST_NAME);
         String lastName = resultSet.getString(LAST_NAME);
         LocalDate disappearanceDate = resultSet.getDate(DISAPPEARANCE_DATE).toLocalDate();

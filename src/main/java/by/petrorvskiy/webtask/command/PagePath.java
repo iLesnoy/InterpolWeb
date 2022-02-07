@@ -1,7 +1,9 @@
 package by.petrorvskiy.webtask.command;
 
 /**
- * The page paths by String.
+ * The class which contains String page paths of jsp
+ * pages and controller commands.
+ * Private constructor without parameters.
  */
 public class PagePath {
 
@@ -19,7 +21,6 @@ public class PagePath {
     public static final String ADD = "pages/add.jsp";
     public static final String UPDATE_PAGE = "pages/updatepage.jsp";
     public static final String WHO_WE_ARE = "pages/whoweare.jsp";
-
 
 
     public static final String TO_MAIN_PAGE="/controller?command=to_main";
