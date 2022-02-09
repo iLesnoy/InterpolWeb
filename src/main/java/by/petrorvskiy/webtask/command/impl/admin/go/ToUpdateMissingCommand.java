@@ -5,6 +5,7 @@ import by.petrorvskiy.webtask.command.PagePath;
 import by.petrorvskiy.webtask.command.ParameterAndAttribute;
 import by.petrorvskiy.webtask.command.Router;
 import by.petrorvskiy.webtask.entity.MissingPeople;
+import by.petrorvskiy.webtask.exception.CommandException;
 import by.petrorvskiy.webtask.exception.ServiceException;
 import by.petrorvskiy.webtask.model.service.impl.MissingPeopleServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,7 +21,7 @@ public class ToUpdateMissingCommand implements Command {
     MissingPeopleServiceImpl missingPeopleService = new MissingPeopleServiceImpl();
 
     @Override
-    public Router execute(HttpServletRequest request) {
+    public Router execute(HttpServletRequest request) throws CommandException {
         logger.debug( "execute method ToUpdateMissingCommand");
 
         Router router = new Router();
@@ -34,10 +35,11 @@ public class ToUpdateMissingCommand implements Command {
             request.setAttribute(ParameterAndAttribute.MISSING_PEOPLE,missingPeople);
         } catch (ServiceException e) {
             request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
-            request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e);
-            logger.error("ServiceException in method execute ToUpdateMissingCommand");
-            session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.ERROR_404);
-            router.setPagePath(PagePath.ERROR_404);
+            request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getMessage());
+            session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.ERROR_500);
+            router.setPagePath(PagePath.ERROR_500);
+            logger.error("ServiceException " + e);
+            throw new CommandException("Try to execute ToUpdateMissingCommand was failed",e);
         }
 
         router.setPagePath(PagePath.UPDATE_PAGE);

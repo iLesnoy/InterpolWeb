@@ -1,6 +1,7 @@
 package by.petrorvskiy.webtask.command.impl.admin;
 
 import by.petrorvskiy.webtask.command.*;
+import by.petrorvskiy.webtask.exception.CommandException;
 import by.petrorvskiy.webtask.exception.ServiceException;
 import by.petrorvskiy.webtask.model.service.impl.MissingPeopleServiceImpl;
 import by.petrorvskiy.webtask.model.service.impl.NewsFeedServiceImpl;
@@ -21,7 +22,7 @@ public class DeleteApplicationCommand implements Command {
     NewsFeedServiceImpl newsFeedService = new NewsFeedServiceImpl();
 
     @Override
-    public Router execute(HttpServletRequest request) {
+    public Router execute(HttpServletRequest request) throws CommandException {
         logger.debug("execute DeleteArticleCommand");
         Router router = new Router();
         HttpSession session = request.getSession();
@@ -32,7 +33,6 @@ public class DeleteApplicationCommand implements Command {
         long missingId;
 
         try {
-
             if (currentPage.equals(PagePath.TO_MISSING_PAGE)) {
                 missingId = Long.parseLong(request.getParameter(ParameterAndAttribute.MISSING_ID));
                 missingPeopleService.deleteMissedHumanById(missingId);
@@ -47,10 +47,11 @@ public class DeleteApplicationCommand implements Command {
             request.setAttribute(ParameterAndAttribute.MESSAGE, Message.APPLICATION_DELETED);
             router.setPagePath(currentPage);
         } catch (ServiceException e) {
-            logger.error("ServiceException  " + e.getMessage());
             request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
             request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getMessage());
             router.setPagePath(PagePath.ERROR_500);
+            logger.error("ServiceException " + e);
+            throw new CommandException("Try to execute DeleteApplicationCommand was failed",e);
         }
 
         return router;

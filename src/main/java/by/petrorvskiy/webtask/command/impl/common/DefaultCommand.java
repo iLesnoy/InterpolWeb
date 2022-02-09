@@ -15,7 +15,7 @@ public class DefaultCommand implements Command {
     public Router execute(HttpServletRequest request) {
         Router router = new Router();
         router.setPagePath(PagePath.MAIN);
-        logger.debug("unknown command");
+        logger.debug("Unknown command");
         return router;
     }
 }

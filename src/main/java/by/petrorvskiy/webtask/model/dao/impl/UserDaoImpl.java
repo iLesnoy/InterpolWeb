@@ -53,16 +53,18 @@ public class UserDaoImpl implements UserDao {
             PreparedStatement statement = connection.prepareStatement(SQL_FIND_USERS_BY_EMAIL_AND_PASSWORD)) {
             statement.setString(1, email);
             statement.setString(2, password);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                User user = createUser(resultSet);
-                optionalUser = Optional.of(user);
-                logger.info("user=" + optionalUser);
-            } else {
-                optionalUser = Optional.empty();
+            try(ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    User user = createUser(resultSet);
+                    optionalUser = Optional.of(user);
+                    logger.info("user=" + optionalUser);
+                } else {
+                    optionalUser = Optional.empty();
+                }
             }
         } catch (SQLException e) {
-            throw new DaoException("Dao exception in method findUserByEmailAndPassword");
+            logger.error( "SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
+            throw new DaoException("Dao exception in method findUserByEmailAndPassword",e);
         }
         return optionalUser;
     }
@@ -75,16 +77,18 @@ public class UserDaoImpl implements UserDao {
              PreparedStatement statement = connection.prepareStatement(SQL_FIND_USERS_BY_EMAIL)) {
 
             statement.setString(1, email);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                User user = createUser(resultSet);
-                optionalUser = Optional.of(user);
-                logger.info("user=" + optionalUser);
-            } else {
-                optionalUser = Optional.empty();
+            try(ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    User user = createUser(resultSet);
+                    optionalUser = Optional.of(user);
+                    logger.info("user=" + optionalUser);
+                } else {
+                    optionalUser = Optional.empty();
+                }
             }
         } catch (SQLException e) {
-            throw new DaoException("Dao exception in method findUserByEmail");
+            logger.error( "SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
+            throw new DaoException("Dao exception in method findUserByEmail",e);
         }
         return optionalUser;
     }
@@ -96,16 +100,18 @@ public class UserDaoImpl implements UserDao {
              PreparedStatement statement = connection.prepareStatement(SQL_FIND_USER_BY_ID)) {
             statement.setLong(1, userId);
 
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                User user = createUser(resultSet);
-                optionalUser = Optional.of(user);
-                logger.info("user=" + optionalUser);
-            } else {
-                optionalUser = Optional.empty();
+            try(ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    User user = createUser(resultSet);
+                    optionalUser = Optional.of(user);
+                    logger.info("user=" + optionalUser);
+                } else {
+                    optionalUser = Optional.empty();
+                }
             }
         } catch (SQLException e) {
-            throw new DaoException("Dao exception in method findUserById");
+            logger.error( "SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
+            throw new DaoException("Dao exception in method findUserById",e);
         }
         return optionalUser;
     }
@@ -117,11 +123,13 @@ public class UserDaoImpl implements UserDao {
             PreparedStatement statement = connection.prepareStatement(SQL_FIND_USERS_BY_NAME_AND_SURNAME)) {
             statement.setString(1, userName);
             statement.setString(2, userSurname);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                users.add(createUser(resultSet));
+            try(ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    users.add(createUser(resultSet));
+                }
             }
         } catch (SQLException e) {
+            logger.error( "SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
             throw new DaoException("Dao exception in method findUsersByNameAndSurname", e);
         }
         return users;
@@ -133,11 +141,13 @@ public class UserDaoImpl implements UserDao {
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_FIND_USERS_BY_NAME)) {
             statement.setString(1, userName);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                users.add(createUser(resultSet));
+            try(ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    users.add(createUser(resultSet));
+                }
             }
         } catch (SQLException e) {
+            logger.error( "SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
             throw new DaoException("Dao exception in method findUsersByName", e);
         }
         return users;
@@ -148,12 +158,13 @@ public class UserDaoImpl implements UserDao {
         List<User> users = new ArrayList<>();
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL_USERS)) {
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()){
+            try (ResultSet resultSet = statement.executeQuery()){
+            while (resultSet.next()) {
                 users.add(createUser(resultSet));
             }
+        }
         } catch (SQLException e) {
+            logger.error( "SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
             throw new DaoException("Dao exception in method findUsersAllUser", e);
         }
         return users;
@@ -165,11 +176,13 @@ public class UserDaoImpl implements UserDao {
         try (Connection connection = connectionPool.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_FIND_USERS_BY_STATUS)) {
             statement.setInt(1, userStatus);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                users.add(createUser(resultSet));
+            try(ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    users.add(createUser(resultSet));
+                }
             }
         } catch (SQLException e) {
+            logger.error( "SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
             throw new DaoException("Dao exception in method findUsersByUserStatus", e);
         }
         return users;
@@ -181,11 +194,13 @@ public class UserDaoImpl implements UserDao {
         try (Connection connection = connectionPool.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_FIND_USERS_BY_ROLE)) {
             statement.setString(1, userRole.name());
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                users.add(createUser(resultSet));
+            try(ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    users.add(createUser(resultSet));
+                }
             }
         } catch (SQLException e) {
+            logger.error( "SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
             throw new DaoException("Dao exception in method findUsersByRole", e);
         }
         return users;
@@ -197,12 +212,12 @@ public class UserDaoImpl implements UserDao {
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_FIND_USER_ID_BY_EMAIL)) {
             statement.setString(1, userEmail);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                userId = resultSet.getLong(1);
-                logger.info("founded user Id by email " +userId );
-            } 
-            
+            try(ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    userId = resultSet.getLong(1);
+                    logger.info("founded user Id by email " + userId);
+                }
+            }
         } catch (SQLException e) {
             logger.error("SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
             throw new DaoException("Dao exception in method findUserIdByEmail", e);
@@ -219,16 +234,17 @@ public class UserDaoImpl implements UserDao {
              PreparedStatement statement = connection.prepareStatement(SQL_FIND_USER_PASSWORD_BY_EMAIL)) {
             logger.debug("in try block findUserPasswordByEmail");
             statement.setString(1, userEmail);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                password = resultSet.getString(ColumnName.USER_PASSWORD);
-                optionalPassword = Optional.of(password);
-                logger.info("password=" + password);
-            } else {
-                optionalPassword = Optional.empty();
+            try(ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    password = resultSet.getString(ColumnName.USER_PASSWORD);
+                    optionalPassword = Optional.of(password);
+                    logger.info("password=" + password);
+                } else {
+                    optionalPassword = Optional.empty();
+                }
             }
         } catch (SQLException e) {
-            logger.error("SQLException in method findPasswordByLogin " + e.getMessage());
+            logger.error("SQLException in method findPasswordByLogin ",e);
             throw new DaoException("Dao exception", e);
         }
         return optionalPassword;
@@ -249,12 +265,10 @@ public class UserDaoImpl implements UserDao {
             if (rowCount != 0) {
                 userAdded = true;
                 logger.info("user added" + user);
-            } else {
-                logger.error("user was not added");
             }
         } catch (SQLException e) {
             logger.error("SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
-            throw new DaoException("Dao exception in method addUser, when we try to add user:" + user, e);
+            throw new DaoException("Dao exception in method addUser, when we try to add user", e);
         }
         return userAdded;
     }
@@ -269,9 +283,7 @@ public class UserDaoImpl implements UserDao {
             int rowCount = statement.executeUpdate();
             if (rowCount != 0) {
                 updateStatus = true;
-                logger.info("upd user account by id-" + userId + "status changed to " + status);
-            } else {
-                logger.error("upd user account by id- " + userId + " could not changed");
+                logger.info("upd user account by id " + userId + "status changed to " + status);
             }
         } catch (SQLException e) {
             logger.error("SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
@@ -368,7 +380,7 @@ public class UserDaoImpl implements UserDao {
         Role role = Role.valueOf(resultSet.getString(ColumnName.USER_ROLE).toUpperCase());
         Status status = Status.valueOf(resultSet.getString(ColumnName.USER_STATUS).toUpperCase());
 
-        User user = new User.UserBuilder()
+        return new User.UserBuilder()
                 .setUserid(userId)
                 .setEmail(email)
                 .setPassword(password)
@@ -377,6 +389,5 @@ public class UserDaoImpl implements UserDao {
                 .setRole(role)
                 .setStatus(status)
                 .build();
-        return user;
     }
 }

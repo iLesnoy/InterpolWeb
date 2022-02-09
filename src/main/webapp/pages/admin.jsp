@@ -202,7 +202,6 @@
                 <th><fmt:message key="label.reward"/></th>
                 <th><fmt:message key="label.crimeDOB"/></th>
                 <th><fmt:message key="label.crimeType"/></th>
-
             </tr>
 
             <c:forEach var="elem" items="${criminals_list}" varStatus="status">
@@ -215,7 +214,6 @@
                     <td><c:out value="${elem.reward }"/>$</td>
                     <td><c:out value="${elem.crimeDOB }"/></td>
                     <td><c:out value="${elem.crimeType }"/></td>
-
                 </tr>
             </c:forEach>
         </c:if>

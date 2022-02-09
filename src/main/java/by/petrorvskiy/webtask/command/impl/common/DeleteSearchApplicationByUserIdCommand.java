@@ -31,7 +31,7 @@ public class DeleteSearchApplicationByUserIdCommand implements Command {
         } catch (ServiceException e) {
             logger.error("ServiceException in method DeleteSearchApplicationByUserIdCommand " + e.getMessage());
             request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
-            request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e);
+            request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getMessage());
             router.setPagePath(PagePath.ERROR_500);
         }
 

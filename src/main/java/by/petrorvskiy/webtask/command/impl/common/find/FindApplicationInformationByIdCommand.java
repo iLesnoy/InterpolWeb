@@ -3,6 +3,7 @@ package by.petrorvskiy.webtask.command.impl.common.find;
 import by.petrorvskiy.webtask.command.*;
 import by.petrorvskiy.webtask.entity.MissingPeople;
 import by.petrorvskiy.webtask.entity.WantedCriminal;
+import by.petrorvskiy.webtask.exception.CommandException;
 import by.petrorvskiy.webtask.model.service.impl.MissingPeopleServiceImpl;
 import by.petrorvskiy.webtask.model.service.impl.SearchApplicationServiceImpl;
 import by.petrorvskiy.webtask.model.service.impl.WantedCriminalServiceImpl;
@@ -15,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 import java.util.Optional;
 
+
 public class FindApplicationInformationByIdCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private final SearchApplicationServiceImpl applicationService = new SearchApplicationServiceImpl();
@@ -22,7 +24,7 @@ public class FindApplicationInformationByIdCommand implements Command {
     private final WantedCriminalServiceImpl wantedCriminalService = new WantedCriminalServiceImpl();
 
     @Override
-    public Router execute(HttpServletRequest request) {
+    public Router execute(HttpServletRequest request) throws CommandException {
         logger.debug("execute method FindApplicationInformationByIdCommand");
         long missingPeopleId;
         long wantedCriminalId;
@@ -46,15 +48,12 @@ public class FindApplicationInformationByIdCommand implements Command {
             optionalMissingPeople = missingPeopleService.takeMissedHumanById(missingPeopleId);
             optionalWantedCriminal = wantedCriminalService.takeWantedCriminalById(wantedCriminalId);
 
-
-
             if (optionalMissingPeople.isPresent() && optionalWantedCriminal.isPresent()) {
                 wantedCriminal = optionalWantedCriminal.stream().toList();
                 missingPeople = optionalMissingPeople.stream().toList();
 
                 request.setAttribute(ParameterAndAttribute.WANTED_CRIMINAL, wantedCriminal);
                 request.setAttribute(ParameterAndAttribute.MISSING_PEOPLE, missingPeople);
-
 
             } else if (optionalWantedCriminal.isPresent()) {
                 wantedCriminal = optionalWantedCriminal.stream().toList();
@@ -69,10 +68,11 @@ public class FindApplicationInformationByIdCommand implements Command {
 
 
         } catch (ServiceException e) {
-            logger.error("ServiceException  " + e.getMessage());
-            request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
-            request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getMessage());
+            request.setAttribute(Message.EXCEPTION, "ServiceException");
+            request.setAttribute(Message.ERROR_MESSAGE, e.getMessage());
             router.setPagePath(PagePath.ERROR_500);
+            logger.error("ServiceException " + e);
+            throw new CommandException("Try to execute FindApplicationInformationByIdCommand was failed",e);
         }
         return router;
     }

@@ -57,7 +57,6 @@ public class SearchApplicationDaoImpl implements SearchApplicationDao {
             preparedStatement.setLong(3, application.getUserId());
             int rowCount = preparedStatement.executeUpdate();
 
-
             if (rowCount != 0) {
                 applicationAdd = true;
                 logger.info( "application added" + application);
@@ -80,8 +79,6 @@ public class SearchApplicationDaoImpl implements SearchApplicationDao {
             if (rowCount != 0) {
                 updateSearchApplication = true;
                 logger.info("application by id-" + applicationId + " status changed to " +status);
-            } else {
-                logger.error( "application by id-" + applicationId + " not changed");
             }
         } catch (SQLException e) {
             logger.error( "SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
@@ -139,13 +136,14 @@ public class SearchApplicationDaoImpl implements SearchApplicationDao {
         try (Connection connection = connectionPool.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_FIND_APPLICATION_BY_USER_ID_AND_WANTED_ID)) {
             statement.setLong(1, userId);
-            ResultSet resultSet = statement.executeQuery();
+            try(ResultSet resultSet = statement.executeQuery()){
 
-            if (resultSet.next()) {
-                SearchApplication application = createApplication(resultSet);
-                findApplicationByUserIdAndWantedId = Optional.of(application);
-            } else {
-                findApplicationByUserIdAndWantedId = Optional.empty();
+                if (resultSet.next()) {
+                    SearchApplication application = createApplication(resultSet);
+                    findApplicationByUserIdAndWantedId = Optional.of(application);
+                } else {
+                    findApplicationByUserIdAndWantedId = Optional.empty();
+                }
             }
 
 
@@ -162,15 +160,15 @@ public class SearchApplicationDaoImpl implements SearchApplicationDao {
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_FIND_APPLICATION_BY_USER_ID_AND_MISSING_ID)) {
             statement.setLong(1,userId);
-            ResultSet resultSet = statement.executeQuery();
+            try(ResultSet resultSet = statement.executeQuery()) {
 
-            if (resultSet.next()) {
-                SearchApplication application = createApplication(resultSet);
-                findApplicationByUserIdAndMissingId = Optional.of(application);
-            } else {
-                findApplicationByUserIdAndMissingId = Optional.empty();
+                if (resultSet.next()) {
+                    SearchApplication application = createApplication(resultSet);
+                    findApplicationByUserIdAndMissingId = Optional.of(application);
+                } else {
+                    findApplicationByUserIdAndMissingId = Optional.empty();
+                }
             }
-
 
         } catch (SQLException e) {
             logger.error( "SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
@@ -185,9 +183,10 @@ public class SearchApplicationDaoImpl implements SearchApplicationDao {
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_TAKE_ALL_SEARCH_APPLICATION)) {
 
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                searchApplications.add(createApplication(resultSet));
+            try(ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    searchApplications.add(createApplication(resultSet));
+                }
             }
         } catch (SQLException e) {
             throw new DaoException("Dao exception in method findAllSearchApplications", e);
@@ -200,7 +199,6 @@ public class SearchApplicationDaoImpl implements SearchApplicationDao {
         boolean deletedSearchApplication;
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_DELETE_SEARCH_APPLICATION_BY_ID)) {
-            logger.debug( "in try block");
             statement.setLong(1, applicationId);
             statement.setLong(2, userId);
             int row = statement.executeUpdate();
@@ -212,7 +210,7 @@ public class SearchApplicationDaoImpl implements SearchApplicationDao {
             }
         } catch (SQLException e) {
             logger.error( "SQLException in method deleteSearchApplicationByUserId " + e.getMessage());
-            throw new DaoException("Dao epam.task.web.exception in method deleteSearchApplicationByUserId", e);
+            throw new DaoException("Dao exception in method deleteSearchApplicationByUserId", e);
         }
         return deletedSearchApplication;
     }
@@ -222,16 +220,17 @@ public class SearchApplicationDaoImpl implements SearchApplicationDao {
         Optional<SearchApplication> searchApplication;
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_TAKE_SEARCH_APPLICATION_BY_ID)) {
-            logger.debug( "in try block");
+
             statement.setLong(1, applicationId);
-            ResultSet resultSet = statement.executeQuery();
+            try (ResultSet resultSet = statement.executeQuery()){
             if (resultSet.next()) {
                 SearchApplication application = createApplication(resultSet);
                 searchApplication = Optional.of(application);
-                logger.info( "application =" + application);
+                logger.info("application =" + application);
             } else {
                 searchApplication = Optional.empty();
             }
+        }
         } catch (SQLException e) {
             logger.error( "SQLException in method takeSearchApplicationById " + e.getMessage());
             throw new DaoException("Dao exception", e);
@@ -245,11 +244,12 @@ public class SearchApplicationDaoImpl implements SearchApplicationDao {
         try (Connection connection = connectionPool.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_TAKE_SEARCH_APPLICATION_BY_USER_ID)) {
             preparedStatement.setLong(1, userId);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            try(ResultSet resultSet = preparedStatement.executeQuery()) {
 
-            while (resultSet.next()) {
-                SearchApplication application = createApplication(resultSet);
-                userApplications.add(application);
+                while (resultSet.next()) {
+                    SearchApplication application = createApplication(resultSet);
+                    userApplications.add(application);
+                }
             }
 
         } catch (SQLException e) {
@@ -265,10 +265,11 @@ public class SearchApplicationDaoImpl implements SearchApplicationDao {
         try(Connection connection = connectionPool.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SQL_TAKE_GUILTY_ID_BY_APPLICATION_ID)){
             preparedStatement.setLong(1, applicationId);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                guiltyId = resultSet.getLong(ParameterAndAttribute.APPLICATION_GUILTY_ID);
-                logger.info( "guiltyId =" + guiltyId);
+            try(ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    guiltyId = resultSet.getLong(ParameterAndAttribute.APPLICATION_GUILTY_ID);
+                    logger.info("guiltyId =" + guiltyId);
+                }
             }
 
         } catch (SQLException e) {
@@ -284,12 +285,11 @@ public class SearchApplicationDaoImpl implements SearchApplicationDao {
         try(Connection connection = connectionPool.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_APPLICATION_ID_BY_USER_ID)){
             preparedStatement.setLong(1, userId);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-
-                findApplicationIdByUserId = Optional.of(resultSet.getLong(ColumnName.SEARCH_APPLICATION_ID));
-
-                logger.debug( "findApplicationId by userId " +   findApplicationIdByUserId.get());
+            try(ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    findApplicationIdByUserId = Optional.of(resultSet.getLong(ColumnName.SEARCH_APPLICATION_ID));
+                    logger.debug("findApplicationId by userId " + findApplicationIdByUserId.get());
+                }
             }
 
         } catch (SQLException e) {
@@ -306,11 +306,12 @@ public class SearchApplicationDaoImpl implements SearchApplicationDao {
         try(Connection connection = connectionPool.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_TAKE_MISSING_PEOPLE_ID_BY_APPLICATION_ID)){
             preparedStatement.setLong(1, applicationId);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            try(ResultSet resultSet = preparedStatement.executeQuery()) {
 
-            if (resultSet.next()) {
-                missingPeopleId = resultSet.getLong(ParameterAndAttribute.APPLICATION_MISSING_PEOPLE_ID);
-                logger.info( "missingPeopleId =" + missingPeopleId);
+                if (resultSet.next()) {
+                    missingPeopleId = resultSet.getLong(ParameterAndAttribute.APPLICATION_MISSING_PEOPLE_ID);
+                    logger.info("missingPeopleId =" + missingPeopleId);
+                }
             }
         } catch (SQLException e) {
             logger.error( "SQLException in method findMissingPeopleId " + e.getMessage());

@@ -36,7 +36,8 @@ public class MissingPeopleServiceImpl implements MissingPeopleService {
             addMissedPeople = true;
         } catch (DaoException e) {
             logger.info("DaoException in method addMissedPeople" + e);
-            throw new ServiceException(e);
+            throw new ServiceException("Service exception",e);
+
         }
         return addMissedPeople;
     }
@@ -56,7 +57,7 @@ public class MissingPeopleServiceImpl implements MissingPeopleService {
             updateMissingPeopleById = true;
         } catch (DaoException e) {
             logger.info("DaoException in method updateMissingPeopleById", e);
-            throw new ServiceException(e);
+            throw new ServiceException("Service exception",e);
         }
         return updateMissingPeopleById;
     }
@@ -69,7 +70,7 @@ public class MissingPeopleServiceImpl implements MissingPeopleService {
             deleteMissedHumanById = true;
         } catch (DaoException e) {
             logger.info("DaoException in method deleteMissedHumanById", e);
-            throw new ServiceException(e);
+            throw new ServiceException("Service exception",e);
         }
         return deleteMissedHumanById;
     }
@@ -81,7 +82,7 @@ public class MissingPeopleServiceImpl implements MissingPeopleService {
             findAllMissingPeople = missingPeopleDao.findAllMissingPeople();
         } catch (DaoException e) {
             logger.info("DaoException in method findAllMissingPeople", e);
-            throw new ServiceException(e);
+            throw new ServiceException("Service exception",e);
         }
         return findAllMissingPeople;
     }
@@ -93,7 +94,7 @@ public class MissingPeopleServiceImpl implements MissingPeopleService {
             optionalMissingPeople = missingPeopleDao.takeMissedHumanById(id);
         } catch (DaoException e) {
             logger.info("DaoException in method takeMissedHumanById", e);
-            throw new ServiceException(e);
+            throw new ServiceException("Service exception",e);
         }
         return optionalMissingPeople;
     }
@@ -105,7 +106,7 @@ public class MissingPeopleServiceImpl implements MissingPeopleService {
             missingPeople = missingPeopleDao.findAllMissingPeopleByName(name);
         } catch (DaoException e) {
             logger.info("DaoException in method findAllMissingPeopleByName", e);
-            throw new ServiceException(e);
+            throw new ServiceException("Service exception",e);
         }
         return missingPeople;
     }

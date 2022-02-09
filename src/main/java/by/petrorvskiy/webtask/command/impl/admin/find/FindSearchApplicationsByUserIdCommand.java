@@ -2,6 +2,7 @@ package by.petrorvskiy.webtask.command.impl.admin.find;
 
 import by.petrorvskiy.webtask.command.*;
 import by.petrorvskiy.webtask.entity.SearchApplication;
+import by.petrorvskiy.webtask.exception.CommandException;
 import by.petrorvskiy.webtask.model.service.impl.SearchApplicationServiceImpl;
 import by.petrorvskiy.webtask.exception.ServiceException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,7 +16,7 @@ public class FindSearchApplicationsByUserIdCommand implements Command {
     private SearchApplicationServiceImpl searchApplicationService = new SearchApplicationServiceImpl();
 
     @Override
-    public Router execute(HttpServletRequest request) {
+    public Router execute(HttpServletRequest request) throws CommandException {
         logger.debug("execute FindSearchApplicationsByUserIdCommand");
         List<SearchApplication> searchApplications;
         Router router = new Router();
@@ -30,16 +31,13 @@ public class FindSearchApplicationsByUserIdCommand implements Command {
             logger.debug("searchApplication "+ searchApplications);
             router.setPagePath(page);
 
-
-
         } catch (ServiceException e) {
-            logger.error("ServiceException in method FindAllSearchApplicationsByUserIdCommand " + e.getMessage());
-            request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
-            request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e);
+            request.setAttribute(ParameterAndAttribute.MESSAGE, "ServiceException");
+            request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getMessage());
             router.setPagePath(PagePath.ERROR_500);
+            logger.error("ServiceException " + e);
+            throw new CommandException("Try to execute FindAllSearchApplicationsByUserIdCommand was failed",e);
         }
-
-
         return router;
     }
 }

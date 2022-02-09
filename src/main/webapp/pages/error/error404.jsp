@@ -11,7 +11,7 @@
 Request from ${pageContext.errorData.requestURI} is failed<br/>
 Status code : ${pageContext.errorData.statusCode}<br/>
 Servlet name : ${pageContext.errorData.servletName}<br/>
-Exception: ${pageContext.exception}<br/>
+Exception: ${pageContext.exception} Message:${error}<br/>
 <c:forEach var="trace" items="${pageContext.exception.stackTrace}">
     ${trace}<br/>
 </c:forEach>

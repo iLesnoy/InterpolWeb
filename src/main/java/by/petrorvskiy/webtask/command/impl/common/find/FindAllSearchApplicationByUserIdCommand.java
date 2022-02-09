@@ -3,6 +3,7 @@ package by.petrorvskiy.webtask.command.impl.common.find;
 import by.petrorvskiy.webtask.command.*;
 import by.petrorvskiy.webtask.entity.SearchApplication;
 import by.petrorvskiy.webtask.entity.User;
+import by.petrorvskiy.webtask.exception.CommandException;
 import by.petrorvskiy.webtask.model.service.impl.SearchApplicationServiceImpl;
 import by.petrorvskiy.webtask.exception.ServiceException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,7 +19,7 @@ public class FindAllSearchApplicationByUserIdCommand implements Command {
     private final SearchApplicationServiceImpl applicationService = new SearchApplicationServiceImpl();
 
     @Override
-    public Router execute(HttpServletRequest request) {
+    public Router execute(HttpServletRequest request) throws CommandException {
         logger.debug("execute FindAllSearchApplicationByUserIdCommand ");
 
         List<SearchApplication> searchApplications;
@@ -29,8 +30,6 @@ public class FindAllSearchApplicationByUserIdCommand implements Command {
         User user = (User) session.getAttribute(ParameterAndAttribute.USER);
         long userId = user.getUserId();
         logger.debug("userId " + userId);
-
-
         try {
             searchApplications = applicationService.findApplicationsByUserId(userId);
             router.setPagePath(page);
@@ -38,10 +37,11 @@ public class FindAllSearchApplicationByUserIdCommand implements Command {
 
 
         } catch (ServiceException e) {
-            logger.error("ServiceException in method findApplicationsByUserId " + e.getMessage());
-            request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
-            request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getMessage());
+            request.setAttribute(Message.EXCEPTION, "ServiceException");
+            request.setAttribute(Message.ERROR_MESSAGE, e.getMessage());
             router.setPagePath(PagePath.ERROR_500);
+            logger.error("ServiceException " + e);
+            throw new CommandException("Try to execute FindAllSearchApplicationByUserIdCommand was failed",e);
         }
 
 

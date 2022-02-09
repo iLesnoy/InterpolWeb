@@ -1,6 +1,7 @@
 package by.petrorvskiy.webtask.command.impl.common.find;
 
 import by.petrorvskiy.webtask.entity.NewsFeed;
+import by.petrorvskiy.webtask.exception.CommandException;
 import by.petrorvskiy.webtask.model.service.impl.NewsFeedServiceImpl;
 import by.petrorvskiy.webtask.exception.ServiceException;
 import by.petrorvskiy.webtask.command.Command;
@@ -23,7 +24,7 @@ public class FindNewsCommand implements Command {
 
 
     @Override
-    public Router execute(HttpServletRequest request) {
+    public Router execute(HttpServletRequest request) throws CommandException {
         Router router = new Router();
         NewsFeed newsFeed;
         HttpSession session = request.getSession();
@@ -41,10 +42,11 @@ public class FindNewsCommand implements Command {
                     request.setAttribute(ParameterAndAttribute.MESSAGE, Message.UNKNOWN_PROBLEM);
                 }
             } catch (ServiceException e) {
-            logger.error("ServiceException  " + e.getMessage());
-            request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
-            request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getMessage());
+            request.setAttribute(Message.EXCEPTION, "ServiceException");
+            request.setAttribute(Message.ERROR_MESSAGE, e.getMessage());
             router.setPagePath(PagePath.ERROR_500);
+            logger.error("ServiceException " + e);
+            throw new CommandException("Try to execute FindNewsCommand was failed",e);
             }
         return router;
     }

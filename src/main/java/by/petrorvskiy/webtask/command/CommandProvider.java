@@ -19,7 +19,6 @@ public class CommandProvider {
     public static Command defineCommand(HttpServletRequest request) {
         String command = request.getParameter(ParameterAndAttribute.COMMAND);
 
-
         if (command == null) {
             logger.info( "command is empty");
             return CommandType.DEFAULT.getCommand();

@@ -1,6 +1,7 @@
 package by.petrorvskiy.webtask.command.impl.signin;
 
 import by.petrorvskiy.webtask.entity.User;
+import by.petrorvskiy.webtask.exception.CommandException;
 import by.petrorvskiy.webtask.exception.ServiceException;
 import by.petrorvskiy.webtask.command.Command;
 import by.petrorvskiy.webtask.command.Message;
@@ -16,13 +17,14 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Optional;
 
+
 public class LogInCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private final UserService userService = new UserServiceImpl();
 
 
     @Override
-    public Router execute(HttpServletRequest request) {
+    public Router execute(HttpServletRequest request) throws CommandException {
         String email = request.getParameter(ParameterAndAttribute.USER_EMAIL);
         String password = request.getParameter(ParameterAndAttribute.USER_PASSWORD);
 
@@ -39,17 +41,17 @@ public class LogInCommand implements Command {
                         session.setAttribute(ParameterAndAttribute.USER,user);
                         session.setAttribute(ParameterAndAttribute.USER_PASSWORD,password);
                         router.setPagePath(PagePath.MAIN);
-
             } else {
                 router.setPagePath(PagePath.MAIN);
                 request.setAttribute(ParameterAndAttribute.MESSAGE, Message.INCORRECT_EMAIL_OR_LOGIN);
             }
 
         } catch (ServiceException e) {
-            logger.error("UserServiceException in LogInCommand" + e.getMessage());
             request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
-            request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getMessage());
+            request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e);
             router.setPagePath(PagePath.ERROR_500);
+            logger.error("ServiceException " + e);
+            throw new CommandException("Try to execute LogInCommand was failed",e);
         }
 
         return router;

@@ -1,6 +1,7 @@
 package by.petrorvskiy.webtask.command.impl.admin.update;
 
 import by.petrorvskiy.webtask.command.*;
+import by.petrorvskiy.webtask.exception.CommandException;
 import by.petrorvskiy.webtask.exception.ServiceException;
 import by.petrorvskiy.webtask.entity.User;
 import by.petrorvskiy.webtask.model.service.UserService;
@@ -17,7 +18,7 @@ public class UpdateUserRoleCommand implements Command {
 
 
     @Override
-    public Router execute(HttpServletRequest request) {
+    public Router execute(HttpServletRequest request) throws CommandException {
         Router router = new Router();
         HttpSession session = request.getSession();
         boolean isChanged;
@@ -40,10 +41,11 @@ public class UpdateUserRoleCommand implements Command {
                 session.setAttribute(ParameterAndAttribute.MESSAGE, Message.UNSUCCESSFUL);
             }
         } catch (ServiceException e) {
-            logger.error("UserServiceException in method execute updateUserRole" + e.getMessage());
-            request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
-            request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getMessage());
+            request.setAttribute(Message.EXCEPTION, "ServiceException");
+            request.setAttribute(Message.ERROR_MESSAGE, e.getMessage());
             router.setPagePath(PagePath.ERROR_500);
+            logger.error("ServiceException " + e);
+            throw new CommandException("Try to execute updateUserRole was failed",e);
         }
         return router;
     }

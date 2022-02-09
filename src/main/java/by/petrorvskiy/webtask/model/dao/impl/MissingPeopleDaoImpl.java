@@ -59,7 +59,7 @@ public class MissingPeopleDaoImpl implements MissingPeopleDao {
 
         } catch (SQLException e) {
             logger.error("SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
-            throw new DaoException("Dao exception in method addMissedPeople, when we try to add user:" + people, e);
+            throw new DaoException("Dao exception in method addMissedPeople, when we try to add user", e);
         }
         return missingPeopleAdded;
     }
@@ -83,7 +83,7 @@ public class MissingPeopleDaoImpl implements MissingPeopleDao {
 
         } catch (SQLException e) {
             logger.error("SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
-            throw new DaoException("Dao exception in method updateMissingPeopleById" + missingPeople, e);
+            throw new DaoException("Dao exception in method updateMissingPeopleById", e);
         }
         return missingPeopleUpdate;
     }
@@ -99,7 +99,7 @@ public class MissingPeopleDaoImpl implements MissingPeopleDao {
 
         } catch (SQLException e) {
             logger.error("SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
-            throw new DaoException("Dao exception in method deleteMissedHumanById, when we try to delete human by id:" + humanId, e);
+            throw new DaoException("Dao exception in method deleteMissedHumanById, when we try to delete human by id", e);
         }
         return deleteHuman;
     }
@@ -110,9 +110,10 @@ public class MissingPeopleDaoImpl implements MissingPeopleDao {
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL_MISSING_PEOPLE)) {
 
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                findAllMissingPeople.add(createMissingPeople(resultSet));
+            try (ResultSet resultSet = statement.executeQuery()){
+                while (resultSet.next()) {
+                    findAllMissingPeople.add(createMissingPeople(resultSet));
+                }
             }
 
         } catch (SQLException e) {
@@ -129,14 +130,15 @@ public class MissingPeopleDaoImpl implements MissingPeopleDao {
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_MISSING_PEOPLE_SEARCH_BY_ID)) {
             statement.setLong(1, id);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                MissingPeople missedPeople = createMissingPeople(resultSet);
-                missingPeople = Optional.of(missedPeople);
-                logger.info("takenHumanById " + missedPeople);
-            } else {
-                logger.info("article was not found");
-                missingPeople = Optional.empty();
+            try(ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    MissingPeople missedPeople = createMissingPeople(resultSet);
+                    missingPeople = Optional.of(missedPeople);
+                    logger.info("takenHumanById " + missedPeople);
+                } else {
+                    logger.info("article was not found");
+                    missingPeople = Optional.empty();
+                }
             }
         } catch (SQLException e) {
             logger.error("SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
@@ -151,11 +153,13 @@ public class MissingPeopleDaoImpl implements MissingPeopleDao {
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL_MISSING_PEOPLE_BY_NAME)) {
             statement.setString(1, name);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                missingPeople.add(createMissingPeople(resultSet));
+            try(ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    missingPeople.add(createMissingPeople(resultSet));
+                }
             }
         } catch (SQLException e) {
+            logger.error("SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
             throw new DaoException("Dao exception in method findAllMissingPeopleByName", e);
         }
         return missingPeople;

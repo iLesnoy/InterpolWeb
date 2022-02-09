@@ -1,5 +1,6 @@
 package by.petrorvskiy.webtask.command.impl.signin;
 
+import by.petrorvskiy.webtask.exception.CommandException;
 import by.petrorvskiy.webtask.exception.ServiceException;
 import by.petrorvskiy.webtask.command.Command;
 import by.petrorvskiy.webtask.command.Message;
@@ -22,7 +23,7 @@ public class SignUpCommand implements Command {
     private final UserService userService = new UserServiceImpl();
 
     @Override
-    public Router execute(HttpServletRequest request) {
+    public Router execute(HttpServletRequest request) throws CommandException {
         Router router = new Router();
         Map<String, String> userData = new HashMap<>();
         String email = request.getParameter(ParameterAndAttribute.USER_EMAIL);
@@ -54,10 +55,11 @@ public class SignUpCommand implements Command {
                     request.setAttribute(ParameterAndAttribute.MESSAGE, Message.USER_ALREADY_EXIST);
                 }
             } catch (ServiceException e) {
-                logger.error("Registration command exception" + e.getMessage());
                 request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
                 request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getMessage());
                 router.setPagePath(PagePath.ERROR_500);
+                logger.error("ServiceException " + e);
+                throw new CommandException("Try to execute SignUpCommand was failed",e);
             }
         } else {
             router.setPagePath(PagePath.SIGN_UP);

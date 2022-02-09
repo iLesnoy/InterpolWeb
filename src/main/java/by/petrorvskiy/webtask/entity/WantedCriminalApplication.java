@@ -5,9 +5,7 @@ public class WantedCriminalApplication {
     private long searchApplicationId;
     private long guiltyId;
 
-    public WantedCriminalApplication(long searchApplicationId, long guiltyId) {
-        this.searchApplicationId = searchApplicationId;
-        this.guiltyId = guiltyId;
+    public WantedCriminalApplication() {
     }
 
     public long getSearchApplicationId() {

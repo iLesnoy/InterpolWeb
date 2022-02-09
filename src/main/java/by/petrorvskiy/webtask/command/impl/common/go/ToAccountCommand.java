@@ -1,6 +1,7 @@
 package by.petrorvskiy.webtask.command.impl.common.go;
 
 import by.petrorvskiy.webtask.entity.SearchApplication;
+import by.petrorvskiy.webtask.exception.CommandException;
 import by.petrorvskiy.webtask.model.service.impl.SearchApplicationServiceImpl;
 import by.petrorvskiy.webtask.exception.ServiceException;
 import by.petrorvskiy.webtask.command.Command;
@@ -24,7 +25,7 @@ public class ToAccountCommand implements Command {
     private final SearchApplicationServiceImpl applicationService = new SearchApplicationServiceImpl();
 
     @Override
-    public Router execute(HttpServletRequest request) {
+    public Router execute(HttpServletRequest request) throws CommandException {
         logger.info("ToAccountPage");
         Router router = new Router();
         HttpSession session = request.getSession();
@@ -57,11 +58,12 @@ public class ToAccountCommand implements Command {
                         router.setPagePath(ACCOUNT);
 
                     } catch (ServiceException e) {
-                        logger.error("ServiceException" + e);
-                        request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
-                        request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e);
+                        request.setAttribute(Message.EXCEPTION, "ServiceException");
+                        request.setAttribute(Message.ERROR_MESSAGE, e.getMessage());
                         session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.ERROR_404);
-                        router.setPagePath(PagePath.ERROR_404);
+                        router.setPagePath(ERROR_404);
+                        logger.error("ServiceException " + e);
+                        throw new CommandException("Try to execute ToAccountCommand was failed",e);
                     }
                     session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, TO_ACCOUNT_PAGE);
                     router.setPagePath(PagePath.USER);

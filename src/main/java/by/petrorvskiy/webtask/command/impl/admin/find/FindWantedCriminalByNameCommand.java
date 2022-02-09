@@ -1,6 +1,7 @@
 package by.petrorvskiy.webtask.command.impl.admin.find;
 
 import by.petrorvskiy.webtask.command.*;
+import by.petrorvskiy.webtask.exception.CommandException;
 import by.petrorvskiy.webtask.exception.ServiceException;
 import by.petrorvskiy.webtask.entity.WantedCriminal;
 import by.petrorvskiy.webtask.model.service.WantedCriminalService;
@@ -15,42 +16,40 @@ import java.util.Optional;
 
 import static by.petrorvskiy.webtask.command.ParameterAndAttribute.CRIMINALS_LIST;
 
+
 public class FindWantedCriminalByNameCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private final WantedCriminalService wantedCriminalService = new WantedCriminalServiceImpl();
 
     @Override
-    public Router execute(HttpServletRequest request) {
+    public Router execute(HttpServletRequest request) throws CommandException {
         Router router = new Router();
         HttpSession session = request.getSession();
         String page = (String) session.getAttribute(ParameterAndAttribute.CURRENT_PAGE);
         String criminalName = request.getParameter(ParameterAndAttribute.USER_NAME);
 
         logger.debug( "find wantedCriminals by name: " + criminalName);
-        Optional<WantedCriminal> wantedCriminals;
+        Optional<WantedCriminal> optionalWantedCriminal;
         List<WantedCriminal> wantedCriminalList;
 
-
         try{
-
-            wantedCriminals = wantedCriminalService.findAllCriminalsByName(criminalName);
-            wantedCriminalList = wantedCriminals.stream().toList();
+            optionalWantedCriminal = wantedCriminalService.findAllCriminalsByName(criminalName);
+            wantedCriminalList = optionalWantedCriminal.stream().toList();
             router.setPagePath(page);
 
-            if(wantedCriminals.isPresent()){
-
+            if(optionalWantedCriminal.isPresent()){
                 request.setAttribute(CRIMINALS_LIST,wantedCriminalList);
                 logger.debug(request.getAttribute(CRIMINALS_LIST));
-
             } else {
                 session.setAttribute(ParameterAndAttribute.MESSAGE, Message.ERROR_MESSAGE);
             }
 
         }catch (ServiceException e) {
-            logger.error("ServiceException in method execute");
             request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
             request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getMessage());
             router.setPagePath(PagePath.ERROR_500);
+            logger.error("ServiceException " + e);
+            throw new CommandException("Try to execute FindWantedCriminalByNameCommand was failed",e);
         }
         return router;
     }

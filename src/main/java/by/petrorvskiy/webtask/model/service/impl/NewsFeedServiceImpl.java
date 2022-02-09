@@ -36,7 +36,7 @@ public class NewsFeedServiceImpl implements NewsFeedService {
 
         } catch (DaoException e) {
             logger.error("DaoException in method addArticle", e);
-            throw new ServiceException(e);
+            throw new ServiceException("Service exception",e);
         }
         return articleAdded;
     }
@@ -68,7 +68,7 @@ public class NewsFeedServiceImpl implements NewsFeedService {
 
         } catch (DaoException e) {
             logger.error("DaoException in method findAllNews", e);
-            throw new ServiceException(e);
+            throw new ServiceException("Service exception",e);
         }
 
         return news;
@@ -82,7 +82,7 @@ public class NewsFeedServiceImpl implements NewsFeedService {
             deleteArticle = newsFeedDao.deleteArticleById(articleId);
         } catch (DaoException e) {
             logger.error("DaoException in method deleteArticleById", e);
-            throw new ServiceException(e);
+            throw new ServiceException("Service exception",e);
         }
         return deleteArticle;
     }
@@ -93,10 +93,9 @@ public class NewsFeedServiceImpl implements NewsFeedService {
 
         try {
             news = newsFeedDao.takeArticleById(newsId);
-
         } catch (DaoException e) {
             logger.error("DaoException in method takeArticleById", e);
-            throw new ServiceException(e);
+            throw new ServiceException("Service exception",e);
         }
         return news;
     }

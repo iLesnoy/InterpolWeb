@@ -2,6 +2,7 @@ package by.petrorvskiy.webtask.command.impl.admin.find;
 
 import by.petrorvskiy.webtask.command.*;
 import by.petrorvskiy.webtask.entity.User;
+import by.petrorvskiy.webtask.exception.CommandException;
 import by.petrorvskiy.webtask.model.service.impl.UserServiceImpl;
 import by.petrorvskiy.webtask.exception.ServiceException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,8 +18,8 @@ public class FindAllUsersCommand implements Command {
     private final int startRow = 0;
 
     @Override
-    public Router execute(HttpServletRequest request) {
-        logger.debug("FindAllUserCommand method");
+    public Router execute(HttpServletRequest request) throws CommandException {
+        logger.debug("FindAllUsersCommand method");
         int numberOfPages;
         List<User>users;
         Router router = new Router();
@@ -32,13 +33,14 @@ public class FindAllUsersCommand implements Command {
             request.setAttribute(ParameterAndAttribute.USER_ROLE,User.Role.values());
             request.setAttribute(ParameterAndAttribute.LIST, users);
             session.setAttribute(ParameterAndAttribute.NUMBER_OF_PAGES, numberOfPages);
-            session.setAttribute(ParameterAndAttribute.MESSAGE_FOR_USER, Message.SUCCESSFUL);
+            session.setAttribute(ParameterAndAttribute.MESSAGE, Message.SUCCESSFUL);
 
         } catch (ServiceException e) {
-            logger.error( "UserServiceException in method execute");
             request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
-            request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e);
-            router.setPagePath(PagePath.ERROR_404);
+            request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getMessage());
+            router.setPagePath(PagePath.ERROR_500);
+            logger.error("ServiceException " + e);
+            throw new CommandException("Try to execute FindAllUsersCommand was failed",e);
         }
 
         return router;

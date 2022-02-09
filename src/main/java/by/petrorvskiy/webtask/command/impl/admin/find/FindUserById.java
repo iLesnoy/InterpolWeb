@@ -2,6 +2,7 @@ package by.petrorvskiy.webtask.command.impl.admin.find;
 
 import by.petrorvskiy.webtask.command.*;
 import by.petrorvskiy.webtask.entity.User;
+import by.petrorvskiy.webtask.exception.CommandException;
 import by.petrorvskiy.webtask.exception.ServiceException;
 import by.petrorvskiy.webtask.model.service.impl.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,7 +18,7 @@ public class FindUserById implements Command {
     private static final UserServiceImpl userService = new UserServiceImpl();
 
     @Override
-    public Router execute(HttpServletRequest request) {
+    public Router execute(HttpServletRequest request) throws CommandException {
         Router router = new Router();
         HttpSession session = request.getSession();
         String page = (String) session.getAttribute(ParameterAndAttribute.CURRENT_PAGE);
@@ -35,10 +36,11 @@ public class FindUserById implements Command {
             }
 
         } catch (ServiceException e) {
-            logger.error("ServiceException in method findUserById");
             request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
             request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getMessage());
             router.setPagePath(PagePath.ERROR_500);
+            logger.error("ServiceException " + e);
+            throw new CommandException("Try to execute findUserById was failed",e);
         }
         return router;
     }

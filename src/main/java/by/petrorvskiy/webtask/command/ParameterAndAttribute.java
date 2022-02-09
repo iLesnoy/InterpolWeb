@@ -18,7 +18,6 @@ public class ParameterAndAttribute {
     public static final String EXCEPTION = "EXCEPTION";
     public static final String ERROR_MESSAGE = "error_message";
 
-
     public static final String CURRENT_PAGE = "current_page";
     public static final String SESSION_LOCALE="locale";
     public static final String LANGUAGE="language";
@@ -36,7 +35,6 @@ public class ParameterAndAttribute {
     public static final String CRIMINALS_LIST = "criminals_list";
     public static final String CRIME_CITY = "crimeCity";
     public static final String COMMAND = "command";
-    public static final String MESSAGE_FOR_USER = "message_for_user";
     public static final String APPLICATIONS = "applications";
     public static final String APPLICATION_ID = "searchApplicationId";
     public static final String GUILTY_ID = "guiltyId";

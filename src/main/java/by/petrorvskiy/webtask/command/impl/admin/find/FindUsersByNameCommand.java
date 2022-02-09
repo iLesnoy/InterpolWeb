@@ -1,6 +1,7 @@
 package by.petrorvskiy.webtask.command.impl.admin.find;
 
 import by.petrorvskiy.webtask.entity.User;
+import by.petrorvskiy.webtask.exception.CommandException;
 import by.petrorvskiy.webtask.exception.ServiceException;
 import by.petrorvskiy.webtask.command.Command;
 import by.petrorvskiy.webtask.command.PagePath;
@@ -20,17 +21,17 @@ import static by.petrorvskiy.webtask.command.ParameterAndAttribute.LIST;
 
 public class FindUsersByNameCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
-    private UserService userService = new UserServiceImpl();
+    private final UserService userService = new UserServiceImpl();
 
     @Override
-    public Router execute(HttpServletRequest request) {
+    public Router execute(HttpServletRequest request) throws CommandException {
         Router router = new Router();
         HttpSession session = request.getSession();
 
         String page = (String) session.getAttribute(ParameterAndAttribute.CURRENT_PAGE);
         String userName = request.getParameter(ParameterAndAttribute.USER_NAME);
 
-        logger.debug("find user by name: " + userName);
+        logger.debug("Find user by name: " + userName);
         List<User> users;
         try {
 
@@ -41,16 +42,16 @@ public class FindUsersByNameCommand implements Command {
                 request.setAttribute(ParameterAndAttribute.USER_ROLE, User.Role.values());
                 request.setAttribute(ParameterAndAttribute.LIST, users);
                 logger.debug(request.getAttribute(LIST));
-
             } else {
                 session.setAttribute(ParameterAndAttribute.MESSAGE, Message.ERROR_MESSAGE);
             }
 
         } catch (ServiceException e) {
-            logger.error("ServiceException in method execute");
             request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
             request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getMessage());
             router.setPagePath(PagePath.ERROR_500);
+            logger.error("ServiceException " + e);
+            throw new CommandException("Try to execute FindUsersByNameCommand was failed",e);
         }
         return router;
     }

@@ -5,9 +5,7 @@ public class MissingPeopleApplication {
     private long searchApplicationId;
     private long missingPeopleId;
 
-    public MissingPeopleApplication(long searchApplicationId, long missingPeopleId) {
-        this.searchApplicationId = searchApplicationId;
-        this.missingPeopleId = missingPeopleId;
+    public MissingPeopleApplication() {
     }
 
     public long getSearchApplicationId() {

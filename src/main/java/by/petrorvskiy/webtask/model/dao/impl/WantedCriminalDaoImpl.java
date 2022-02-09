@@ -64,7 +64,7 @@ public class WantedCriminalDaoImpl implements WantedCriminalDao {
             }
         } catch (SQLException e) {
             logger.error("SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
-            throw new DaoException("Dao exception in method addWantedCriminal, when we try to add user:" + criminal, e);
+            throw new DaoException("Dao exception in method addWantedCriminal, when we try to add user", e);
         }
         return articleAdded;
     }
@@ -85,7 +85,7 @@ public class WantedCriminalDaoImpl implements WantedCriminalDao {
             }
         } catch (SQLException e) {
             logger.error("SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
-            throw new DaoException("Dao exception in method deleteWantedCriminal");
+            throw new DaoException("Dao exception in method deleteWantedCriminal",e);
         }
         return deleteCriminal;
     }
@@ -126,9 +126,10 @@ public class WantedCriminalDaoImpl implements WantedCriminalDao {
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL_CRIMINALS)) {
 
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                wantedCriminals.add(createCriminal(resultSet));
+            try(ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    wantedCriminals.add(createCriminal(resultSet));
+                }
             }
 
         } catch (SQLException e) {
@@ -145,16 +146,17 @@ public class WantedCriminalDaoImpl implements WantedCriminalDao {
              PreparedStatement statement = connection.prepareStatement(SQL_TAKE_CRIMINAL_BY_ID)) {
 
             statement.setLong(1, criminalId);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                WantedCriminal wantedCriminal = createCriminal(resultSet);
-                optionalCriminal = Optional.of(wantedCriminal);
-                logger.info("criminal=" + optionalCriminal);
-            } else {
-                optionalCriminal = Optional.empty();
+            try(ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    WantedCriminal wantedCriminal = createCriminal(resultSet);
+                    optionalCriminal = Optional.of(wantedCriminal);
+                    logger.info("criminal=" + optionalCriminal);
+                } else {
+                    optionalCriminal = Optional.empty();
+                }
             }
         } catch (SQLException e) {
-            logger.error("SQLException in method takeWantedCriminalById " + e.getMessage());
+            logger.error("SQLException in method takeWantedCriminalById ",e);
             throw new DaoException("Dao exception in method takeWantedCriminalById, when we try to take Criminal by Id", e);
         }
         return optionalCriminal;
@@ -167,17 +169,18 @@ public class WantedCriminalDaoImpl implements WantedCriminalDao {
              PreparedStatement statement = connection.prepareStatement(SQL_FIND_CRIMINAL_BY_NAME)) {
 
             statement.setString(1, name);
-            ResultSet resultSet = statement.executeQuery();
+            try(ResultSet resultSet = statement.executeQuery()) {
 
-            if (resultSet.next()) {
-                WantedCriminal wantedCriminal = createCriminal(resultSet);
-                optionalCriminals = Optional.of(wantedCriminal);
-                logger.info("criminal=" + optionalCriminals);
-            } else {
-                optionalCriminals = Optional.empty();
+                if (resultSet.next()) {
+                    WantedCriminal wantedCriminal = createCriminal(resultSet);
+                    optionalCriminals = Optional.of(wantedCriminal);
+                    logger.info("criminal=" + optionalCriminals);
+                } else {
+                    optionalCriminals = Optional.empty();
+                }
             }
         } catch (SQLException e) {
-            logger.error("SQLException in method findCriminalByName " + e.getMessage());
+            logger.error("SQLException in method findCriminalByName ", e);
             throw new DaoException("Dao exception in method findCriminalByName, when we try to take Criminal by Name", e);
         }
         return optionalCriminals;
@@ -190,21 +193,18 @@ public class WantedCriminalDaoImpl implements WantedCriminalDao {
 
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_FIND_CRIMINAL_REWARD_BY_ID)) {
-
             statement.setLong(1,criminalId);
-            ResultSet resultSet = statement.executeQuery();
-
-
-            if(resultSet.next()){
-                BigDecimal reward = resultSet.getBigDecimal(ColumnName.REWARD);
-                optionalReward = Optional.of(reward);
-                logger.info("founded reward " + reward + " by crimId " + criminalId);
-            }else {
-                optionalReward = Optional.empty();
+            try(ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    BigDecimal reward = resultSet.getBigDecimal(ColumnName.REWARD);
+                    optionalReward = Optional.of(reward);
+                    logger.info("founded reward " + reward + " by crimId " + criminalId);
+                } else {
+                    optionalReward = Optional.empty();
+                }
             }
-
         } catch (SQLException e) {
-            logger.error("SQLException in method findCriminalRewardById " + e.getMessage());
+            logger.error("SQLException in method findCriminalRewardById ",e);
             throw new DaoException("Dao exception in method findCriminalRewardById", e);
         }
         return optionalReward;

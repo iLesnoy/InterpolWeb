@@ -3,6 +3,7 @@ package by.petrorvskiy.webtask.command.impl.common;
 import by.petrorvskiy.webtask.command.*;
 import by.petrorvskiy.webtask.entity.SearchApplication;
 import by.petrorvskiy.webtask.entity.User;
+import by.petrorvskiy.webtask.exception.CommandException;
 import by.petrorvskiy.webtask.model.service.impl.SearchApplicationServiceImpl;
 import by.petrorvskiy.webtask.exception.ServiceException;
 import by.petrorvskiy.webtask.validator.DateValidator;
@@ -21,7 +22,7 @@ public class AcceptWantedSearchApplicationByIdCommand implements Command {
     private static final SearchApplicationServiceImpl applicationService = new SearchApplicationServiceImpl();
 
     @Override
-    public Router execute(HttpServletRequest request) {
+    public Router execute(HttpServletRequest request) throws CommandException {
         logger.debug("AcceptWantedSearchApplicationByIdCommand ");
         Router router = new Router();
         HttpSession session = request.getSession();
@@ -70,11 +71,10 @@ public class AcceptWantedSearchApplicationByIdCommand implements Command {
                 router.setPagePath(page);
             }
         }
-
         return router;
     }
 
-    private Optional<Long> duplicateApplicationCheck(long userId) {
+    private Optional<Long> duplicateApplicationCheck(long userId) throws CommandException {
 
         Optional<Long> wantedApplicationId = Optional.empty();
         Optional<Long> applicationIdByUserId;
@@ -85,7 +85,8 @@ public class AcceptWantedSearchApplicationByIdCommand implements Command {
                 wantedApplicationId = Optional.of(applicationService.findWantedCriminalGuiltyId(applicationIdByUserId.get()));
             }
         } catch (ServiceException e) {
-            logger.warn("duplicateApplicationCheck ServiceException " + e.getMessage());
+            logger.warn("duplicateApplicationCheck " + e);
+            throw new CommandException("Try to execute duplicateApplicationCheck was failed",e);
         }
         return wantedApplicationId;
     }

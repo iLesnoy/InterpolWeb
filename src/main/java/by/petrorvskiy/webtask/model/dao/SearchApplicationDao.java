@@ -20,6 +20,12 @@ public interface SearchApplicationDao {
     boolean addSearchApplication(SearchApplication application) throws DaoException;
     boolean updateSearchApplicationStatus(SearchApplication.ApplicationStatus status,long applicationId) throws DaoException;
     boolean deleteSearchApplicationByUserId(long userId,long applicationId) throws DaoException;
+
+    /**
+     * not used yet
+     * @param applicationId,reward
+     * @throws DaoException
+     */
     boolean payForApplication(long applicationId, BigDecimal reward) throws DaoException;
     boolean addWantedCriminalApplication(long applicationId,long guiltyId) throws DaoException;
     boolean addMissingCriminalApplication(long applicationId,long missingId) throws DaoException;

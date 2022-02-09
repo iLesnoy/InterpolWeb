@@ -2,6 +2,7 @@ package by.petrorvskiy.webtask.command.impl.admin.find;
 
 import by.petrorvskiy.webtask.command.*;
 import by.petrorvskiy.webtask.entity.User;
+import by.petrorvskiy.webtask.exception.CommandException;
 import by.petrorvskiy.webtask.model.service.UserService;
 import by.petrorvskiy.webtask.model.service.impl.UserServiceImpl;
 import by.petrorvskiy.webtask.exception.ServiceException;
@@ -14,9 +15,11 @@ import java.util.List;
 
 public class FindUsersPaginationCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
-    private UserService userService = new UserServiceImpl();
+    private final UserService userService = new UserServiceImpl();
+
+
     @Override
-    public Router execute(HttpServletRequest request) {
+    public Router execute(HttpServletRequest request) throws CommandException {
         logger.debug( "FindUsersPaginationCommand");
         List<User> users;
         Router router = new Router();
@@ -28,12 +31,13 @@ public class FindUsersPaginationCommand implements Command {
             users = userService.findUsersFromRow(pageNumber);
             router.setPagePath(page);
             request.setAttribute(ParameterAndAttribute.LIST, users);
-            session.setAttribute(ParameterAndAttribute.MESSAGE_FOR_USER, Message.SUCCESSFUL);
+            session.setAttribute(ParameterAndAttribute.MESSAGE, Message.SUCCESSFUL);
         } catch (ServiceException e) {
-            logger.error( "UserServiceException in method execute");
             request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
             request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getMessage());
             router.setPagePath(PagePath.ERROR_500);
+            logger.error("ServiceException " + e);
+            throw new CommandException("Try to execute FindUsersPaginationCommand was failed",e);
         }
         return router;
     }

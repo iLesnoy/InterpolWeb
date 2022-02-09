@@ -2,6 +2,7 @@ package by.petrorvskiy.webtask.command.impl.admin;
 
 import by.petrorvskiy.webtask.command.*;
 import by.petrorvskiy.webtask.entity.User;
+import by.petrorvskiy.webtask.exception.CommandException;
 import by.petrorvskiy.webtask.exception.ServiceException;
 import by.petrorvskiy.webtask.model.service.UserService;
 import by.petrorvskiy.webtask.model.service.impl.UserServiceImpl;
@@ -19,7 +20,7 @@ public class BlockUserCommand implements Command {
     UserService userService = new UserServiceImpl();
 
     @Override
-    public Router execute(HttpServletRequest request) {
+    public Router execute(HttpServletRequest request) throws CommandException {
         logger.info("BlockUserCommand");
         Router router = new Router();
         HttpSession session = request.getSession();
@@ -34,18 +35,19 @@ public class BlockUserCommand implements Command {
             if (isBlocked) {
                 router.setPagePath(page);
                 router.setType(Router.Type.REDIRECT);
-                session.setAttribute(ParameterAndAttribute.MESSAGE_FOR_USER, Message.SUCCESSFUL);
+                session.setAttribute(ParameterAndAttribute.MESSAGE, Message.SUCCESSFUL);
 
             } else {
                 router.setPagePath(page);
                 router.setType(Router.Type.REDIRECT);
-                session.setAttribute(ParameterAndAttribute.MESSAGE_FOR_USER, Message.UNSUCCESSFUL);
+                session.setAttribute(ParameterAndAttribute.MESSAGE, Message.UNSUCCESSFUL);
             }
         } catch (ServiceException e) {
-            logger.error( "ServiceException in method execute updateUserStatusById" + e.getMessage());
             request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
             request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getMessage());
             router.setPagePath(PagePath.ERROR_500);
+            logger.error("ServiceException " + e);
+            throw new CommandException("Try to execute BlockUserCommand was failed",e);
         }
         return router;
     }

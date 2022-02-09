@@ -1,11 +1,11 @@
 package by.petrorvskiy.webtask.command.impl.admin.add;
 
 import by.petrorvskiy.webtask.command.*;
+import by.petrorvskiy.webtask.exception.CommandException;
 import by.petrorvskiy.webtask.exception.ServiceException;
 import by.petrorvskiy.webtask.model.service.impl.WantedCriminalServiceImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.Part;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,7 +20,7 @@ public class AddWantedCommand implements Command {
     private final WantedCriminalServiceImpl wantedCriminal = new WantedCriminalServiceImpl();
 
     @Override
-    public Router execute(HttpServletRequest request) {
+    public Router execute(HttpServletRequest request) throws CommandException {
         Router router = new Router();
         Map<String, String> wantedCriminalsData = new HashMap<>();
         String name = request.getParameter(ParameterAndAttribute.USER_NAME);
@@ -32,17 +32,6 @@ public class AddWantedCommand implements Command {
         String address = request.getParameter(ParameterAndAttribute.CRIME_ADDRESS);
 
 
-
-        InputStream stream = null;
-        try {
-            Part photo = request.getPart(ParameterAndAttribute.PHOTO);
-            stream = photo.getInputStream();
-        } catch (IOException | ServletException e) {
-            logger.error("AddWantedCommandException: " + e.getMessage());
-            e.printStackTrace();
-        }
-
-
         wantedCriminalsData.put(ParameterAndAttribute.USER_NAME, name);
         wantedCriminalsData.put(ParameterAndAttribute.USER_SURNAME, surname);
         wantedCriminalsData.put(ParameterAndAttribute.CRIME_CITY, crimeCity);
@@ -52,18 +41,19 @@ public class AddWantedCommand implements Command {
         wantedCriminalsData.put(ParameterAndAttribute.CRIME_ADDRESS, address);
 
 
-        try {
+        try (InputStream stream = request.getPart(ParameterAndAttribute.PHOTO).getInputStream() ){
             if (wantedCriminal.addWantedCriminal(wantedCriminalsData,stream)) {
                 String page = request.getContextPath() + PagePath.TO_ADD;
                 request.setAttribute(ParameterAndAttribute.MESSAGE, Message.MISSING_HUMAN);
                 router.setPagePath(page);
                 router.setType(Router.Type.REDIRECT);
             }
-        } catch (ServiceException e) {
-            logger.error("ServiceException: " + e);
-            request.setAttribute(Message.EXCEPTION, "ServiceException");
-            request.setAttribute(Message.ERROR_MESSAGE, e);
+        } catch (ServiceException | ServletException |IOException e) {
+            request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
+            request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e);
             router.setPagePath(PagePath.ERROR_500);
+            logger.error("ServiceException: " + e);
+            throw new CommandException("Try to execute AddWantedCommand was failed",e);
         }
         return router;
     }

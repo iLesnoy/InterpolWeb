@@ -8,7 +8,7 @@ package by.petrorvskiy.webtask.command;
 public class Message {
     public static final String UNKNOWN_PROBLEM ="Unknown problem";
     public static final String INCORRECT_EMAIL_OR_LOGIN="Incorrect email or password";
-    public static final String SUCCESSFUL ="You have successfully registered";
+    public static final String SUCCESSFUL ="The operation was successfully";
     public static final String ARTICLE_ADDED ="Article successfully added";
     public static final String ARTICLE_UPDATED ="Article successfully updated";
     public static final String MISSING_HUMAN ="Missing human successfully added";

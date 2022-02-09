@@ -54,7 +54,7 @@ public class NewsFeedDaoImpl implements NewsFeedDao {
             }
         } catch (SQLException e) {
             logger.error( "SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
-            throw new DaoException("Dao exception in method addArticle " + e);
+            throw new DaoException("Dao exception in method addArticle ", e);
         }
         return articleAdded;
     }
@@ -87,9 +87,10 @@ public class NewsFeedDaoImpl implements NewsFeedDao {
         List<NewsFeed> news = new ArrayList<>();
         try (Connection connection = connectionPool.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL_NEWS)) {
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                news.add(createArticle(resultSet));
+            try(ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    news.add(createArticle(resultSet));
+                }
             }
 
         } catch (SQLException e) {
@@ -127,17 +128,18 @@ public class NewsFeedDaoImpl implements NewsFeedDao {
         try (Connection connection = connectionPool.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_TAKE_ARTICLE_BY_ID)) {
             statement.setLong(1, newsId);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                NewsFeed news = createArticle(resultSet);
-                optionalNewsFeed = Optional.of(news);
-            } else {
-                logger.info( "article was not founded");
-                optionalNewsFeed = Optional.empty();
+            try(ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    NewsFeed news = createArticle(resultSet);
+                    optionalNewsFeed = Optional.of(news);
+                } else {
+                    logger.info("article not founded");
+                    optionalNewsFeed = Optional.empty();
+                }
             }
         } catch (SQLException e) {
             logger.error( "SQL EXCEPTION " + e.getMessage() + "-" + e.getErrorCode());
-            throw new DaoException("Dao exception in method takeArticleById, when we try to take article:" + newsId, e);
+            throw new DaoException("Dao exception in method takeArticleById, when we try to take article", e);
         }
         return optionalNewsFeed;
     }
@@ -152,12 +154,10 @@ public class NewsFeedDaoImpl implements NewsFeedDao {
         byte[] byteImage = resultSet.getBytes(ColumnName.IMAGE);
         String image = ImageEncoder.encodeBlob(byteImage);
 
-
-        NewsFeed newsFeed = new NewsFeed.NewsFeedBuilder()
+        return new NewsFeed.NewsFeedBuilder()
                 .setArticleId(articleId)
                 .setTitle(title)
                 .setArticle(article)
                 .setImage(image).build();
-        return newsFeed;
     }
 }

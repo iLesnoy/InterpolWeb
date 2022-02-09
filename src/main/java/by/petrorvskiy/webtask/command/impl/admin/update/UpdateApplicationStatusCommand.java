@@ -2,6 +2,7 @@ package by.petrorvskiy.webtask.command.impl.admin.update;
 
 import by.petrorvskiy.webtask.command.*;
 import by.petrorvskiy.webtask.entity.SearchApplication;
+import by.petrorvskiy.webtask.exception.CommandException;
 import by.petrorvskiy.webtask.model.service.SearchApplicationService;
 import by.petrorvskiy.webtask.model.service.impl.SearchApplicationServiceImpl;
 import by.petrorvskiy.webtask.exception.ServiceException;
@@ -18,7 +19,7 @@ public class UpdateApplicationStatusCommand implements Command {
     private final SearchApplicationService searchApplicationService = new SearchApplicationServiceImpl();
 
     @Override
-    public Router execute(HttpServletRequest request) {
+    public Router execute(HttpServletRequest request) throws CommandException {
         Router router = new Router();
         HttpSession session = request.getSession();
         boolean isChanged;
@@ -33,17 +34,18 @@ public class UpdateApplicationStatusCommand implements Command {
             if (isChanged) {
                 router.setPagePath(page);
                 router.setType(Router.Type.REDIRECT);
-                session.setAttribute(ParameterAndAttribute.MESSAGE_FOR_USER, Message.SUCCESSFUL);
+                session.setAttribute(ParameterAndAttribute.MESSAGE, Message.SUCCESSFUL);
             } else {
                 router.setPagePath(page);
                 router.setType(Router.Type.REDIRECT);
-                session.setAttribute(ParameterAndAttribute.MESSAGE_FOR_USER, Message.UNSUCCESSFUL);
+                session.setAttribute(ParameterAndAttribute.MESSAGE, Message.UNSUCCESSFUL);
             }
         } catch (ServiceException e) {
-            logger.error("ServiceException in method execute UpdateApplicationStatus" + e);
             request.setAttribute(ParameterAndAttribute.EXCEPTION, "ServiceException");
             request.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e);
-            router.setPagePath(PagePath.ERROR_404);
+            router.setPagePath(PagePath.ERROR_500);
+            logger.error("ServiceException " + e);
+            throw new CommandException("Try to execute UpdateApplicationStatus was failed",e);
         }
         return router;
     }

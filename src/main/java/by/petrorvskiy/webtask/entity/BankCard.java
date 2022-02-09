@@ -3,6 +3,9 @@ package by.petrorvskiy.webtask.entity;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+/**
+ * entity that is not yet used.
+ */
 public class BankCard {
     private long cardNumber;
     private int cvvNumber;
